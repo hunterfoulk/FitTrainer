@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
+.dashboard_main {
+  //   background-color: #0a0a0a;
+  height: 100vh;
+  //   background-color: rgb(116, 116, 116);
+  align-items: stretch;
+  display: flex;
+  .sidebar_container {
+    display: flex;
+    // width: 15%;
+    flex: 0.4;
+    // background-color: teal;
+  }
+  .dashboard_main_right_container {
+    display: flex;
+    flex-direction: column;
+    // width: 85%;
+    background-color: orange;
+    // background-color: #fafafa;
+    flex: 2.5;
+    .topbar_container {
+      display: flex;
+      //   background-color: green;
+      // justify-content: flex-end;
+
+      //   padding: 20px 0px;
+    }
+  }
+}
