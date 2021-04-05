@@ -9,10 +9,10 @@ import AddTrainerTab from './trainersAddTrainerTab';
 
 
 interface Props {
-
+    users: []
 }
 
-const TrainersTab: React.FC<Props> = ({ }) => {
+const TrainersTab: React.FC<Props> = ({ users }) => {
     const [tab, setTab] = useState("Home")
 
     return (
@@ -46,7 +46,7 @@ const TrainersTab: React.FC<Props> = ({ }) => {
                     </div>
                 </div>
                 <div className={styles.trainers_tab_content}>
-                    {tab === "Home" && <TrainersHomeTab />}
+                    {tab === "Home" && <TrainersHomeTab users={users} />}
                     {tab === "Trainer" && <AddTrainerTab />}
 
                 </div>

@@ -12,8 +12,8 @@ export const statements = {
 
 		AllGyms: (GymId
 		): SQLStatement => SQL`
-			SELECT Email 
-			FROM Gyms WHERE GymId = ${GymId}
+			SELECT * 
+			FROM trainers
 		`,
 		gymLogin: (
 			email: string

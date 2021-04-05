@@ -40,7 +40,7 @@ const Dashboard: NextPage<Props> = ({ role, users }) => {
                         <Topbar />
                     </div>
                     <div className={styles.bottom_container}>
-                        {tabG === "Trainers" && <TrainersTab />}
+                        {tabG === "Trainers" && <TrainersTab users={users} />}
                         {tabG === "Subscriptions" && <SubscriptionsTab />}
                     </div>
 
@@ -59,13 +59,7 @@ const Dashboard: NextPage<Props> = ({ role, users }) => {
                     </div>
 
 
-                    {/* 
-                    <div>
-                        {users.map((user, i) => (
 
-                            <h1 key={i}>{user.Email}</h1>
-                        ))}
-                    </div> */}
                 </div>
 
 
