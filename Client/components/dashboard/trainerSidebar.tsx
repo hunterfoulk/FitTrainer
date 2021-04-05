@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import styles from "../../styles/dashboard/Sidebar.module.scss";
 import Link from 'next/link';
-import Router from "next/router"
 import Image from 'next/image';
 import { FiCalendar } from 'react-icons/fi';
 import { MdPersonOutline } from 'react-icons/md';
 import { FiPaperclip } from 'react-icons/fi';
 import { FaReply } from 'react-icons/fa';
 import { FaRegCreditCard } from 'react-icons/fa';
+import Router from "next/router"
 
 
 interface Props {
-    setTabG: any,
-    tabG: string
+    setTabT: any,
+    tabT: string
 }
 
 
@@ -24,21 +24,19 @@ const MyButton = React.forwardRef(({ onClick, href }: any, ref: any) => {
         </a>
     )
 })
+const logout = async () => {
+
+    await fetch('http://localhost:9000/logout', {
+        method: 'get',
+        credentials: 'include'
+    });
+    window.localStorage.removeItem('_ftTrainerAuth')
+    Router.push("/")
+}
 
 
-const Sidebar: React.FC<Props> = ({ setTabG, tabG }) => {
 
-
-
-    const logout = async () => {
-
-        await fetch('http://localhost:9000/logout', {
-            method: 'get',
-            credentials: 'include'
-        });
-        window.localStorage.removeItem('_ftTrainerAuth')
-        Router.push("/")
-    }
+const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
 
 
     return (
@@ -53,8 +51,21 @@ const Sidebar: React.FC<Props> = ({ setTabG, tabG }) => {
 
                 </div>
                 <div className={styles.sidebar_tabs_container}>
+                    <div onClick={() => setTabT("Schedule")} className={tabT === "Schedule" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div className={styles.sidebar_tab_content}>
+                            <div>
 
-                    <div onClick={() => setTabG("Trainers")} className={tabG === "Trainers" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                                <FiCalendar />
+                            </div>
+
+                            <div>
+                                <span>Schedule</span>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div onClick={() => setTabT("Clients")} className={tabT === "Clients" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
                         <div className={styles.sidebar_tab_content}>
                             <div>
 
@@ -62,13 +73,23 @@ const Sidebar: React.FC<Props> = ({ setTabG, tabG }) => {
                             </div>
                             <div>
 
-                                <span>Trainers</span>
+                                <span>Clients</span>
                             </div>
                         </div>
 
                     </div>
+                    <div onClick={() => setTabT("Programs")} className={tabT === "Programs" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div className={styles.sidebar_tab_content}>
+                            <div >
+                                <FiPaperclip />
 
-                    <div onClick={() => setTabG("Recents")} className={tabG === "Recents" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive} >
+                            </div>
+                            <div>
+                                <span>Programs</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div onClick={() => setTabT("Recents")} className={tabT === "Recents" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
                         <div className={styles.sidebar_tab_content}>
                             <div>
 
@@ -81,28 +102,15 @@ const Sidebar: React.FC<Props> = ({ setTabG, tabG }) => {
                         </div>
 
                     </div>
-                    <div onClick={() => setTabG("Subscriptions")} className={tabG === "Subscriptions" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
-                        <div className={styles.sidebar_tab_content}>
-                            <div>
-                                <FaRegCreditCard />
-
-                            </div>
-                            <div>
-
-                                <span>Subscription</span>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
                 <div className={styles.sidebar_logout_container}>
                     <button onClick={logout}>Log out</button>
 
                 </div>
-
             </div>
         </>
     )
 }
 
-export default Sidebar
+export default trainerSidebar

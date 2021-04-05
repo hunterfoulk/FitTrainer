@@ -24,6 +24,7 @@ interface IDecoded extends Request {
 
 
 export const Dashboard = async (req: Request, res: Response,) => {
+	console.log("DASHBOARD FUNC FIRED")
 	const trainer = res.locals
 	const TrainerId = trainer.TrainerId
 	const TrainerRole = trainer.Role
@@ -60,11 +61,26 @@ export const Dashboard = async (req: Request, res: Response,) => {
 
 
 const TRAINER_SECRET = process.env.JWT_TRAINER_SECRET
+export const Logout = async (req, res) => {
+	// Set token to none and expire after 5 seconds
+	console.log("log out fired")
+	revokeTrainerCookie(res)
+	// res.cookie('_ftTrainerAuth', 'none', {
+	// 	expires: new Date(Date.now() + 5 * 1000),
+	// 	httpOnly: true,
+	// })
+	// res
+	// 	.status(200)
+	// 	.json({ success: true, message: 'User logged out successfully' })
+}
 
 export const Auth = (req: Request, res: Response, next): void => {
 	console.log("AUTH MIDDLEWARE FIRED.")
 	const trainerCookie = req.cookies['_ftTrainerAuth']
-	console.log("TRAINER TOKEN:", trainerCookie)
+	console.log("cookie in auth", trainerCookie)
+
+	if (trainerCookie === undefined) return
+	if (Object.keys(trainerCookie).length <= 0) return resolver(res, 400, 'No Cookies', null)
 
 	jwt.verify(trainerCookie, TRAINER_SECRET, { issuer: 'FT-Server' }, async (err, decoded: IDecoded) => {
 		let gym = decoded.gym
@@ -74,7 +90,7 @@ export const Auth = (req: Request, res: Response, next): void => {
 
 		}
 
-		if (trainer) {
+		else if (trainer) {
 			console.log("decoded ID TRAINER", decoded.trainer)
 			res.locals = trainer
 			next()

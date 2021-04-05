@@ -5,10 +5,13 @@
   flex-direction: column;
   width: 100%;
   //   background-color: #0a0a0a;
-  background-color: white;
+  // background-color: yellow;
+  // background-color: white;
   border-right: 1px solid rgba(167, 166, 166, 0.295);
   font-family: "Roboto", sans-serif;
-  //   align-items: stretch;
+  // align-items: stretch;
+  // height: 100vh;
+  // height: 100%;
   .sidebar_header {
     display: flex;
     justify-content: center;
@@ -55,10 +58,50 @@
     flex-direction: column;
     // background-color: rgb(110, 67, 67);
     flex: 1;
-    .sidebar_tab {
+
+    .sidebar_tab_active {
       display: flex;
       justify-content: center;
       margin-bottom: 15px;
+      background-color: #d83e1325;
+      color: #f75f35;
+      //   background-color: khaki;
+      padding: 15px;
+      cursor: pointer;
+      .sidebar_tab_content {
+        // background-color: magenta;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        div:nth-child(1) {
+          //   background-color: red;
+          flex: 0.6;
+          display: flex;
+          justify-content: flex-end;
+          font-size: 20px;
+          padding-right: 15px;
+          color: #f75f35;
+        }
+        div:nth-child(2) {
+          //   background-color: green;
+          flex: 1;
+          display: flex;
+          //   font-size: 20px;
+          color: #f75f35;
+        }
+        span {
+        }
+      }
+    }
+
+    .sidebar_tab_unactive {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+      // background-color: #d83e1325;
+      // color: #f75f35;
       //   background-color: khaki;
       padding: 15px;
       cursor: pointer;
@@ -89,7 +132,7 @@
         }
       }
     }
-    .sidebar_tab:hover {
+    .sidebar_tab_unactive:hover {
       background-color: #d83e1325;
       .sidebar_tab_content {
         div:nth-child(1) {
@@ -99,6 +142,31 @@
           color: #f75f35;
         }
       }
+    }
+  }
+  .sidebar_logout_container {
+    display: flex;
+    justify-content: center;
+    // background-color: yellow;
+    padding: 20px 0px;
+    border-top: 1px solid rgba(167, 166, 166, 0.295);
+    button {
+      width: 90px;
+      height: 35px;
+      //   margin-top: 15px;
+      cursor: pointer;
+      background-color: #ff592c;
+      border: 1px solid #ff592c;
+      color: white;
+      border-radius: 5px;
+
+      box-shadow: 1px 2px 5px 0px #00000036;
+      font-family: "Roboto", sans-serif;
+      outline: none;
+    }
+    button:hover {
+      background-color: #f75f35;
+      border: 1px solid #f75f35;
     }
   }
 }

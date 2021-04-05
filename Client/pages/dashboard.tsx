@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from "../styles/dashboard/Dashboard.module.scss"
 import Sidebar from "../components/dashboard/sidebar"
 import Topbar from "../components/dashboard/topbar"
@@ -6,32 +6,51 @@ import { NextPageContext } from "next"
 import { useDispatch, useSelector } from "react-redux"
 import { authTrue, authFalse } from "../redux/authSlice"
 import { NextPage } from 'next'
-import { Auth } from "./auth/auth"
+// import { Auth } from "./auth/auth"
+import withAuth from "./auth/auth"
+import requireAuthentication from "./auth/authtwo"
 import fetch from "isomorphic-unfetch"
-
+import TrainerSidebar from '../components/dashboard/trainerSidebar'
+import TrainersTab from "../components/dashboard/trainersTab/trainersTab"
+import SubscriptionsTab from '../components/dashboard/subscriptionsTab'
 interface Props {
     users: any,
-    role: string
+    role: any
+
+
 }
 
 
-const Dashboard: NextPage<Props> = ({ users, role }) => {
+const Dashboard: NextPage<Props> = ({ role, users }) => {
     const dispatch = useDispatch();
     const { auth } = useSelector((state: any) => state.auth);
-    console.log("USERS:", users)
-
-
+    const [tabG, setTabG] = useState("Trainers")
+    const [tabT, setTabT] = useState("Schedule")
 
     return (
         <>
-            {role === "Gym" ? <div> {users.map((user, i) => (
-
-
-                <h1>{user.Email}</h1>
-            ))} </div> : <div className={styles.dashboard_main}>
+            {role === "Gym" ? <div className={styles.dashboard_main}>
                 <div className={styles.sidebar_container}>
 
-                    <Sidebar />
+                    <Sidebar setTabG={setTabG} tabG={tabG} />
+                </div>
+                <div className={styles.dashboard_main_right_container}>
+
+                    <div className={styles.topbar_container}>
+                        <Topbar />
+                    </div>
+                    <div className={styles.bottom_container}>
+                        {tabG === "Trainers" && <TrainersTab />}
+                        {tabG === "Subscriptions" && <SubscriptionsTab />}
+                    </div>
+
+                </div>
+
+
+            </div> : <div className={styles.dashboard_main}>
+                <div className={styles.sidebar_container}>
+
+                    <TrainerSidebar setTabT={setTabT} tabT={tabT} />
                 </div>
                 <div className={styles.dashboard_main_right_container}>
 
@@ -39,12 +58,14 @@ const Dashboard: NextPage<Props> = ({ users, role }) => {
                         <Topbar />
                     </div>
 
+
+                    {/* 
                     <div>
                         {users.map((user, i) => (
 
-                            <h1>{user.Email}</h1>
+                            <h1 key={i}>{user.Email}</h1>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
 
 
@@ -54,16 +75,25 @@ const Dashboard: NextPage<Props> = ({ users, role }) => {
     )
 }
 
-Dashboard.getInitialProps = async (ctx: NextPageContext) => {
+export const getServerSideProps = requireAuthentication(async context => {
 
-    const response = await Auth('http://localhost:9000/dashboard', ctx);
-    console.log("ROLE CHECK", response.data.role)
+
+    let cookie = context.req?.headers.cookie
+    const response = await fetch('http://localhost:9000/dashboard', {
+        headers: {
+            cookie: cookie!
+        }
+    });
+    const res = await response.json()
+    console.log("RESPONSE!@@$", res)
+
     return {
-        users: response.data.response,
-        role: response.data.role
+        props: {
+            users: res.data.response,
+            role: res.data.role
+        },
     }
+})
 
 
-
-};
 export default Dashboard

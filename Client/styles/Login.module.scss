@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
+.login_main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  // background: #dfdfdf;
+  background-color: #0a0a0a;
+  height: 100vh;
+  padding: 10px 25px;
+  .login_content_container {
+    display: flex;
+    justify-content: center;
+    //  align-items: center;
+    width: 70%;
+    width: 1200px;
+    max-width: 1400px;
+    background-color: teal;
+    // box-shadow: 1px 1px 26px 2px #888787;
+    // box-shadow: 1px 1px 26px 2px #2b2b2b;
+    border-radius: 5px;
+    .login_tab_header {
+      display: flex;
+      //   background-color: green;
+      background-color: #0a0a0a;
+      height: 50px;
+      .activeTab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        width: 150px;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+      }
+      .defaultTab {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(172, 172, 172);
+        width: 150px;
+        cursor: pointer;
+        font-family: "Roboto", sans-serif;
+      }
+    }
+    .login_left {
+      // background-color: #080425;
+      background-color: white;
+      // width:40%;
+      display: flex;
+      min-height: 700px;
+      flex: 1.2;
+      div {
+        width: 100%;
+        div {
+          width: 100%;
+          img {
+            min-width: 100%;
+          }
+        }
+      }
+    }
+    .login_right {
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      flex: 1.8;
+
+      .login_right_header {
+        display: flex;
+        // background-color:green;
+        justify-content: center;
+        flex-direction: column;
+        padding: 20px 0px;
+        margin-top: 20px;
+        .login_right_image_container {
+          // background-color:orange;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+        }
+        .login_right_text_container {
+          //  background-color:yellow;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          span {
+            font-size: 40px;
+            font-family: "Roboto", sans-serif;
+            color: #080425;
+          }
+        }
+        .login_right_second_text_container {
+          display: flex;
+          justify-content: center;
+          width: 100%;
+          margin-top: 15px;
+          //  padding:10px;
+          span {
+            font-family: "Roboto", sans-serif;
+            color: rgb(77, 77, 77);
+          }
+        }
+      }
+      .login_form_container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 60%;
+        // background-color:red;
+        // margin-top:30px;
+        margin: 0 auto;
+        flex: 1;
+        form {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          // background-color:teal;
+          input {
+            margin-bottom: 25px;
+            padding: 10px 15px;
+            outline: none;
+            font-size: 18px;
+            font-family: "Roboto", sans-serif;
+            background-color: #f7f6f6;
+            border-radius: 3px;
+            border: none;
+          }
+          .login_button_container {
+            display: flex;
+            // background-color:orange;
+            button {
+              width: 100%;
+              padding: 10px;
+              font-size: 17px;
+              font-family: "Roboto", sans-serif;
+              cursor: pointer;
+              background-color: #ff592c;
+              border: 1px solid #ff592c;
+              border-radius: 3px;
+              color: white;
+              outline: none;
+            }
+            button:hover {
+              background-color: #ec4f23;
+              border: 1px solid #ec4f23;
+            }
+          }
+        }
+      }
+      .login_login_text_container {
+        display: flex;
+        text-align: center;
+        width: 100%;
+        margin-top: 10px;
+        //   background-color:red;
+        padding: 20px 0px;
+        span:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

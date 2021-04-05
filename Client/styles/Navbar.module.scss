@@ -2,12 +2,13 @@
 .navbar {
   display: flex;
   height: 100px;
-  width: 100%;
+
   // max-width: 1700px;
   // min-width:1300px;
   color: white;
   padding: 15px 0px;
   border-bottom: 1px solid rgba(78, 78, 78, 0.623);
+
   .navbar_left {
     display: flex;
     flex: 0.5;
@@ -16,6 +17,7 @@
     justify-content: center;
     padding-left: 80px;
     // background-color: green;
+
     img {
       position: relative;
       top: 30px;
@@ -48,6 +50,22 @@
       align-items: center;
       justify-content: center;
       flex: 0.18;
+      .dashboard_button {
+        background-color: #ff592c;
+        color: white;
+        width: 100px;
+        padding: 8px 5px;
+        height: 35px;
+        border: 1px solid #ff592c;
+        border-radius: 25px;
+        outline: none;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .dashboard_button:hover {
+        background-color: #e44d23;
+        border: 1px solid #e44d23;
+      }
       .login_button {
         background-color: transparent;
         color: white;

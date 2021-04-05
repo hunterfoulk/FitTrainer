@@ -10,11 +10,11 @@ export default function userRouter(router: Router): void {
 		trainerController.Dashboard(req, res)
 	})
 
-	router.route('/trainerLogin')
+	router.route('/logout').get(trainerController.Logout)
 
-		.post(trainerController.trainerLogin)
-	router.route('/gymLogin')
-		.post(trainerController.gymLogin)
+	router.route('/trainerLogin').post(trainerController.trainerLogin)
+
+	router.route('/gymLogin').post(trainerController.gymLogin)
 
 
 	router.route('/register')

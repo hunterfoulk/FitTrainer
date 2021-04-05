@@ -1,4 +1,4 @@
-import styles from "../styles/Signup.module.scss"
+import styles from "../styles/Login.module.scss"
 import React, { useState } from 'react'
 import Navbar from "../components/landing/navbar/navbar"
 import Image from 'next/image'
@@ -19,11 +19,13 @@ const Login: React.FC<Props> = ({ }) => {
         email: 'trainer1@gym.com',
         password: 'password'
     })
+    const [tab, setTab] = useState("Gym")
+
 
     async function Log(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault()
 
-        const res = await fetch('http://localhost:9000/gymLogin', {
+        const res = await fetch(tab === "Gym" ? 'http://localhost:9000/gymLogin' : 'http://localhost:9000/trainerLogin', {
             method: 'POST',
             'credentials': 'include',
             headers: {
@@ -58,8 +60,8 @@ const Login: React.FC<Props> = ({ }) => {
                 })
                 break;
             case 200: // Authenticated
-                // dispatch(authTrue())
-                window.location.href = "/dashboard"
+                dispatch(authTrue())
+                // window.location.href = "/dashboard"
                 // Router.push("/dashboard")
                 break;
             default:
@@ -69,25 +71,30 @@ const Login: React.FC<Props> = ({ }) => {
 
     return (
         <>
-            <div className={styles.signup_main}>
-                <div className={styles.signup_content_container}>
+            <div className={styles.login_main}>
+                <div className={styles.login_content_container}>
 
-                    <div className={styles.signup_left}>
+                    <div className={styles.login_left}>
                         <Image alt="Vercel logo" src="/images/signupsmallpng.png" width={100} height={100} quality={100} className="avatar" />
                     </div>
-                    <div className={styles.signup_right}>
-                        <div className={styles.signup_right_header}>
-                            <div className={styles.signup_right_image_container}>
+                    <div className={styles.login_right}>
+                        <div className={styles.login_tab_header}>
+                            <div className={tab === "Gym" ? styles.activeTab : styles.defaultTab} onClick={() => setTab("Gym")}>Gym</div>
+                            <div className={tab === "Trainer" ? styles.activeTab : styles.defaultTab} onClick={() => setTab("Trainer")}>Trainer</div>
+                        </div>
+                        <div className={styles.login_right_header}>
+
+                            <div className={styles.login_right_image_container}>
                                 <Image alt="Vercel logo" src="/images/weightslogoorange.png" width={100} height={100} quality={100} className="avatar" />
                             </div>
-                            <div className={styles.signup_right_text_container}>
+                            <div className={styles.login_right_text_container}>
                                 <span>FitTrainer</span>
                             </div>
-                            <div className={styles.signup_right_second_text_container}>
-                                <span>Log in to your account.</span>
+                            <div className={styles.login_right_second_text_container}>
+                                {tab === "Gym" ? <span>Log in to your gyms account.</span> : <span>Log in to your trainer account.</span>}
                             </div>
                         </div>
-                        <div className={styles.signup_form_container}>
+                        <div className={styles.login_form_container}>
                             <form onSubmit={(e) => Log(e)}>
                                 <input
                                     placeholder="Email"
@@ -101,14 +108,15 @@ const Login: React.FC<Props> = ({ }) => {
                                     onChange={(e) => {
                                         setForm({ ...form, password: e.target.value })
                                     }} />
-                                <div className={styles.signup_button_container}>
+                                <div className={styles.login_button_container}>
                                     <button type="submit">Log In</button>
                                 </div>
                             </form>
-                            <div className={styles.signup_login_text_container}>
-                                <Link href="/signup">
+                            <div className={styles.login_login_text_container}>
+                                {tab === "Gym" ? <Link href="/signup">
                                     <span>Dont have an account?</span>
-                                </Link>
+                                </Link> : null}
+
                             </div>
                         </div>
                     </div>

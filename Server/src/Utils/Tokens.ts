@@ -25,4 +25,5 @@ export function sendTrainerCookie(res: Response, token: string) {
 export function revokeTrainerCookie(res: Response) {
 	console.log({ tokenRevoked: true })
 	res.clearCookie('_ftTrainerAuth')
+	return res.status(200).redirect('/login');
 }

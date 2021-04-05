@@ -1,0 +1,240 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+.trainers_tab_main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  // height: 100vh;
+  // background-color: rgb(143, 173, 143);
+  // background-color: white;
+  font-family: "Roboto", sans-serif;
+  overflow: hidden;
+  // overflow: auto;
+  // max-height: 100%;
+  // overflow-y: auto;
+  // height: 100%;
+  .trainers_tab_nav {
+    display: flex;
+    // flex: 1;
+    // height: 100px;
+    padding: 17px 20px;
+    // background-color: green;
+    // background-color: white;
+    border-bottom: 1px solid rgba(167, 166, 166, 0.295);
+    .nav_button_container {
+      display: flex;
+      flex: 1;
+      // height: 100%;
+      // background-color: rgb(83, 92, 122);
+      padding: 10px 0px;
+      justify-content: space-evenly;
+      .nav_button_container_unactive:nth-child(n + 1) {
+        // width: 90px;
+        display: flex;
+        align-items: center;
+        padding: 2px 14px;
+        height: 33px;
+        // transform: scale(1.08);
+        background-color: rgb(233, 233, 233);
+        border: 2px solid rgba(82, 82, 82, 0.219);
+        color: black;
+        border-radius: 5px;
+        box-shadow: 1px 1px 6px 0px #00000017;
+        font-family: "Roboto", sans-serif;
+        outline: none;
+        cursor: pointer;
+        span:nth-child(1) {
+          font-size: 16px;
+          position: relative;
+          top: 2px;
+          right: 5px;
+        }
+      }
+
+      button:nth-child(2) {
+        // background-color: Red;
+      }
+      button:nth-child(3) {
+        // background-color: Red;
+      }
+      .nav_button_container_active:nth-child(n + 1) {
+        // width: 90px;
+        display: flex;
+        align-items: center;
+        padding: 7px 14px;
+        height: 33px;
+        transform: scale(1.15);
+        background-color: #ff592c;
+        border: 2px solid white;
+        color: white;
+        border-radius: 5px;
+        // box-shadow: 1px 2px 4px 0px #00000036;
+        box-shadow: 1px 1px 6px 0px #00000017;
+        font-family: "Roboto", sans-serif;
+        outline: none;
+        cursor: pointer;
+        span:nth-child(1) {
+          font-size: 16px;
+          position: relative;
+          top: 2px;
+          right: 5px;
+        }
+      }
+
+      button:nth-child(2) {
+        // background-color: Red;
+      }
+      button:nth-child(3) {
+        // background-color: Red;
+      }
+      // div:nth-child(2) {
+      //   // width: 90px;
+      //   display: flex;
+      //   align-items: center;
+      //   padding: 5px 13px;
+      //   max-height: 33px;
+      //   background-color: rgba(206, 206, 206, 0.514);
+      //   border: 2px solid white;
+      //   color: Black;
+      //   border-radius: 5px;
+      //   box-shadow: 1px 2px 4px 0px #00000036;
+      //   font-family: "Roboto", sans-serif;
+      //   outline: none;
+      //   cursor: pointer;
+      //   span:nth-child(1) {
+      //     font-size: 17px;
+      //     position: relative;
+      //     top: 3px;
+      //     right: 5px;
+      //   }
+      //   span:nth-child(2) {
+      //     font-size: 15px;
+      //   }
+      // }
+      // button:nth-child(2) {
+      //   // background-color: Red;
+      // }
+      // button:nth-child(3) {
+      //   // background-color: Red;
+      // }
+      // div:nth-child(3) {
+      //   // width: 90px;
+      //   display: flex;
+      //   align-items: center;
+      //   padding: 5px 13px;
+      //   height: 33px;
+      //   background-color: #356deb;
+      //   border: 2px solid white;
+      //   color: white;
+      //   border-radius: 5px;
+      //   box-shadow: 1px 2px 4px 0px #00000036;
+      //   font-family: "Roboto", sans-serif;
+      //   outline: none;
+      //   cursor: pointer;
+      //   span:nth-child(1) {
+      //     font-size: 17px;
+      //     position: relative;
+      //     top: 2.5px;
+      //     right: 5px;
+      //   }
+      //   span:nth-child(2) {
+      //     font-size: 15px;
+      //   }
+      // }
+      // button:nth-child(2) {
+      //   // background-color: Red;
+      // }
+      // button:nth-child(3) {
+      //   // background-color: Red;
+      // }
+      // div:nth-child(4) {
+      //   // width: 90px;
+      //   display: flex;
+      //   align-items: center;
+      //   padding: 5px 13px;
+      //   max-height: 33px;
+      //   background-color: #ff0034;
+      //   border: 2px solid white;
+      //   color: white;
+      //   border-radius: 5px;
+      //   box-shadow: 1px 2px 4px 0px #00000036;
+      //   font-family: "Roboto", sans-serif;
+      //   outline: none;
+      //   cursor: pointer;
+      //   span:nth-child(1) {
+      //     font-size: 17px;
+      //     position: relative;
+      //     top: 2px;
+      //     right: 5px;
+      //   }
+      //   span:nth-child(2) {
+      //     font-size: 15px;
+      //   }
+      // }
+      // button:nth-child(2) {
+      //   // background-color: Red;
+      // }
+      // button:nth-child(3) {
+      //   // background-color: Red;
+      // }
+    }
+
+    button:nth-child(2) {
+      // background-color: Red;
+    }
+    button:nth-child(3) {
+      // background-color: Red;
+    }
+
+    .nav_search_container {
+      display: flex;
+      flex: 1.4;
+
+      div {
+        // background-color: red;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 1;
+        input {
+          width: 60%;
+          padding: 3px 3px;
+          padding: 0px;
+          height: 70%;
+          background: url(./../../public/images/search.png);
+          background-color: white;
+          background-repeat: no-repeat;
+          background-size: 26px;
+          background-position-y: center;
+          background-position: 5px;
+          padding-left: 35px;
+          font-size: 16px;
+          padding-top: 2px;
+          outline: none;
+          //   font-family: "Roboto", sans-serif;
+          font-weight: 600;
+          border: none;
+          border-radius: 3px;
+          box-shadow: 1px 1px 6px 1px #0000001c;
+        }
+        input:focus {
+          border: 1px solid rgba(128, 128, 128, 0.185);
+          box-shadow: 1px 2px 6px 1px #0000001c;
+        }
+      }
+    }
+  }
+  .trainers_tab_content {
+    // background-color: orange;
+    display: flex;
+    // flex: 1;
+    width: 100%;
+    max-height: 100%;
+    justify-content: center;
+    // height: fit-content;
+    // height: 100vh;
+    // box-sizing: border-box;
+    // padding: 20px 5px;
+    overflow-y: auto;
+    padding: 20px 10px;
+  }
+}
