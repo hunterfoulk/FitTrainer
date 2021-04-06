@@ -8,7 +8,8 @@ import { MdPersonOutline } from 'react-icons/md';
 import { FiPaperclip } from 'react-icons/fi';
 import { FaReply } from 'react-icons/fa';
 import { FaRegCreditCard } from 'react-icons/fa';
-
+import { MdPeopleOutline } from 'react-icons/Md';
+import { IoMdNotifications } from 'react-icons/io';
 
 interface Props {
     setTabG: any,
@@ -67,16 +68,29 @@ const Sidebar: React.FC<Props> = ({ setTabG, tabG }) => {
                         </div>
 
                     </div>
+                    <div onClick={() => setTabG("Clients")} className={tabG === "Clients" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div className={styles.sidebar_tab_content}>
+                            <div>
+
+                                <MdPeopleOutline />
+                            </div>
+                            <div>
+
+                                <span>Clients</span>
+                            </div>
+                        </div>
+
+                    </div>
 
                     <div onClick={() => setTabG("Recents")} className={tabG === "Recents" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive} >
                         <div className={styles.sidebar_tab_content}>
                             <div>
 
-                                <FaReply />
+                                <IoMdNotifications />
                             </div>
                             <div>
 
-                                <span>Recents</span>
+                                <span>Activity</span>
                             </div>
                         </div>
 

@@ -18,14 +18,18 @@ const TrainersHomeTab: React.FC<Props> = ({ users }) => {
                         <div className={styles.trainer_pic_container}>
                             <div className={styles.pic_container}>
                                 <Image src="/images/defaultavatar.png" width={70} height={70} quality={100} />
-                                {user.LoggedIn ? <div className={styles.loggedIn}></div> : <div className={styles.loggedOut}></div>}
+
 
 
                             </div>
                             <div className={styles.name_container}>
-                                <span>{user.FirstName}</span>
-
-                                <span>{user.LastName}</span>
+                                <div>
+                                    <span>{user.FirstName}</span>
+                                    <span>{user.LastName}</span>
+                                </div>
+                                <div>
+                                    <span>Team Member</span>
+                                </div>
                             </div>
                         </div>
                         <div className={styles.clients_container}>
@@ -40,6 +44,10 @@ const TrainersHomeTab: React.FC<Props> = ({ users }) => {
                         <div className={styles.date_container}>
                             <span>Join Date</span>
                             <span>{user.JoinDate}</span>
+                        </div>
+                        <div className={styles.status_container}>
+                            <span>Status</span>
+                            {user.LoggedIn ? <div className={styles.loggedIn}>Active</div> : <div className={styles.loggedOut}>Offline</div>}
                         </div>
                     </div>
                 ))}

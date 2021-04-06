@@ -6,6 +6,7 @@ import { FaHome } from 'react-icons/fa';
 import { IoMdNotifications } from 'react-icons/io';
 import TrainersHomeTab from './trainersHomeTab';
 import AddTrainerTab from './trainersAddTrainerTab';
+import { FaReply } from 'react-icons/fa';
 
 
 interface Props {
@@ -24,6 +25,7 @@ const TrainersTab: React.FC<Props> = ({ users }) => {
                             <span><FaHome /></span>
                             <span> Home </span>
                         </div>
+
                         <div onClick={() => setTab("Trainer")} className={tab === "Trainer" ? styles.nav_button_container_active : styles.nav_button_container_unactive}>
                             <span><FiPlus /></span>
                             <span> Add Trainer</span>
@@ -34,8 +36,8 @@ const TrainersTab: React.FC<Props> = ({ users }) => {
                         </div>
 
                         <div onClick={() => setTab("Activity")} className={tab === "Activity" ? styles.nav_button_container_active : styles.nav_button_container_unactive}>
-                            <span><IoMdNotifications /></span>
-                            <span>Activity</span>
+                            <span><FaReply /></span>
+                            <span>Recents</span>
                         </div>
 
                     </div>

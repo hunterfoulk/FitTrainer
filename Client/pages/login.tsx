@@ -85,7 +85,7 @@ const Login: React.FC<Props> = ({ }) => {
                         <div className={styles.login_right_header}>
 
                             <div className={styles.login_right_image_container}>
-                                <Image alt="Vercel logo" src="/images/weightslogoorange.png" width={100} height={100} quality={100} className="avatar" />
+                                <Image alt="Vercel logo" src="/images/weightslogocrimson.png" width={100} height={100} quality={100} className="avatar" />
                             </div>
                             <div className={styles.login_right_text_container}>
                                 <span>FitTrainer</span>

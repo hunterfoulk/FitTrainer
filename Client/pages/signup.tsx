@@ -68,7 +68,7 @@ const Signup: React.FC<Props> = ({ }) => {
                         <div className={styles.signup_right_header}>
                             <div className={styles.signup_right_image_container}>
                                 <Link href="/">
-                                    <Image alt="Vercel logo" src="/images/weightslogoorange.png" width={100} height={100} quality={100} className="avatar" />
+                                    <Image alt="Vercel logo" src="/images/weightslogocrimson.png" width={100} height={100} quality={100} className="avatar" />
                                 </Link>
                             </div>
                             <div className={styles.signup_right_text_container}>
