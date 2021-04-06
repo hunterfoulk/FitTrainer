@@ -4,7 +4,7 @@ const PASSWORD = process.env.DB_PASS
 
 const connection = mysql.createConnection({
 	user: 'root',
-	password: "Murphy01",
+	password: PASSWORD,
 	host: 'localhost',
 	database: 'fittrainer',
 	port: 3306,

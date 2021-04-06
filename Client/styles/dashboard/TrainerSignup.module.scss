@@ -80,15 +80,15 @@
           }
         }
         button {
-          width: 120px;
-          height: 35px;
+          width: 160px;
+          height: 38px;
           //   margin-top: 15px;
           cursor: pointer;
           background-color: #ff592c;
           border: 1px solid #ff592c;
           color: white;
           border-radius: 5px;
-
+          font-size: 18px;
           box-shadow: 1px 2px 5px 0px #00000036;
           font-family: "Roboto", sans-serif;
           outline: none;
@@ -111,7 +111,7 @@
         }
         input:focus {
           border: 1px solid rgba(128, 128, 128, 0.822);
-          box-shadow: 1px 1px 4px 1px #0000003f;
+          box-shadow: 0.5px 0.5px 4px 0.5px #00000023;
           outline: none;
         }
         span {

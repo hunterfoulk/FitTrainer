@@ -51,20 +51,20 @@
       justify-content: center;
       flex: 0.18;
       .dashboard_button {
-        background-color: #ff592c;
+        background-color: #e0021b;
         color: white;
         width: 100px;
         padding: 8px 5px;
         height: 35px;
-        border: 1px solid #ff592c;
+        border: 1px solid #e0021b;
         border-radius: 25px;
         outline: none;
         cursor: pointer;
         font-weight: 600;
       }
       .dashboard_button:hover {
-        background-color: #e44d23;
-        border: 1px solid #e44d23;
+        background-color: #c2041b;
+        border: 1px solid #c2041b;
       }
       .login_button {
         background-color: transparent;
@@ -72,19 +72,19 @@
         width: 100px;
         padding: 8px 5px;
         height: 35px;
-        border: 1px solid #ff592c;
+        border: 1px solid #e0021b;
         border-radius: 25px;
         outline: none;
         cursor: pointer;
         font-weight: 600;
       }
       .login_button:hover {
-        background-color: #ff592c;
+        background-color: #e0021b;
         color: white;
         width: 100px;
         padding: 8px 5px;
         height: 35px;
-        border: 1px solid #ff592c;
+        border: 1px solid #e0021b;
         border-radius: 25px;
         outline: none;
         cursor: pointer;
@@ -187,7 +187,7 @@
               // background-color: #ff0034;
               // color: #110c31;
               // color: black;
-              color: #ff592c;
+              color: #e0021b;
               border-radius: 5px;
               font-family: "Roboto", sans-serif;
             }

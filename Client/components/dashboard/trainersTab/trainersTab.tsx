@@ -28,14 +28,14 @@ const TrainersTab: React.FC<Props> = ({ users }) => {
                             <span><FiPlus /></span>
                             <span> Add Trainer</span>
                         </div>
-                        <div onClick={() => setTab("Board")} className={tab === "Board" ? styles.nav_button_container_active : styles.nav_button_container_unactive}>
+                        <div onClick={() => setTab("Messenger")} className={tab === "Messenger" ? styles.nav_button_container_active : styles.nav_button_container_unactive}>
                             <span ><MdMessage /></span>
-                            <span> Board</span>
+                            <span> Messenger</span>
                         </div>
 
-                        <div onClick={() => setTab("Clients")} className={tab === "Clients" ? styles.nav_button_container_active : styles.nav_button_container_unactive}>
+                        <div onClick={() => setTab("Activity")} className={tab === "Activity" ? styles.nav_button_container_active : styles.nav_button_container_unactive}>
                             <span><IoMdNotifications /></span>
-                            <span>New Clients</span>
+                            <span>Activity</span>
                         </div>
 
                     </div>

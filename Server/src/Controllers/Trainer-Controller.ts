@@ -43,6 +43,7 @@ export const Dashboard = async (req: Request, res: Response,) => {
 		console.log("Gyms IN IF", trainer)
 		let response = await Query(Statements.Get.AllGyms(GymId))
 		console.log("res", response)
+		Query(Statements.Update.GymLogIn(GymId))
 		resolver(res, 200, 'Gyms Returned', { response: response, role: GymRole })
 	}
 
@@ -64,6 +65,8 @@ const TRAINER_SECRET = process.env.JWT_TRAINER_SECRET
 export const Logout = async (req, res) => {
 	// Set token to none and expire after 5 seconds
 	console.log("log out fired")
+
+
 	revokeTrainerCookie(res)
 	// res.cookie('_ftTrainerAuth', 'none', {
 	// 	expires: new Date(Date.now() + 5 * 1000),

@@ -19,7 +19,7 @@ interface Props {
 const MyButton = React.forwardRef(({ onClick, href }: any, ref: any) => {
     return (
         <a href={href} onClick={onClick} ref={ref}>
-            <Image alt="Vercel logo" src="/images/weightslogoorange.png" width={25} height={28} quality={100} />
+            <Image alt="Vercel logo" src="/images/weightslogocrimson.png" width={25} height={28} quality={100} />
             <span>FitTrainer</span>
         </a>
     )

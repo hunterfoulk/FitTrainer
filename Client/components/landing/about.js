@@ -9,7 +9,7 @@ export default function About() {
         <div className={styles.about_container}>
 
             <div className={styles.about_header_container}>
-                <span>The Worlds Leading Fitness Training And Gym Software <span style={{ color: "#ff592c" }}>Around The World.</span></span>
+                <span>The Worlds Leading Fitness Training And Gym Software <span style={{ color: "#e0021b" }}>Around The World.</span></span>
             </div>
 
             <div className={styles.about_cards_container}>

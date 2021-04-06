@@ -16,7 +16,7 @@ const Navbar: React.FC<Props> = ({ }) => {
     return (
         <div className={styles.navbar}>
             <div className={styles.navbar_left}>
-                <Image alt="Vercel logo" src="/images/weightslogoorange.png" width={25} height={28} quality={100} className="avatar" />
+                <Image alt="Vercel logo" src="/images/weightslogocrimson.png" width={25} height={28} quality={100} className="avatar" />
 
                 <Link href='/' >
                     <span>FitTrainer</span>

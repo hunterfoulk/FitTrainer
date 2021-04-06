@@ -56,7 +56,23 @@ export const statements = {
 			VALUES (${email}, ${hashedPass}, ${joinDate}, ${GymName})
 		`,
 	},
-	Update: {},
+	Update: {
+		GymLogIn: (
+			GymId: number
+		): SQLStatement => SQL`
+			UPDATE gyms
+			SET LoggedIn = 1
+			WHERE GymId = ${GymId}
+		`,
+		GymLogOut: (
+			GymId: number
+		): SQLStatement => SQL`
+		UPDATE gyms
+			SET LoggedIn = false
+			WHERE Email = ${GymId}
+		`,
+
+	},
 	Delete: {},
 }
 

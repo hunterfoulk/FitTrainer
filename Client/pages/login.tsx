@@ -16,7 +16,7 @@ const Login: React.FC<Props> = ({ }) => {
     const dispatch = useDispatch();
     const { auth } = useSelector((state: any) => state.auth);
     const [form, setForm] = useState({
-        email: 'trainer1@gym.com',
+        email: 'huntsgym@gym.com',
         password: 'password'
     })
     const [tab, setTab] = useState("Gym")
