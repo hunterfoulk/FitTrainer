@@ -2,6 +2,11 @@ import '../styles/globals.css'
 import { Provider } from 'react-redux'
 import { store } from "../redux/store"
 import { useDispatch, useSelector } from "react-redux"
+
+// import "@fullcalendar/common/main.min.css";
+// import "@fullcalendar/daygrid/main.min.css";
+
+
 import App from 'next/app'
 
 function MyApp({ Component, pageProps }) {

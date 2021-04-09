@@ -108,10 +108,15 @@
           font-size: 15px;
           outline: none;
           padding: 5px 4px;
+          // border: none;
+          border: 1px solid rgb(165, 165, 165);
         }
         input:focus {
-          border: 1px solid rgba(128, 128, 128, 0.822);
-          box-shadow: 0.5px 0.5px 4px 0.5px #00000023;
+          // border: 1px solid rgba(128, 128, 128, 0.822);
+          box-shadow: 0pt 0pt 1pt 1pt rgba(34, 34, 34, 0.26);
+          // border: none;
+          border: 1px solid rgb(165, 165, 165);
+
           outline: none;
         }
         span {

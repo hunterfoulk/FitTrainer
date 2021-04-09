@@ -10,6 +10,7 @@ import { FaReply } from 'react-icons/fa';
 import { FaRegCreditCard } from 'react-icons/fa';
 import { MdPeopleOutline } from 'react-icons/Md';
 import { IoMdNotifications } from 'react-icons/io';
+import { MdWeb } from 'react-icons/md';
 
 interface Props {
     setTabG: any,
@@ -59,11 +60,11 @@ const Sidebar: React.FC<Props> = ({ setTabG, tabG }) => {
                         <div className={styles.sidebar_tab_content}>
                             <div>
 
-                                <MdPersonOutline />
+                                <MdWeb />
                             </div>
                             <div>
 
-                                <span>Trainers</span>
+                                <span>Dashboard</span>
                             </div>
                         </div>
 

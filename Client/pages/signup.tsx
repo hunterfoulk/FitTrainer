@@ -9,8 +9,9 @@ interface Props { }
 const Signup: React.FC<Props> = ({ }) => {
 
     const [form, setForm] = useState({
-        email: 'trainer1@gym.com',
-        password: 'password'
+        email: 'huntsgym@gym.com',
+        password: 'password',
+        gymName: ''
     })
 
     async function Register(e: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -23,7 +24,8 @@ const Signup: React.FC<Props> = ({ }) => {
                 },
                 body: JSON.stringify({
                     email: form.email,
-                    password: form.password
+                    password: form.password,
+                    gymName: form.gymName
                 }),
             }
         )
@@ -43,12 +45,22 @@ const Signup: React.FC<Props> = ({ }) => {
                         ...form,
                         email: '',
                         password: '',
+                        gymName: '',
                         submitting: false
                     }
                 })
                 break;
             case 200: // Account Created
                 // auto log functionality
+                setForm(form => {
+                    return {
+                        ...form,
+                        email: '',
+                        password: '',
+                        gymName: '',
+                        submitting: false
+                    }
+                })
                 break;
             default:
                 break;
@@ -91,6 +103,12 @@ const Signup: React.FC<Props> = ({ }) => {
                                     value={form.password}
                                     onChange={(e) => {
                                         setForm({ ...form, password: e.target.value })
+                                    }} />
+                                <input
+                                    placeholder="Gym Name"
+                                    value={form.gymName}
+                                    onChange={(e) => {
+                                        setForm({ ...form, gymName: e.target.value })
                                     }} />
                                 <div className={styles.signup_button_container}>
                                     <button type="submit">Get Started</button>

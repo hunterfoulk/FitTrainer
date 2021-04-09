@@ -6,7 +6,7 @@ export default function resolver(
 	message: string = '',
 	data: any = {}
 ) {
-	// message.length > 0 && console.log('Resolver: ', message)
+	message.length > 0 && console.log('Resolver: ', data)
 
 
 	res.json({

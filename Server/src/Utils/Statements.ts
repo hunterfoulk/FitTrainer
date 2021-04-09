@@ -4,16 +4,16 @@ import SQL, { SQLStatement } from 'sql-template-strings'
 export const statements = {
 	Get: {
 
-		AllTrainers: (TrainerId
+		AllTrainersClients: (TrainerId
 		): SQLStatement => SQL`
-			SELECT Email 
+			SELECT * 
 			FROM Trainers WHERE TrainerId = ${TrainerId}
 		`,
 
-		AllGyms: (GymId
+		AllGymsTrainers: (GymId
 		): SQLStatement => SQL`
 			SELECT * 
-			FROM trainers
+			FROM trainers WHERE GymId = ${GymId}
 		`,
 		gymLogin: (
 			email: string
@@ -22,7 +22,20 @@ export const statements = {
 			FROM gyms
 			WHERE email LIKE BINARY ${email}
 		`,
-
+		GymAccount: (
+			GymId: number
+		): SQLStatement => SQL`
+			SELECT GymId, Email, GymName, Avatar, JoinDate
+			FROM gyms
+			WHERE GymId = ${GymId}
+		`,
+		TrainerAccount: (
+			TrainerId: number
+		): SQLStatement => SQL`
+			SELECT GymId, Email, FirstName, LastName, Avatar, JoinDate, TrainerId
+			FROM trainers
+			WHERE TrainerId = ${TrainerId}
+		`,
 		trainerLogin: (
 			email: string
 		): SQLStatement => SQL`
@@ -55,7 +68,21 @@ export const statements = {
 			(Email, Password, JoinDate, GymName)
 			VALUES (${email}, ${hashedPass}, ${joinDate}, ${GymName})
 		`,
+		trainerSignup: (
+			email: string,
+			hashedPass: string,
+			joinDate: string,
+			FirstName: string,
+			LastName: string,
+			Birthday: string,
+			GymId: number,
+		): SQLStatement => SQL`
+			INSERT INTO Trainers
+			(Email, Password, JoinDate, FirstName,LastName,Age,GymId)
+			VALUES (${email}, ${hashedPass}, ${joinDate}, ${FirstName},${LastName},${Birthday},${GymId})
+		`,
 	},
+
 	Update: {
 		GymLogIn: (
 			GymId: number
@@ -67,7 +94,21 @@ export const statements = {
 		GymLogOut: (
 			GymId: number
 		): SQLStatement => SQL`
-		UPDATE gyms
+			UPDATE gyms
+			SET LoggedIn = false
+			WHERE Email = ${GymId}
+		`,
+		TrainerLogIn: (
+			TrainerId: number
+		): SQLStatement => SQL`
+			UPDATE trainers
+			SET LoggedIn = 1
+			WHERE TrainerId = ${TrainerId}
+		`,
+		TrainerLogOut: (
+			GymId: number
+		): SQLStatement => SQL`
+			UPDATE gyms
 			SET LoggedIn = false
 			WHERE Email = ${GymId}
 		`,

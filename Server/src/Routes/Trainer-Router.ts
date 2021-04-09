@@ -14,11 +14,12 @@ export default function userRouter(router: Router): void {
 
 	router.route('/trainerLogin').post(trainerController.trainerLogin)
 
+	router.route('/trainerSignup').post(trainerController.TrainerSignup)
+
 	router.route('/gymLogin').post(trainerController.gymLogin)
 
 
-	router.route('/register')
-		.post(trainerController.Register)
+	router.route('/register').post(trainerController.Register)
 
 	// router.route('/user-auth')
 	// 	.get(trainerController.ValidateToken)

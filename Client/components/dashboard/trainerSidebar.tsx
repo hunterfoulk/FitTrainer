@@ -6,6 +6,8 @@ import { FiCalendar } from 'react-icons/fi';
 import { MdPersonOutline } from 'react-icons/md';
 import { FiPaperclip } from 'react-icons/fi';
 import { FaReply } from 'react-icons/fa';
+import { AiOutlineBarChart } from 'react-icons/ai';
+
 import { FaRegCreditCard } from 'react-icons/fa';
 import Router from "next/router"
 
@@ -102,7 +104,19 @@ const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
                         </div>
 
                     </div>
+                    <div onClick={() => setTabT("Metrics")} className={tabT === "Metrics" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div className={styles.sidebar_tab_content}>
+                            <div>
 
+                                <AiOutlineBarChart />
+                            </div>
+                            <div>
+
+                                <span>Metrics</span>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
                 <div className={styles.sidebar_logout_container}>
                     <button onClick={logout}>Log out</button>

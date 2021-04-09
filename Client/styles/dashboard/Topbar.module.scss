@@ -3,14 +3,15 @@
 .topbar {
   display: flex;
   // background-color: maroon;
-
+  // box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   flex: 1;
   //   padding: 15px 20px;
   justify-content: flex-end;
   border-bottom: 1px solid rgba(167, 166, 166, 0.295);
   // background-color: rgba(236, 236, 236, 0.685);
   // background-color: #0a0a0a;
-
+  position: relative;
+  z-index: 10;
   // background-color: #ff592c;
 
   .topbar_empty_container {
@@ -18,6 +19,20 @@
     // background-color: maroon;
     flex: 2.2;
     padding: 13px 20px;
+    .menu_icon {
+      font-size: 33px;
+      // background-color: red;
+      // padding: 5px;
+      height: 40px;
+      width: 43px;
+      margin-left: 15px;
+      padding: 0px 5px;
+      border-radius: 50%;
+    }
+    .menu_icon:hover {
+      background-color: rgba(236, 236, 236, 0.39);
+      cursor: pointer;
+    }
   }
   .topbar_notification_container {
     display: flex;

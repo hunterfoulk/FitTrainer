@@ -17,7 +17,11 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function DatePickers() {
+
+
+
+
+export default function DatePickers({ newTrainer, setNewTrainer }) {
     const classes = useStyles();
 
     return (
@@ -26,6 +30,10 @@ export default function DatePickers() {
             id="date"
             type="date"
             defaultValue="2015-05-24"
+            value={newTrainer.Birthday}
+            onChange={(e) => {
+                setNewTrainer({ ...newTrainer, Birthday: e.target.value })
+            }}
             className={classes.textField}
             InputLabelProps={{
                 shrink: true,

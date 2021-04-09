@@ -3,17 +3,17 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  //   background-color: #0a0a0a;
-  // background-color: yellow;
-  // background-color: white;
-  border-right: 1px solid rgba(167, 166, 166, 0.295);
-  // background-color: #0a0a0a;
+  min-width: 100%;
+  max-width: 100%;
+  // flex: 1;
+  height: 100vh;
+  z-index: 10;
+  // border-right: 1px solid rgba(167, 166, 166, 0.295);
 
+  // background-color: #0a0a0a;
+  background-color: white;
   font-family: "Roboto", sans-serif;
-  // align-items: stretch;
-  // height: 100vh;
-  // height: 100%;
+  box-shadow: 3px 3px 13px -5px rgba(0, 0, 0, 0.349);
   .sidebar_header {
     display: flex;
     justify-content: center;
@@ -21,7 +21,7 @@
     // background-color: grey;
     flex: 0;
     padding: 19.5px 0px;
-    background-color: #0a0a0a;
+    // background-color: #0a0a0a;
 
     a {
       display: flex;
@@ -38,7 +38,7 @@
       //   position: relative;
       //   bottom: 10px;
       cursor: pointer;
-      color: white;
+      color: black;
     }
     button {
       width: 90px;
@@ -47,7 +47,7 @@
       cursor: pointer;
       background-color: #e0021b;
       border: 1px solid #e0021b;
-      color: white;
+      color: black;
       border-radius: 5px;
 
       box-shadow: 1px 2px 5px 0px #00000036;
@@ -69,8 +69,9 @@
       display: flex;
       justify-content: center;
       margin-bottom: 15px;
-      background-color: #f509241f;
-      color: #e0021b;
+      // background-color: #e0021ca1;
+      background-color: #ee2b45;
+      // color: #ff0b28;
       //   background-color: khaki;
       padding: 15px;
       cursor: pointer;
@@ -88,14 +89,18 @@
           justify-content: flex-end;
           font-size: 20px;
           padding-right: 15px;
-          color: #e0021b;
+          // color: #e0021b;
+          color: white;
+          // color: #ff0b28;
         }
         div:nth-child(2) {
           //   background-color: green;
           flex: 1;
           display: flex;
           //   font-size: 20px;
-          color: #bd0319;
+          // color: #bd0319;
+          // color: #ff0b28;
+          color: white;
         }
         span {
         }
@@ -125,14 +130,14 @@
           justify-content: flex-end;
           font-size: 20px;
           padding-right: 15px;
-          color: #3b3b3b;
+          color: #686868;
         }
         div:nth-child(2) {
           //   background-color: green;
           flex: 1;
           display: flex;
           //   font-size: 20px;
-          color: #3b3b3b;
+          color: #686868;
         }
         span {
         }
@@ -142,10 +147,11 @@
       background-color: #f509241f;
       .sidebar_tab_content {
         div:nth-child(1) {
-          color: #bd0319;
+          color: white;
         }
         div:nth-child(2) {
-          color: #bd0319;
+          // color: #bd0319;
+          color: white;
         }
       }
     }

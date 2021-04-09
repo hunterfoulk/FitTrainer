@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
 .trainers_tab_main {
   display: flex;
   flex-direction: column;
@@ -8,184 +9,256 @@
   // background-color: white;
   font-family: "Roboto", sans-serif;
   overflow: hidden;
-  // overflow: auto;
-  // max-height: 100%;
-  // overflow-y: auto;
-  // height: 100%;
   .trainers_tab_nav {
     display: flex;
-    // flex: 1;
+    flex-direction: column;
+    // flex: 0.35;
+    min-height: 210px;
     // height: 100px;
-    padding: 17px 20px;
+    padding: 10px 40px;
     // background-color: green;
     // background-color: white;
-    border-bottom: 1px solid rgba(167, 166, 166, 0.295);
+    // background-color: yellowgreen;
+    // border-bottom: 1px solid rgba(167, 166, 166, 0.295);
+    align-items: center;
+    // justify-content: center;
+
     .nav_button_container {
+      max-width: 1700px;
       display: flex;
+      flex-direction: column;
+      // justify-content: center;
+      align-items: center;
+      width: 100%;
       flex: 1;
-      // height: 100%;
+      // max-height: 70%;
+      height: 100%;
       // background-color: rgb(83, 92, 122);
-      padding: 10px 0px;
-      justify-content: space-evenly;
-      .nav_button_container_unactive:nth-child(n + 1) {
-        // width: 90px;
+      // padding: 10px 20px;
+      // justify-content: space-evenly;
+      .trainers_tab_nav_header {
+        max-width: 1700px;
+
+        width: 90%;
         display: flex;
-        align-items: center;
-        padding: 2px 14px;
-        height: 33px;
-        // transform: scale(1.08);
-        background-color: rgb(233, 233, 233);
-        border: 2px solid rgba(82, 82, 82, 0.219);
-        color: black;
-        border-radius: 5px;
-        box-shadow: 1px 1px 6px 0px #00000017;
-        font-family: "Roboto", sans-serif;
-        outline: none;
-        cursor: pointer;
-        span:nth-child(1) {
-          font-size: 16px;
-          position: relative;
-          top: 2px;
-          right: 5px;
+        // flex: 1;
+        // background-color: red;
+        margin: 10px 0px;
+        h1 {
+          font-size: 18px;
+          margin: 0px;
+          color: rgb(131, 131, 131);
+          margin-left: 15px;
         }
       }
-
-      button:nth-child(2) {
-        // background-color: Red;
-      }
-      button:nth-child(3) {
-        // background-color: Red;
-      }
-      .nav_button_container_active:nth-child(n + 1) {
-        // width: 90px;
+      .trainers_tab_buttons_holder {
         display: flex;
-        align-items: center;
-        padding: 7px 14px;
-        height: 33px;
-        transform: scale(1.15);
-        // background-color: #e0021b;
-        background-color: #e0021b;
-        border: 2px solid white;
-        color: white;
-        border-radius: 5px;
-        // box-shadow: 1px 2px 4px 0px #00000036;
-        box-shadow: 1px 1px 6px 0px #00000017;
-        font-family: "Roboto", sans-serif;
-        outline: none;
-        cursor: pointer;
-        span:nth-child(1) {
-          font-size: 16px;
-          position: relative;
-          top: 2px;
-          right: 5px;
+        // background-color: grey;
+        width: 100%;
+        flex: 1;
+        .nav_button_holder {
+          // background-color: purple;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          // width: 33%;
+          flex-basis: 50%;
+          // width: 25%;
+          height: 100%;
+          margin-right: 5px;
+
+          /////////////RED///////////////////
+
+          .nav_button_container_red {
+            // width: 90px;
+            display: flex;
+            padding: 10px;
+            height: 80%;
+            min-width: 55%;
+            justify-content: space-between;
+            // background-color: orange;
+            // background-color: #ee2b45;
+            background-image: url("/images/tabBackground.png");
+            background-size: cover;
+            // border: 2px solid white;
+            color: white;
+            border-radius: 15px;
+            // box-shadow: 1px 2px 4px 0px #00000036;
+            // box-shadow: 1px 2px 10px 0px #00000081;
+            font-family: "Roboto", sans-serif;
+            outline: none;
+            cursor: pointer;
+            span:nth-child(1) {
+              font-size: 18px;
+              // position: relative;
+              top: 2px;
+              right: 5px;
+              margin: 5px;
+              // color: rgb(83, 83, 83);
+            }
+            span:nth-child(2) {
+              font-size: 32px;
+
+              position: relative;
+              // top: 2px;
+              bottom: 2px;
+              top: 2px;
+              right: 5px;
+            }
+          }
+
+          .nav_button_container_blue {
+            // width: 90px;
+            display: flex;
+            padding: 10px;
+            height: 80%;
+            min-width: 55%;
+            justify-content: space-between;
+            // background-color: orange;
+            // background-color: #ee2b45;
+            background-image: url("/images/tabBackground2.png");
+            background-size: cover;
+            // border: 2px solid white;
+            color: white;
+            border-radius: 15px;
+            // box-shadow: 1px 2px 4px 0px #00000036;
+            // box-shadow: 1px 2px 10px 0px #00000081;
+            font-family: "Roboto", sans-serif;
+            outline: none;
+            cursor: pointer;
+            span:nth-child(1) {
+              font-size: 18px;
+              // position: relative;
+              top: 2px;
+              right: 5px;
+              margin: 5px;
+              // color: rgb(83, 83, 83);
+            }
+            span:nth-child(2) {
+              font-size: 32px;
+
+              position: relative;
+              // top: 2px;
+              bottom: 2px;
+              top: 2px;
+              right: 5px;
+            }
+          }
+          .nav_button_container_green {
+            // width: 90px;
+            display: flex;
+            padding: 10px;
+            height: 80%;
+            min-width: 55%;
+            justify-content: space-between;
+            // background-color: orange;
+            // background-color: #ee2b45;
+            background-image: url("/images/tabBackground3.png");
+            background-size: cover;
+            // border: 2px solid white;
+            color: white;
+            border-radius: 15px;
+            // box-shadow: 1px 2px 4px 0px #00000036;
+            // box-shadow: 3px 5px 15px 2px #0000009d;
+            font-family: "Roboto", sans-serif;
+            outline: none;
+            cursor: pointer;
+            span:nth-child(1) {
+              font-size: 18px;
+              // position: relative;
+              top: 2px;
+              right: 5px;
+              margin: 5px;
+              // color: rgb(83, 83, 83);
+            }
+            span:nth-child(2) {
+              font-size: 32px;
+
+              position: relative;
+              // top: 2px;
+              bottom: 2px;
+              top: 2px;
+              right: 5px;
+            }
+          }
+          .nav_button_container_purple {
+            // width: 90px;
+            display: flex;
+            padding: 10px;
+            height: 80%;
+            min-width: 55%;
+            justify-content: space-between;
+            // background-color: orange;
+            // background-color: #ee2b45;
+            background-image: url("/images/tabBackground4.png");
+            background-size: cover;
+            // border: 2px solid white;
+            color: white;
+            border-radius: 15px;
+            // box-shadow: 1px 2px 4px 0px #00000036;
+            // box-shadow: 1px 2px 10px 0px #00000081;
+            font-family: "Roboto", sans-serif;
+            outline: none;
+            cursor: pointer;
+            span:nth-child(1) {
+              font-size: 18px;
+              // position: relative;
+              top: 2px;
+              right: 5px;
+              margin: 5px;
+              // color: rgb(83, 83, 83);
+            }
+            span:nth-child(2) {
+              font-size: 32px;
+
+              position: relative;
+              // top: 2px;
+              bottom: 2px;
+              top: 2px;
+              right: 5px;
+            }
+          }
+          .nav_button_container_unactive:nth-child(n + 1) {
+            // width: 90px;
+            display: flex;
+            padding: 10px;
+            height: 80%;
+            min-width: 55%;
+            justify-content: space-between;
+            // background-color: orange;
+            // background-color: #ee2b45;
+            background-color: white;
+            // background-image: url("/images/tabBackground.png");
+            background-size: cover;
+            // border: 2px solid white;
+            // color: blue;
+            // color: white;
+            border-radius: 10px;
+            // box-shadow: 1px 2px 4px 0px #00000036;
+            // box-shadow: 1px 1px 6px 0px #00000017;
+            font-family: "Roboto", sans-serif;
+            outline: none;
+            cursor: pointer;
+            span:nth-child(1) {
+              font-size: 18px;
+              // position: relative;
+              top: 2px;
+              right: 5px;
+              margin: 5px;
+              color: rgb(83, 83, 83);
+            }
+            span:nth-child(2) {
+              font-size: 32px;
+
+              position: relative;
+              top: 2px;
+              right: 5px;
+              // margin: 5px;
+            }
+          }
         }
       }
-
-      button:nth-child(2) {
-        // background-color: Red;
-      }
-      button:nth-child(3) {
-        // background-color: Red;
-      }
-      // div:nth-child(2) {
-      //   // width: 90px;
-      //   display: flex;
-      //   align-items: center;
-      //   padding: 5px 13px;
-      //   max-height: 33px;
-      //   background-color: rgba(206, 206, 206, 0.514);
-      //   border: 2px solid white;
-      //   color: Black;
-      //   border-radius: 5px;
-      //   box-shadow: 1px 2px 4px 0px #00000036;
-      //   font-family: "Roboto", sans-serif;
-      //   outline: none;
-      //   cursor: pointer;
-      //   span:nth-child(1) {
-      //     font-size: 17px;
-      //     position: relative;
-      //     top: 3px;
-      //     right: 5px;
-      //   }
-      //   span:nth-child(2) {
-      //     font-size: 15px;
-      //   }
-      // }
-      // button:nth-child(2) {
-      //   // background-color: Red;
-      // }
-      // button:nth-child(3) {
-      //   // background-color: Red;
-      // }
-      // div:nth-child(3) {
-      //   // width: 90px;
-      //   display: flex;
-      //   align-items: center;
-      //   padding: 5px 13px;
-      //   height: 33px;
-      //   background-color: #356deb;
-      //   border: 2px solid white;
-      //   color: white;
-      //   border-radius: 5px;
-      //   box-shadow: 1px 2px 4px 0px #00000036;
-      //   font-family: "Roboto", sans-serif;
-      //   outline: none;
-      //   cursor: pointer;
-      //   span:nth-child(1) {
-      //     font-size: 17px;
-      //     position: relative;
-      //     top: 2.5px;
-      //     right: 5px;
-      //   }
-      //   span:nth-child(2) {
-      //     font-size: 15px;
-      //   }
-      // }
-      // button:nth-child(2) {
-      //   // background-color: Red;
-      // }
-      // button:nth-child(3) {
-      //   // background-color: Red;
-      // }
-      // div:nth-child(4) {
-      //   // width: 90px;
-      //   display: flex;
-      //   align-items: center;
-      //   padding: 5px 13px;
-      //   max-height: 33px;
-      //   background-color: #ff0034;
-      //   border: 2px solid white;
-      //   color: white;
-      //   border-radius: 5px;
-      //   box-shadow: 1px 2px 4px 0px #00000036;
-      //   font-family: "Roboto", sans-serif;
-      //   outline: none;
-      //   cursor: pointer;
-      //   span:nth-child(1) {
-      //     font-size: 17px;
-      //     position: relative;
-      //     top: 2px;
-      //     right: 5px;
-      //   }
-      //   span:nth-child(2) {
-      //     font-size: 15px;
-      //   }
-      // }
-      // button:nth-child(2) {
-      //   // background-color: Red;
-      // }
-      // button:nth-child(3) {
-      //   // background-color: Red;
-      // }
     }
-
-    button:nth-child(2) {
-      // background-color: Red;
-    }
-    button:nth-child(3) {
-      // background-color: Red;
-    }
-
     .nav_search_container {
       display: flex;
       flex: 1.4;
@@ -229,12 +302,9 @@
     display: flex;
     // flex: 1;
     width: 100%;
-    max-height: 100%;
+    height: 100%;
     justify-content: center;
-    // height: fit-content;
-    // height: 100vh;
-    // box-sizing: border-box;
-    // padding: 20px 5px;
+    align-items: flex-start;
     overflow-y: auto;
     padding: 20px 10px;
   }

@@ -12,35 +12,64 @@ import requireAuthentication from "./auth/authtwo"
 import fetch from "isomorphic-unfetch"
 import TrainerSidebar from '../components/dashboard/trainerSidebar'
 import TrainersTab from "../components/dashboard/trainersTab/trainersTab"
+import TrainerScheduleTab from "../components/dashboard/trainer/TrainerScheduleTab"
 import SubscriptionsTab from '../components/dashboard/subscriptionsTab'
-interface Props {
-    users: any,
-    role: any
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Image from "next/image"
+import ClientsTab from '../components/dashboard/trainer/ClientsTab'
+// import Drawer from "../components/dashboard/drawer"
 
+interface Props {
+    trainers: any,
+    role: any
+    AccountInfo: any
 
 }
 
 
-const Dashboard: NextPage<Props> = ({ role, users }) => {
+const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo }) => {
     const dispatch = useDispatch();
     const { auth } = useSelector((state: any) => state.auth);
     const [tabG, setTabG] = useState("Trainers")
     const [tabT, setTabT] = useState("Schedule")
 
+
+
+    const notify = () => {
+        toast.error(' Trainer Added!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: { backgroundColor: "#e0021b" }
+        });
+    }
+
     return (
         <>
             {role === "Gym" ? <div className={styles.dashboard_main}>
-                <div className={styles.sidebar_container}>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                />
 
-                    <Sidebar setTabG={setTabG} tabG={tabG} />
-                </div>
                 <div className={styles.dashboard_main_right_container}>
 
                     <div className={styles.topbar_container}>
-                        <Topbar />
+                        <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} />
                     </div>
                     <div className={styles.bottom_container}>
-                        {tabG === "Trainers" && <TrainersTab users={users} />}
+                        {tabG === "Trainers" && <TrainersTab trainers={trainers} notify={notify} AccountInfo={AccountInfo} />}
                         {tabG === "Subscriptions" && <SubscriptionsTab />}
                     </div>
 
@@ -48,17 +77,23 @@ const Dashboard: NextPage<Props> = ({ role, users }) => {
 
 
             </div> : <div className={styles.dashboard_main}>
-                <div className={styles.sidebar_container}>
+                {/* <div className={styles.sidebar_container}>
 
                     <TrainerSidebar setTabT={setTabT} tabT={tabT} />
-                </div>
+                </div> */}
                 <div className={styles.dashboard_main_right_container}>
 
                     <div className={styles.topbar_container}>
-                        <Topbar />
+                        <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} />
                     </div>
 
+                    <div className={styles.bottom_container}>
+                        {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} />}
+                        {tabT === "Subscriptions" && <SubscriptionsTab />}
+                        {tabT === "Clients" && <ClientsTab />}
 
+
+                    </div>
 
                 </div>
 
@@ -79,12 +114,13 @@ export const getServerSideProps = requireAuthentication(async context => {
         }
     });
     const res = await response.json()
-    console.log("RESPONSE!@@$", res)
+    console.log("RESPONSE!@@$", res.data.clients)
 
     return {
         props: {
-            users: res.data.response,
-            role: res.data.role
+            trainers: res.data.trainers || res.data.clients,
+            role: res.data.role,
+            AccountInfo: res.data.AccountInfo
         },
     }
 })

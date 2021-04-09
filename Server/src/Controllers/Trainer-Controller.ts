@@ -36,45 +36,30 @@ export const Dashboard = async (req: Request, res: Response,) => {
 
 	if (trainer.Role === "Trainer") {
 		console.log("TRAINER IN IF", trainer)
-		let response = await Query(Statements.Get.AllTrainers(TrainerId))
-		console.log("res", response)
-		resolver(res, 200, 'Trainers Returned', { response: response, role: TrainerRole })
+		await Query(Statements.Update.TrainerLogIn(TrainerId))
+		let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
+		let clients = await Query(Statements.Get.AllTrainersClients(TrainerId))
+		console.log("res", clients)
+		resolver(res, 200, 'Clients Returned', { clients: clients, AccountInfo: AccountInfo[0], role: TrainerRole })
+
 	} else {
 		console.log("Gyms IN IF", trainer)
-		let response = await Query(Statements.Get.AllGyms(GymId))
-		console.log("res", response)
-		Query(Statements.Update.GymLogIn(GymId))
-		resolver(res, 200, 'Gyms Returned', { response: response, role: GymRole })
+		await Query(Statements.Update.GymLogIn(GymId))
+		let trainers = await Query(Statements.Get.AllGymsTrainers(GymId))
+		let AccountInfo = await Query(Statements.Get.GymAccount(GymId))
+		console.log("res", trainers)
+		resolver(res, 200, 'Gyms Returned', { trainers: trainers, AccountInfo: AccountInfo[0], role: GymRole })
 	}
 
-
-
-
-	// .then(trainers => {
-	// 	console.log("TRAINERS", trainers)
-	// 	resolver(res, 200, 'Trainers Returned', trainers)
-	// })
-	// .catch(err => {
-	// 	console.error(err)
-	// 	resolver(res, 503, 'Database Error', {})
-	// })
 }
 
 
 const TRAINER_SECRET = process.env.JWT_TRAINER_SECRET
 export const Logout = async (req, res) => {
-	// Set token to none and expire after 5 seconds
 	console.log("log out fired")
-
-
 	revokeTrainerCookie(res)
-	// res.cookie('_ftTrainerAuth', 'none', {
-	// 	expires: new Date(Date.now() + 5 * 1000),
-	// 	httpOnly: true,
-	// })
-	// res
-	// 	.status(200)
-	// 	.json({ success: true, message: 'User logged out successfully' })
+
+
 }
 
 export const Auth = (req: Request, res: Response, next): void => {
@@ -177,9 +162,9 @@ export const gymLogin = (req: Request, res: Response): void => {
 
 
 export const Register = (req: Request, res: Response): void => {
-	const { email, password } = req.body
+	const { email, password, gymName } = req.body
 	console.log({ body: req.body })
-
+	console.log("GYM NAME", gymName)
 	Query(Statements.Get.Register(email))
 		.then(async (getResults) => {
 			const trainerFound = getResults.length > 0
@@ -190,7 +175,7 @@ export const Register = (req: Request, res: Response): void => {
 			const hashedPass = await bcryptHash(password)
 			const joinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
-			Query(Statements.Post.Register(email, hashedPass, joinDate, "My Gym"))
+			Query(Statements.Post.Register(email, hashedPass, joinDate, gymName))
 				.then((postResults) => {
 					resolver(res, 200, 'Account Created', { trainerId: postResults.insertId })
 				})
@@ -207,32 +192,35 @@ export const Register = (req: Request, res: Response): void => {
 
 
 
+export const TrainerSignup = (req: Request, res: Response): void => {
+	const { GymId, Email, Password, FirstName, LastName, Birthday } = req.body
+	console.log({ body: req.body })
 
-// const TRAINER_SECRET = process.env.JWT_TRAINER_SECRET
-// export const ValidateToken = (req: Request, res: Response): void => {
-// 	const trainerCookie = req.cookies
-// 	const trainerToken = trainerCookie['OS_TRAINERAUTH']
+	Query(Statements.Get.Register(Email))
+		.then(async (getResults) => {
+			const trainerFound = getResults.length > 0
 
-// 	if (Object.keys(trainerCookie).length <= 0) return resolver(res, 400, 'No Cookies', null)
-// 	if (!trainerToken) return resolver(res, 401, 'No Token', null)
-// 	console.log({ trainerToken: trainerToken.slice(0, 10) + '...' })
+			if (trainerFound) return resolver(res, 409, 'Trainer Email Already Exists')
+			console.log({ trainerFound: trainerFound })
 
-// 	jwt.verify(trainerToken, TRAINER_SECRET, { issuer: 'FT-Server' }, (err, decoded: any) => {
+			const hashedPass = await bcryptHash(Password)
+			const joinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
-// 		if (!decoded) {
-// 			revokeTrainerCookie(res)
-// 			return resolver(res, 404, 'Token Invalid', null)
-// 		}
+			Query(Statements.Post.trainerSignup(Email, hashedPass, joinDate, FirstName, LastName, Birthday, GymId))
+				.then((postResults) => {
+					resolver(res, 200, 'Trainer Account Created', { trainerId: postResults.insertId })
+				})
+				.catch((postError) => {
+					console.error(postError)
+					resolver(res, 503, 'Database Error')
+				})
+		})
+		.catch(trainerErr => {
+			console.error(trainerErr)
+			resolver(res, 503, 'Database Error')
+		})
+}
 
-// 		console.log(decoded.trainer)
-
-// 		const { TrainerId, Email } = decoded.trainer
-// 		const uPayload = new Trainer(TrainerId, Email)
-// 		const trainerToken = createTrainerToken(uPayload)
 
 
-// 		console.log({ verifiedTrainerId: TrainerId })
 
-// 		sendTrainerCookie(res, trainerToken)
-// 	})
-// }

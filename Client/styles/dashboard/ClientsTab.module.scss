@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
+.clients_tab_main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  // background-color: green;
+  padding: 20px;
+  .clients_tab_header {
+    display: flex;
+    width: 100%;
+    max-width: 1500px;
+    // background-color: red;
+    padding: 10px 0px;
+    border-bottom: 1px solid rgb(216, 216, 216);
+    div:nth-child(1) {
+      display: flex;
+      flex: 1;
+      span {
+        font-family: "Roboto", sans-serif;
+        color: #414141;
+        font-size: 28px;
+      }
+    }
+    div:nth-child(2) {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+    }
+  }
+  .clients_tab_content_container {
+    display: flex;
+    width: 100%;
+    max-width: 1500px;
+    // background-color: green;
+  }
+}
