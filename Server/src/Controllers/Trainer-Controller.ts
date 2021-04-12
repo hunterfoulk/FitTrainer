@@ -10,6 +10,17 @@ import {
 	sendTrainerCookie, revokeTrainerCookie as revokeTrainerCookie
 } from '../Utils/Tokens'
 import { Request, Response } from 'express'
+import { Console } from 'node:console'
+
+
+const {
+	BlobServiceClient,
+	StorageSharedKeyCredential,
+	newPipeline
+} = require('@azure/storage-blob');
+const getStream = require('into-stream');
+
+
 interface IDecoded extends Request {
 	decoded: string;
 	trainer?: {
@@ -21,6 +32,9 @@ interface IDecoded extends Request {
 		Email: string
 	}
 }
+
+
+
 
 
 export const Dashboard = async (req: Request, res: Response,) => {
@@ -39,16 +53,19 @@ export const Dashboard = async (req: Request, res: Response,) => {
 		await Query(Statements.Update.TrainerLogIn(TrainerId))
 		let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 		let clients = await Query(Statements.Get.AllTrainersClients(TrainerId))
+		let TodaysClients = await Query(Statements.Get.TrainersTodaysClients())
 		console.log("res", clients)
-		resolver(res, 200, 'Clients Returned', { clients: clients, AccountInfo: AccountInfo[0], role: TrainerRole })
+		resolver(res, 200, 'Clients Returned', { clients: clients, AccountInfo: AccountInfo[0], role: TrainerRole, TodaysClients: TodaysClients })
 
 	} else {
 		console.log("Gyms IN IF", trainer)
+		console.log("GYM IDDDD:", GymId)
 		await Query(Statements.Update.GymLogIn(GymId))
 		let trainers = await Query(Statements.Get.AllGymsTrainers(GymId))
 		let AccountInfo = await Query(Statements.Get.GymAccount(GymId))
-		console.log("res", trainers)
-		resolver(res, 200, 'Gyms Returned', { trainers: trainers, AccountInfo: AccountInfo[0], role: GymRole })
+
+		console.log("TRAINERS:", trainers)
+		resolver(res, 200, 'Gyms Returned', { trainers: trainers, AccountInfo: AccountInfo[0], role: GymRole, })
 	}
 
 }
@@ -219,6 +236,66 @@ export const TrainerSignup = (req: Request, res: Response): void => {
 			console.error(trainerErr)
 			resolver(res, 503, 'Database Error')
 		})
+}
+
+let accountName = "fittrainer"
+const sharedKeyCredential = new StorageSharedKeyCredential(
+	'fittrainer',
+	'AYQimv122pTLcHo9bjLojyGwDRKFaMgrf+qwtZw2VqEh+3AtamJUH2/VEppKar4yzBLB2K+z41PZo+ckkPUrGw==');
+const pipeline = newPipeline(sharedKeyCredential);
+
+const blobServiceClient = new BlobServiceClient(
+	`https://${accountName}.blob.core.windows.net`,
+	pipeline
+);
+
+const container = 'fit-trainer';
+const ONE_MEGABYTE = 1024 * 1024;
+const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
+
+const getBlobName = originalName => {
+	// Use a random number to generate a unique file name, 
+	// removing "0." from the start of the string.
+	const identifier = Math.random().toString().replace(/0\./, '');
+	return `${identifier}-${originalName}`;
+};
+interface MulterRequest extends Request {
+	files: any;
+}
+
+export const TrainerCreateClient = async (req: MulterRequest, res: Response): Promise<void> => {
+	const { gymId, trainerId, email, firstName, lastName, birthday, mobile, goal } = req.body;
+	console.log({ body: req.body })
+	console.log(typeof gymId)
+	let GymId = Math.floor(gymId)
+	let TrainerId = Math.floor(trainerId)
+
+	const JoinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
+
+	const blobName = req.files.avatar.name;
+	const stream = getStream(req.files.avatar.data);
+	const containerClient = blobServiceClient.getContainerClient(container);
+	const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+	try {
+
+		await blockBlobClient.uploadStream(stream,
+			uploadOptions.bufferSize, uploadOptions.maxBuffers,
+			{ blobHTTPHeaders: { blobContentType: "image/jpeg" } });
+		let avatarUrl = blockBlobClient.url
+		console.log("AVATAR URL:", avatarUrl)
+
+		await Query(Statements.Post.CreateClient(email, firstName, lastName, JoinDate, birthday, mobile, goal, GymId, TrainerId, avatarUrl));
+
+		resolver(res, 200, 'Client Created Succesfully!', { Results: [] })
+
+	} catch (err) {
+		console.log(`ERROR IN AVATAR UPLOAD: ${err.message}`);
+		resolver(res, 503, 'Database Error')
+
+	}
+
+
 }
 
 

@@ -265,8 +265,10 @@
 }
 .bottom_container_right {
   display: flex;
+  padding: 30px 10px;
   flex-direction: column;
-  flex: 0.3;
+  align-items: center;
+  flex: 0.28;
   // background-color: green;
   .calendar_container {
     display: flex;

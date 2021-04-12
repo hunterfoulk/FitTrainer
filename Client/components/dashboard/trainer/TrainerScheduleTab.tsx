@@ -11,15 +11,17 @@ import { FiClock } from 'react-icons/fi';
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { FaTelegramPlane } from 'react-icons/fa';
 import { FiUserPlus } from 'react-icons/fi';
+import ClientCard from './clientCard';
 
 
 
 interface Props {
     trainers: any
     AccountInfo: any
+    TodaysClients: any
 }
 
-const TrainerScheduleTab: React.FC<Props> = ({ trainers, AccountInfo }) => {
+const TrainerScheduleTab: React.FC<Props> = ({ trainers, AccountInfo, TodaysClients }) => {
     const [value, onChange] = useState(new Date());
     const [open, setOpen] = useState(true);
     const [tab, setTab] = useState("Schedule")
@@ -59,10 +61,9 @@ const TrainerScheduleTab: React.FC<Props> = ({ trainers, AccountInfo }) => {
                             <span>Schedule</span>
                         </div>
                         <div className={styles.buttons}>
-                            {/* <div onClick={() => setTab("Schedule")} style={tab === "Schedule" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}>Schedule <FiClock className={styles.banner_button_plus} /> </div> */}
+
                             <div onClick={() => setTab("Add")} style={tab === "Add" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}> <FiUserPlus className={styles.banner_button_plus} /> Add Client </div>
-                            {/* <div onClick={() => setTab("Messenger")} style={tab === "Messenger" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}> Messenger <FaTelegramPlane className={styles.banner_button_plus} /></div>
-                            <div onClick={() => setTab("Recents")} style={tab === "Recents" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}> Recents <FaReply className={styles.banner_button_plus} /></div>  */}
+
                         </div>
 
 
@@ -107,12 +108,9 @@ const TrainerScheduleTab: React.FC<Props> = ({ trainers, AccountInfo }) => {
                 </div>
             </div>
             <div className={styles.bottom_container_right}>
-                <div className={styles.calendar_container}>
-
-                </div>
-                <div className={styles.calendar_content_container}>
-
-                </div>
+                {TodaysClients.map((client: any) => (
+                    <ClientCard client={client} />
+                ))}
 
             </div>
         </>

@@ -3,7 +3,7 @@ import * as cors from 'cors'
 import * as cookieParser from 'cookie-parser'
 import { Router } from 'express'
 import { corsOptions, corsMiddleware } from './cors'
-
+const busboyBodyParser = require('busboy-body-parser');
 import routes from './Routes/index'
 import mySQL from './Database/MySQL'
 
@@ -16,6 +16,8 @@ const port = process.env.PORT || 9000
 const origins = ['http://localhost:3000', 'https://localhost:3000']
 
 app.use(express.json())
+// app.use(express.urlencoded({ extended: true }));
+app.use(busboyBodyParser());
 app.use(cookieParser())
 app.use(cors(corsOptions(origins)), corsMiddleware)
 

@@ -24,11 +24,11 @@ interface Props {
     trainers: any,
     role: any
     AccountInfo: any
-
+    TodaysClients: any
 }
 
 
-const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo }) => {
+const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients }) => {
     const dispatch = useDispatch();
     const { auth } = useSelector((state: any) => state.auth);
     const [tabG, setTabG] = useState("Trainers")
@@ -51,6 +51,7 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo }) => {
 
     return (
         <>
+            {/* /////GYM//// */}
             {role === "Gym" ? <div className={styles.dashboard_main}>
                 <ToastContainer
                     position="top-right"
@@ -77,10 +78,7 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo }) => {
 
 
             </div> : <div className={styles.dashboard_main}>
-                {/* <div className={styles.sidebar_container}>
-
-                    <TrainerSidebar setTabT={setTabT} tabT={tabT} />
-                </div> */}
+                {/* /////TRAINER//// */}
                 <div className={styles.dashboard_main_right_container}>
 
                     <div className={styles.topbar_container}>
@@ -88,9 +86,9 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo }) => {
                     </div>
 
                     <div className={styles.bottom_container}>
-                        {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} />}
+                        {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} TodaysClients={TodaysClients} />}
                         {tabT === "Subscriptions" && <SubscriptionsTab />}
-                        {tabT === "Clients" && <ClientsTab />}
+                        {tabT === "Clients" && <ClientsTab AccountInfo={AccountInfo} />}
 
 
                     </div>
@@ -114,13 +112,14 @@ export const getServerSideProps = requireAuthentication(async context => {
         }
     });
     const res = await response.json()
-    console.log("RESPONSE!@@$", res.data.clients)
+    console.log("Dashboard response", res.data.clients)
 
     return {
         props: {
             trainers: res.data.trainers || res.data.clients,
             role: res.data.role,
-            AccountInfo: res.data.AccountInfo
+            AccountInfo: res.data.AccountInfo,
+            TodaysClients: res.data.TodaysClients
         },
     }
 })

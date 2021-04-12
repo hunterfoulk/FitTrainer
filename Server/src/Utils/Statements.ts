@@ -51,7 +51,12 @@ export const statements = {
 			FROM Trainers
 			WHERE Email = ${email}
 		`,
-
+		TrainersTodaysClients: (
+		): SQLStatement => SQL`
+			SELECT *
+			FROM clients
+			
+		`,
 		RefreshValidation: (
 		): SQLStatement => SQL`
 		
@@ -78,8 +83,24 @@ export const statements = {
 			GymId: number,
 		): SQLStatement => SQL`
 			INSERT INTO Trainers
-			(Email, Password, JoinDate, FirstName,LastName,Age,GymId)
+			(Email, Password, JoinDate, FirstName,LastName,Birthday,GymId)
 			VALUES (${email}, ${hashedPass}, ${joinDate}, ${FirstName},${LastName},${Birthday},${GymId})
+		`,
+		CreateClient: (
+			email: string,
+			firstName: string,
+			lastName: string,
+			birthday: string,
+			JoinDate: string,
+			mobile: string,
+			goal: string,
+			trainerId: number,
+			GymId: number,
+			avatarUrl: string,
+		): SQLStatement => SQL`
+			INSERT INTO Clients
+			(Email, FirstName, LastName, JoinDate, Birthday, Mobile, Goal, GymId, TrainerId, Avatar)
+			VALUES (${email}, ${firstName}, ${lastName}, ${birthday}, ${JoinDate}, ${mobile},${goal},${GymId},${trainerId},${avatarUrl})
 		`,
 	},
 
