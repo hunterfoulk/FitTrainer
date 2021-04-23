@@ -2,9 +2,13 @@ import '../styles/globals.css'
 import { Provider } from 'react-redux'
 import { store } from "../redux/store"
 import { useDispatch, useSelector } from "react-redux"
+import "react-datetime-picker/dist/DateTimePicker.css"
+import "react-datetime-picker/dist/DateTimePicker.css"
+import "react-clock/dist/Clock.css"
+import { ChakraProvider } from "@chakra-ui/react"
 
-// import "@fullcalendar/common/main.min.css";
-// import "@fullcalendar/daygrid/main.min.css";
+
+
 
 
 import App from 'next/app'
@@ -15,7 +19,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <Component {...pageProps} />
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </Provider>
   )
 }

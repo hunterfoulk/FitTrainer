@@ -19,23 +19,27 @@ import 'react-toastify/dist/ReactToastify.css';
 import Image from "next/image"
 import ClientsTab from '../components/dashboard/trainer/ClientsTab'
 // import Drawer from "../components/dashboard/drawer"
-
+import dynamic from 'next/dynamic'
 interface Props {
     trainers: any,
     role: any
     AccountInfo: any
     TodaysClients: any
+    Appointments: any
 }
+const DynamicComponentWithNoSSR = dynamic(
+    () => import('../components/dashboard/trainer/ClientsTab'),
+    { ssr: false }
+)
 
-
-const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients }) => {
+const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients, Appointments }) => {
     const dispatch = useDispatch();
     const { auth } = useSelector((state: any) => state.auth);
     const [tabG, setTabG] = useState("Trainers")
-    const [tabT, setTabT] = useState("Schedule")
+    const [tabT, setTabT] = useState("Clients")
 
 
-
+    console.log("APPOINTMENTS", Appointments)
     const notify = () => {
         toast.error(' Trainer Added!', {
             position: "top-right",
@@ -67,7 +71,7 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients
                 <div className={styles.dashboard_main_right_container}>
 
                     <div className={styles.topbar_container}>
-                        <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} />
+                        <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} role={role} />
                     </div>
                     <div className={styles.bottom_container}>
                         {tabG === "Trainers" && <TrainersTab trainers={trainers} notify={notify} AccountInfo={AccountInfo} />}
@@ -82,13 +86,13 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients
                 <div className={styles.dashboard_main_right_container}>
 
                     <div className={styles.topbar_container}>
-                        <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} />
+                        <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} role={role} />
                     </div>
 
                     <div className={styles.bottom_container}>
-                        {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} TodaysClients={TodaysClients} />}
+                        {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} TodaysClients={TodaysClients} Appointments={Appointments} />}
                         {tabT === "Subscriptions" && <SubscriptionsTab />}
-                        {tabT === "Clients" && <ClientsTab AccountInfo={AccountInfo} />}
+                        {tabT === "Clients" && <DynamicComponentWithNoSSR AccountInfo={AccountInfo} TodaysClients={TodaysClients} />}
 
 
                     </div>
@@ -119,7 +123,8 @@ export const getServerSideProps = requireAuthentication(async context => {
             trainers: res.data.trainers || res.data.clients,
             role: res.data.role,
             AccountInfo: res.data.AccountInfo,
-            TodaysClients: res.data.TodaysClients
+            TodaysClients: res.data.TodaysClients || [],
+            Appointments: res.data.Appointments || []
         },
     }
 })

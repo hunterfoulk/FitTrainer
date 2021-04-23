@@ -14,12 +14,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import Sidebar from "../dashboard/sidebar"
 import TrainerSidebar from "../dashboard/trainerSidebar"
 import MenuIcon from '@material-ui/icons/Menu';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import Dropdown from "./trainer/Dropdown"
+
 interface Props {
     AccountInfo: any
     setTabG: any
     tabG: any
     setTabT: any
     tabT: any
+    role: any
 
 }
 const useStyles = makeStyles({
@@ -35,15 +39,15 @@ const useStyles = makeStyles({
     }
 });
 
-const Topbar: React.FC<Props> = ({ AccountInfo, setTabG, tabG, setTabT, tabT }) => {
-    // const [open, setOpen] = useState(false)
+const Topbar: React.FC<Props> = ({ AccountInfo, setTabG, tabG, setTabT, tabT, role }) => {
     const classes = useStyles();
-    const [state, setState] = React.useState({
+    const [state, setState] = React.useState({ left: false, });
+    const [open, setOpen] = useState(false)
+    const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-        left: false,
-
-    });
-
+    const handleMenu = () => {
+        setOpen(true)
+    }
 
     const toggleDrawer = (side, open) => event => {
         if (
@@ -79,8 +83,16 @@ const Topbar: React.FC<Props> = ({ AccountInfo, setTabG, tabG, setTabT, tabT }) 
                     <FaRegBell />
                 </div>
                 <div className={styles.topbar_profile_container}>
+                    {role === "Trainer" ? <>
 
-                    <span>A</span> <span>{AccountInfo.GymName}</span>
+                        <img src={AccountInfo.Avatar} />
+
+
+                        <span ref={anchorRef} onClick={() => setOpen(true)}>{AccountInfo.FirstName} {AccountInfo.LastName}</span>
+
+                        <MdKeyboardArrowDown className={styles.arrow} />
+                    </> : <span>{AccountInfo.GymName}</span>}
+                    <Dropdown open={open} setOpen={setOpen} anchorRef={anchorRef} />
                 </div>
                 <Drawer
                     className={classes.paper}
@@ -89,8 +101,7 @@ const Topbar: React.FC<Props> = ({ AccountInfo, setTabG, tabG, setTabT, tabT }) 
                     onClose={toggleDrawer("left", false)}
                 >
                     {sideList("left")}
-                    {/* <Sidebar setTabG={setTabG} tabG={tabG} />
-                    sideList */}
+
                 </Drawer>
             </div>
         </>

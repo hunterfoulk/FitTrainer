@@ -60,7 +60,14 @@ export const statements = {
 		RefreshValidation: (
 		): SQLStatement => SQL`
 		
-		`
+		`,
+		Appointments: (
+			TrainerId: number,
+		): SQLStatement => SQL`
+			SELECT *
+			FROM appointments
+			WHERE TrainerId = ${TrainerId}
+		`,
 	},
 	Post: {
 		Register: (
@@ -102,6 +109,25 @@ export const statements = {
 			(Email, FirstName, LastName, JoinDate, Birthday, Mobile, Goal, GymId, TrainerId, Avatar)
 			VALUES (${email}, ${firstName}, ${lastName}, ${birthday}, ${JoinDate}, ${mobile},${goal},${GymId},${trainerId},${avatarUrl})
 		`,
+		CreateAppointment: (
+			title: string,
+			startDate: string,
+			endDate: string,
+			ClientId: number,
+			TrainerId: number,
+		): SQLStatement => SQL`
+			INSERT INTO appointments
+			(title, startDate, endDate, ClientId,TrainerId)
+			VALUES (${title}, ${startDate}, ${endDate}, ${ClientId},${TrainerId})
+		`,
+		getClientName: (
+			ClientId: number,
+		): SQLStatement => SQL`
+			SELECT FirstName, LastName, ClientId 
+			FROM clients
+			WHERE ClientId = ${ClientId}
+		`,
+
 	},
 
 	Update: {

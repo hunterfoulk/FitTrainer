@@ -12,6 +12,7 @@
     display: flex;
     width: 100%;
     max-width: 1400px;
+    // max-width: 100%;
     // background-color: red;
     padding: 10px 0px;
     border-bottom: 1px solid rgb(233, 233, 233);
@@ -19,6 +20,7 @@
       min-width: 75px;
       height: 30px;
       //   margin-top: 15px;
+      padding: 0px 5px;
       cursor: pointer;
       background-color: #ee2b45;
       border: 1px solid #ee2b45;

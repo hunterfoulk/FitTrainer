@@ -5,9 +5,10 @@ import RegisterClientTab from './RegisterClientTab'
 
 interface Props {
     AccountInfo: any
+    TodaysClients: any
 }
 
-const ClientsTab: React.FC<Props> = ({ AccountInfo }) => {
+const ClientsTab: React.FC<Props> = ({ AccountInfo, TodaysClients }) => {
     const [tab, setTab] = useState<string>("Back")
 
 
@@ -26,7 +27,7 @@ const ClientsTab: React.FC<Props> = ({ AccountInfo }) => {
                     </div>
                 </div>
                 <div className={styles.clients_tab_content_container}>
-                    {tab === "Home" && <ClientsListTab />}
+                    {tab === "Home" && <ClientsListTab TodaysClients={TodaysClients} />}
                     {tab === "Back" && <RegisterClientTab AccountInfo={AccountInfo} />}
                 </div>
             </div>

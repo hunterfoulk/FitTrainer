@@ -44,9 +44,7 @@ export const Dashboard = async (req: Request, res: Response,) => {
 	const TrainerRole = trainer.Role
 	const GymId = trainer.GymId
 	const GymRole = trainer.Role
-	console.log("TRAINER ID FROM LOCALS", TrainerId)
-	console.log("GYM ID FROM LOCALS", GymId)
-	console.log("trainer route fired")
+
 
 	if (trainer.Role === "Trainer") {
 		console.log("TRAINER IN IF", trainer)
@@ -54,8 +52,9 @@ export const Dashboard = async (req: Request, res: Response,) => {
 		let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 		let clients = await Query(Statements.Get.AllTrainersClients(TrainerId))
 		let TodaysClients = await Query(Statements.Get.TrainersTodaysClients())
+		let Appointments = await Query(Statements.Get.Appointments(TrainerId))
 		console.log("res", clients)
-		resolver(res, 200, 'Clients Returned', { clients: clients, AccountInfo: AccountInfo[0], role: TrainerRole, TodaysClients: TodaysClients })
+		resolver(res, 200, 'Clients Returned', { clients: clients, AccountInfo: AccountInfo[0], role: TrainerRole, TodaysClients: TodaysClients, Appointments: Appointments })
 
 	} else {
 		console.log("Gyms IN IF", trainer)
@@ -284,7 +283,6 @@ export const TrainerCreateClient = async (req: MulterRequest, res: Response): Pr
 			{ blobHTTPHeaders: { blobContentType: "image/jpeg" } });
 		let avatarUrl = blockBlobClient.url
 		console.log("AVATAR URL:", avatarUrl)
-
 		await Query(Statements.Post.CreateClient(email, firstName, lastName, JoinDate, birthday, mobile, goal, GymId, TrainerId, avatarUrl));
 
 		resolver(res, 200, 'Client Created Succesfully!', { Results: [] })
@@ -299,5 +297,30 @@ export const TrainerCreateClient = async (req: MulterRequest, res: Response): Pr
 }
 
 
+
+export const CreateAppointment = async (req: MulterRequest, res: Response): Promise<void> => {
+	try {
+		const { payload } = req.body
+		console.log("BODY", payload)
+
+		const clientName = await Query(Statements.Post.getClientName(payload.ClientId));
+
+		const firstName = clientName[0].FirstName.charAt(0).toUpperCase() + clientName[0].FirstName.slice(1);
+		const lastName = clientName[0].LastName.charAt(0).toUpperCase() + clientName[0].LastName.slice(1);
+		const title = firstName.concat(" ", lastName)
+		// const startDate = new Date(payload.startDate).toISOString().slice(0, 19).replace('T', ' ')
+		// const endDate = new Date(payload.endDate).toISOString().slice(0, 19).replace('T', ' ')
+		// console.log("date", joinDate)
+		const newAppointment = await Query(Statements.Post.CreateAppointment(title, payload.startDate, payload.endDate, payload.ClientId, payload.TrainerId));
+		console.log("NEW APPOINTMENT", newAppointment)
+
+	} catch (err) {
+		console.log(err)
+	}
+
+
+
+
+}
 
 

@@ -24,6 +24,8 @@ export default function userRouter(router: Router): void {
 
 	router.route('/register').post(trainerController.Register)
 
+	router.route('/createAppointment').post(trainerController.CreateAppointment)
+
 	router.route('/createNewClient').post(trainerController.TrainerCreateClient)
 
 
