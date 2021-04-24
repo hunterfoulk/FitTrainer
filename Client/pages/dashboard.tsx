@@ -1,13 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 import styles from "../styles/dashboard/Dashboard.module.scss"
 import Sidebar from "../components/dashboard/sidebar"
 import Topbar from "../components/dashboard/topbar"
 import { NextPageContext } from "next"
 import { useDispatch, useSelector } from "react-redux"
-import { authTrue, authFalse } from "../redux/authSlice"
 import { NextPage } from 'next'
-// import { Auth } from "./auth/auth"
-import withAuth from "./auth/auth"
 import requireAuthentication from "./auth/authtwo"
 import fetch from "isomorphic-unfetch"
 import TrainerSidebar from '../components/dashboard/trainerSidebar'
@@ -16,9 +13,7 @@ import TrainerScheduleTab from "../components/dashboard/trainer/TrainerScheduleT
 import SubscriptionsTab from '../components/dashboard/subscriptionsTab'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Image from "next/image"
-import ClientsTab from '../components/dashboard/trainer/ClientsTab'
-// import Drawer from "../components/dashboard/drawer"
+
 import dynamic from 'next/dynamic'
 interface Props {
     trainers: any,
@@ -26,20 +21,48 @@ interface Props {
     AccountInfo: any
     TodaysClients: any
     Appointments: any
+
 }
 const DynamicComponentWithNoSSR = dynamic(
     () => import('../components/dashboard/trainer/ClientsTab'),
     { ssr: false }
 )
 
+
+const reducer = (state, action) => {
+    console.log("ACTION", action.appointment)
+    console.log("UPDATE", action.type)
+    console.log("STATE", state)
+    switch (action.type) {
+
+        case "UPDATE":
+            return {
+                ...state,
+                appointments: [...state.appointments, action.appointment]
+            };
+        case "FILTER_APPOINTMENTS":
+            return {
+                ...state,
+                appointments: state.appointments.filter((item) => item.id !== action.id),
+            };
+
+
+        default:
+            return state;
+    }
+};
+
+
 const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients, Appointments }) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const { auth } = useSelector((state: any) => state.auth);
     const [tabG, setTabG] = useState("Trainers")
     const [tabT, setTabT] = useState("Clients")
+    const initialState = { appointments: Appointments };
+    const [state, dispatch] = useReducer(reducer, initialState);
 
 
-    console.log("APPOINTMENTS", Appointments)
+
     const notify = () => {
         toast.error(' Trainer Added!', {
             position: "top-right",
@@ -90,7 +113,7 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients
                     </div>
 
                     <div className={styles.bottom_container}>
-                        {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} TodaysClients={TodaysClients} Appointments={Appointments} />}
+                        {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} TodaysClients={TodaysClients} dispatch={dispatch} state={state} />}
                         {tabT === "Subscriptions" && <SubscriptionsTab />}
                         {tabT === "Clients" && <DynamicComponentWithNoSSR AccountInfo={AccountInfo} TodaysClients={TodaysClients} />}
 

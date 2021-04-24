@@ -21,56 +21,100 @@ import { useDisclosure } from "@chakra-ui/react"
 import { DateTimePicker, KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import moment from "moment";
 import MomentUtils from "@date-io/moment";
+import {
+    Select
+} from "@chakra-ui/react"
 
 
-export default function ClientModal({ onClose, isOpen, onOpen }) {
-    // const { isOpen, onOpen, onClose } = useDisclosure()
-    const initialRef = React.useRef()
-    const [value, onChange] = useState(new Date());
 
-    const [selectedDate, handleDateChange] = useState(new Date("2019-01-01T18:54"));
-    const [locale, setLocale] = useState("en");
+export default function ClientModal({ onClose, isOpen, onOpen, TodaysClients, AccountInfo, dispatch, state }) {
     moment.locale("en");
+    const [selectedDateStart, handleDateChangeStart] = useState(new Date())
+    const [selectedDateEnd, handleDateChangeEnd] = useState(new Date("yyyy-MM-ddThh:mm"));
+    const [locale, setLocale] = useState("en");
+    const [title, setTitle] = useState(0)
+
+
+
+    const CreateAppointment = async (e) => {
+        e.preventDefault()
+        // if (title === undefined) {
+        //     console.log("NO TITLE VALUE")
+        //     return;
+        // }
+        let payload = {
+            ClientId: title,
+            TrainerId: AccountInfo.TrainerId,
+            startDate: selectedDateStart,
+            endDate: selectedDateEnd,
+        }
+
+        const res = await fetch('http://localhost:9000/createAppointment', {
+            method: 'POST',
+            'credentials': 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ payload: payload }),
+        })
+        console.log("PAYLOAD", payload)
+        console.log(res)
+        const { data, status } = await res.json()
+
+        // data = {
+        //     TrainerId: 1,
+        //     id: 14,
+        //     ClientId: 10,
+        //     title: 'Hunter Foulk',
+        //     startDate: '2021-04-24T08:00',
+        //     endDate: '2021-04-24T09:00'
+        // }
+
+        console.log("DATA", data)
+
+        onClose()
+        dispatch({ type: "UPDATE", appointment: data });
+
+    }
+
 
     return (
         <>
 
-
-            <Modal
-                initialFocusRef={initialRef}
-                isOpen={isOpen}
-                onClose={onClose}
-            >
+            <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Create Client Appointment</ModalHeader>
+                    <ModalHeader>Create Appointment</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody pb={6}>
-                        <FormControl>
-                            <FormLabel>First name</FormLabel>
-                            <Input ref={initialRef} placeholder="First name" />
-                        </FormControl>
+                    <ModalBody>
+                        <>
+                            <Select placeholder="Clients" onChange={(e) => setTitle(e.target.value)}>
+                                {TodaysClients.map((client) => (
 
-                        <FormControl mt={4}>
-                            <FormLabel>Last name</FormLabel>
-                            <Input placeholder="Last name" />
-                        </FormControl>
-                        <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={locale}>
-                            <DateTimePicker
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                label="Start Date & Time"
-                                showTodayButton
-                                style={{ zIndex: "999" }}
-                            />
-                        </MuiPickersUtilsProvider>
+                                    <option style={{ padding: "20px" }} value={client.ClientId}>{client.FirstName} {client.LastName}</option>
+                                ))}
+
+                            </Select>
+
+                            <div style={{ display: "flex", justifyContent: "space-between", maxWidth: "100%", flexDirection: "column", height: "150px", marginTop: "30px", alignItems: "center" }}>
+                                <div style={{ width: "100%" }}>
+                                    <label>Start Date & Time</label>
+                                    <input type="datetime-local" id="birthdaytime" name="birthdaytime" style={{ width: "100%" }} value={selectedDateStart}
+                                        onChange={(e) => handleDateChangeStart(e.target.value)} />
+                                </div>
+                                <div style={{ width: "100%" }}>
+                                    <label>Start Date & Time</label>
+                                    <input type="datetime-local" id="birthdaytime" name="birthdaytime" style={{ width: "100%" }} value={selectedDateEnd}
+                                        onChange={(e) => handleDateChangeEnd(e.target.value)} />
+                                </div>
+
+                            </div>
+
+                        </>
                     </ModalBody>
-
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3}>
-                            Save
-            </Button>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose} style={{ backgroundColor: "rgb(238, 43, 69)", color: "white" }} onClick={(e) => CreateAppointment(e)}>Save</Button>
+                        <Button onClick={onClose} style={{ marginLeft: "10px" }}>Close</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
