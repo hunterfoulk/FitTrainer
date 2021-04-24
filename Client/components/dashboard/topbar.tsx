@@ -88,9 +88,9 @@ const Topbar: React.FC<Props> = ({ AccountInfo, setTabG, tabG, setTabT, tabT, ro
                         <img src={AccountInfo.Avatar} />
 
 
-                        <span ref={anchorRef} onClick={() => setOpen(true)}>{AccountInfo.FirstName} {AccountInfo.LastName}</span>
+                        <span ref={anchorRef} onClick={() => setOpen(true)}>  <MdKeyboardArrowDown className={styles.arrow} onClick={() => setOpen(true)} /></span>
 
-                        <MdKeyboardArrowDown className={styles.arrow} />
+
                     </> : <span>{AccountInfo.GymName}</span>}
                     <Dropdown open={open} setOpen={setOpen} anchorRef={anchorRef} />
                 </div>

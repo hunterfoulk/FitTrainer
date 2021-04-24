@@ -28,6 +28,9 @@ export default function userRouter(router: Router): void {
 
 	router.route('/createNewClient').post(trainerController.TrainerCreateClient)
 
+	router.route('/deleteAppointment').post(trainerController.DeleteNewAppointment)
+
+
 
 	// router.route('/user-auth')
 	// 	.get(trainerController.ValidateToken)

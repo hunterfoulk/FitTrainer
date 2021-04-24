@@ -2,15 +2,27 @@ import React, { useState } from 'react'
 import styles from "../../../styles/dashboard/ClientsTab.module.scss"
 import ClientsListTab from './ClientsListTab'
 import RegisterClientTab from './RegisterClientTab'
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import ArrowBack from '@material-ui/icons/ArrowBack';
+import Add from '@material-ui/icons/Add';
 interface Props {
     AccountInfo: any
     TodaysClients: any
 }
 
-const ClientsTab: React.FC<Props> = ({ AccountInfo, TodaysClients }) => {
-    const [tab, setTab] = useState<string>("Back")
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        button: {
+            margin: theme.spacing(1),
+        },
+    }),
+);
 
+const ClientsTab: React.FC<Props> = ({ AccountInfo, TodaysClients }) => {
+    const [tab, setTab] = useState<string>("Home")
+    const classes = useStyles();
 
     return (
         <>
@@ -20,8 +32,23 @@ const ClientsTab: React.FC<Props> = ({ AccountInfo, TodaysClients }) => {
                         <span>Clients</span>
                     </div>
                     <div>
-                        {tab === "Home" && <button onClick={() => setTab("Back")}>Add Client</button>}
-                        {tab === "Back" && <button onClick={() => setTab("Home")}>Back</button>}
+                        {tab === "Home" && <Button onClick={() => setTab("Back")}
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            startIcon={<Add />}
+                        >
+                            Add Client
+                         </Button>}
+                        {tab === "Back" && <> <Button onClick={() => setTab("Home")}
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            startIcon={<ArrowBack />}
+                        >
+                            Back
+                         </Button> </>
+                        }
 
 
                     </div>

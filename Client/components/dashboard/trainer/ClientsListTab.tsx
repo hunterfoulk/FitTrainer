@@ -30,11 +30,11 @@ const ClientsListTab: React.FC<Props> = ({ TodaysClients }) => {
                 {TodaysClients.map((client: any) => {
                     let date = moment("20111031", "YYYYMMDD").fromNow(client.Birthday);
                     // let joinDate = moment().startOf(client.JoinDate);
-                    // let myDate = new Date(client.JoinDate);
+                    let myDate = new Date(client.JoinDate);
                     // let noTime = new Date(myDate.getFullYear(), myDate.getMonth());
                     // console.log(noTime)
-                    let d = client.JoinDate.split('')[0];
-                    console.log("date", d);
+                    let newdDate = myDate.toISOString().split('T')[0]
+                    console.log("date", newdDate);
                     return (
                         <div className={styles.list_item}>
                             <div className={styles.name_container}>
@@ -42,7 +42,7 @@ const ClientsListTab: React.FC<Props> = ({ TodaysClients }) => {
                                     <img src={client.Avatar} />
                                 </div>
                                 <div className={styles.text_container}>
-                                    <span>{client.FirstName} {client.LastName}</span>
+                                    <span>{client.FirstName.charAt(0).toUpperCase() + client.FirstName.slice(1)} {client.LastName.charAt(0).toUpperCase() + client.LastName.slice(1)}</span>
                                     <span>{client.Mobile}</span>
                                 </div>
 
@@ -54,7 +54,7 @@ const ClientsListTab: React.FC<Props> = ({ TodaysClients }) => {
                                 <span>{date} old</span>
                             </div>
                             <div>
-                                <span>{d}</span>
+                                <span>{newdDate}</span>
                             </div>
                         </div>
                     )

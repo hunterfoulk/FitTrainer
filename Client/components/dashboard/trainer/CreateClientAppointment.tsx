@@ -27,8 +27,8 @@ interface Appointment {
 
 const CreateClientAppointment: React.FC<Props> = ({ TodaysClients, AccountInfo }) => {
     const [clearedDate, handleClearedDateChange] = useState(null);
-    const [selectedDateStart, handleDateChangeStart] = useState<any>(new Date("2019-01-01T18:54"));
-    const [selectedDateEnd, handleDateChangeEnd] = useState<any>(new Date("2019-01-01T18:54"));
+    const [selectedDateStart, handleDateChangeStart] = useState<any>(new Date());
+    const [selectedDateEnd, handleDateChangeEnd] = useState<any>(new Date());
     const [locale, setLocale] = useState("en");
     const [title, setTitle] = useState(0)
 

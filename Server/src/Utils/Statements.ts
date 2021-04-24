@@ -68,6 +68,13 @@ export const statements = {
 			FROM appointments
 			WHERE TrainerId = ${TrainerId}
 		`,
+		GetNewAppointment: (
+			id: number,
+		): SQLStatement => SQL`
+			SELECT *
+			FROM appointments
+			WHERE id = ${id}
+		`,
 	},
 	Post: {
 		Register: (
@@ -161,7 +168,15 @@ export const statements = {
 		`,
 
 	},
-	Delete: {},
+	Delete: {
+		DeleteAppointment: (
+			id: number
+		): SQLStatement => SQL`
+			DELETE FROM
+			appointments WHERE id = ${id}
+		`,
+
+	},
 }
 
 export default async function Query(

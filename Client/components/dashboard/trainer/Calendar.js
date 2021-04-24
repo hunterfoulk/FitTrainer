@@ -11,9 +11,10 @@ import {
   TodayButton,
   AppointmentTooltip,
   ConfirmationDialog,
-  ViewSwitcher
+  ViewSwitcher,
+  Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
-
+import { red } from '@material-ui/core/colors';
 
 // let appointments = [
 //   {
@@ -36,30 +37,64 @@ import {
 //     location: 'Room 2',
 //   }
 // ]
+const resources = [{
+
+  instances: [
+    { color: red },
+  ],
+}];
+
+
+const Appointment = ({
+  children, style, ...restProps
+}) => (
+  <Appointments.Appointment
+    {...restProps}
+    style={{
+      ...style,
+      backgroundColor: '#ee2b45',
+      borderRadius: '8px',
+    }}
+  >
+    {children}
+  </Appointments.Appointment>
+);
 
 export default class Demo extends React.PureComponent {
   constructor(props) {
     super(props);
-    console.log("PROPS", props.Appointments)
+    console.log("PROPS", props.appointments)
     this.state = {
-      data: props.Appointments,
-      currentDate: '2018-06-27',
+      data: props.state.appointments,
+      currentDate: '2021-04-23',
     };
-  
+
     this.commitChanges = this.commitChanges.bind(this);
     this.currentDateChange = (currentDate) => { this.setState({ currentDate }); };
 
 
   }
- 
 
 
-  commitChanges({ added, changed, deleted }) {
+
+  async commitChanges({ added, changed, deleted }) {
     console.log("DELETED", deleted, changed, added)
+    console.log("PROPS:", this.props.state.appointments)
 
-    const newData = this.state.data.filter(appointment => appointment.id !== deleted);
+    console.log("NEW DATA:", this.props.state.appointments)
 
-    this.setState({ data: newData });
+    this.props.dispatch({ type: "FILTER_APPOINTMENTS", id: deleted });
+
+    const res = await fetch('http://localhost:9000/deleteAppointment', {
+      method: 'POST',
+      'credentials': 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: deleted }),
+    })
+
+
   }
 
 
@@ -69,7 +104,7 @@ export default class Demo extends React.PureComponent {
     return (
       <Paper style={{ height: "100%" }}>
         <Scheduler
-          data={data}
+          data={this.props.state.appointments}
           height="auto"
         >
 
@@ -95,9 +130,12 @@ export default class Demo extends React.PureComponent {
           <ViewSwitcher />
           <DateNavigator />
           <TodayButton />
-          <Appointments />
+          <Appointments appointmentComponent={Appointment} />
+          <Resources
+            data={resources}
+          />
           <AppointmentTooltip
-           
+
             showCloseButton
             showDeleteButton
           />

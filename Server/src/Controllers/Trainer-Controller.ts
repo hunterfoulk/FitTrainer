@@ -308,11 +308,13 @@ export const CreateAppointment = async (req: MulterRequest, res: Response): Prom
 		const firstName = clientName[0].FirstName.charAt(0).toUpperCase() + clientName[0].FirstName.slice(1);
 		const lastName = clientName[0].LastName.charAt(0).toUpperCase() + clientName[0].LastName.slice(1);
 		const title = firstName.concat(" ", lastName)
-		// const startDate = new Date(payload.startDate).toISOString().slice(0, 19).replace('T', ' ')
-		// const endDate = new Date(payload.endDate).toISOString().slice(0, 19).replace('T', ' ')
-		// console.log("date", joinDate)
+
 		const newAppointment = await Query(Statements.Post.CreateAppointment(title, payload.startDate, payload.endDate, payload.ClientId, payload.TrainerId));
-		console.log("NEW APPOINTMENT", newAppointment)
+		const newlyCreatedAppointment = await Query(Statements.Get.GetNewAppointment(newAppointment.insertId));
+		const appointmentData = newlyCreatedAppointment[0]
+
+		console.log("NEW APPOINTMENT", appointmentData)
+		resolver(res, 200, 'Sending New Appointment Back.', appointmentData)
 
 	} catch (err) {
 		console.log(err)
@@ -323,4 +325,21 @@ export const CreateAppointment = async (req: MulterRequest, res: Response): Prom
 
 }
 
+
+
+export const DeleteNewAppointment = async (req: MulterRequest, res: Response): Promise<void> => {
+	try {
+		const { id } = req.body
+		await Query(Statements.Delete.DeleteAppointment(id));
+
+		resolver(res, 200, 'Sending New Appointment Back.')
+
+	} catch (err) {
+		console.log(err)
+	}
+
+
+
+
+}
 

@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import Image from 'next/image'
 import axios from "axios";
-
+import SaveIcon from '@material-ui/icons/Save';
 interface Trainer {
     TrainerId?: number
     GymId?: number
@@ -41,8 +41,11 @@ const useStyles = makeStyles((theme: Theme) =>
         button: {
             margin: theme.spacing(1),
             height: 40,
-            fontsize: "15px"
+            fontsize: "15px",
+            color: "white"
+
         },
+
         input: {
             display: 'none',
         },
@@ -50,7 +53,8 @@ const useStyles = makeStyles((theme: Theme) =>
             MuiButton: {
                 color: "white"
             },
-        }
+        },
+
     }),
 );
 
@@ -120,11 +124,12 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
     useEffect(() => {
         console.log("AVATAR", form.Avatar)
     }, [form.Avatar])
+
     return (
         <>
             <div className={styles.register_container}>
                 <div className={styles.register_container_header}>
-                    <span>Client Details</span>
+                    <span>Add Client</span>
 
                 </div>
                 <form onSubmit={(e) => CreateClient(e)}>
@@ -161,7 +166,7 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
 
                                 {/* <TextField id="standard-basic" label="First Name" /> */}
                                 <span>First Name</span>
-                                <TextField id="standard-basic" value={form.FirstName}
+                                <input id="standard-basic" value={form.FirstName}
                                     onChange={(e) => {
                                         setForm({ ...form, FirstName: e.target.value })
                                     }} />
@@ -174,7 +179,7 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
                                 {/* <TextField id="standard-basic" label="Last Name" /> */}
                                 <span>Last Name</span>
 
-                                <TextField id="standard-basic" value={form.LastName}
+                                <input id="standard-basic" value={form.LastName}
                                     onChange={(e) => {
                                         setForm({ ...form, LastName: e.target.value })
                                     }} />
@@ -185,7 +190,7 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
                                 {/* <span>Email</span> */}
                                 {/* <TextField id="standard-basic" label="Email" /> */}
                                 <span>Email</span>
-                                <TextField id="standard-basic" value={form.Email}
+                                <input id="standard-basic" value={form.Email}
                                     onChange={(e) => {
                                         setForm({ ...form, Email: e.target.value })
                                     }} />
@@ -195,7 +200,7 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
                                 {/* <span>Birthday</span> */}
                                 <span>Mobile</span>
 
-                                <TextField id="standard-basic" value={form.Mobile}
+                                <input id="standard-basic" value={form.Mobile}
                                     onChange={(e) => {
                                         setForm({ ...form, Mobile: e.target.value })
                                     }} />
@@ -205,7 +210,7 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
 
                                 <span>Date Of Birth</span>
 
-                                <TextField
+                                {/* <TextField
                                     id="date"
                                     type="date"
                                     className={classes.textField}
@@ -216,18 +221,19 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
                                     onChange={(e) => {
                                         setForm({ ...form, Birthday: e.target.value })
                                     }}
-                                />
-
+                                /> */}
+                                <input type="date" id="start" name="trip-start"
+                                    value="2018-07-22"
+                                    min="2018-01-01" max="2018-12-31" onChange={(e) => {
+                                        setForm({ ...form, Birthday: e.target.value })
+                                    }} />
                             </div>
                             <div>
                                 <span>Goal Workouts</span>
 
-                                <TextField
+                                <input
                                     id="standard-number"
                                     type="number"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
                                     value={form.Goal}
                                     onChange={(e) => {
                                         setForm({ ...form, Goal: e.target.value })
@@ -237,10 +243,17 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
                             </div>
                             <div style={{ alignItems: "center" }}>
 
-                                <button onClick={(e: any) => CreateClient(e)}>
 
+                                <Button onClick={(e: any) => CreateClient(e)}
+                                    variant="contained"
+                                    color="secondary"
+                                    style={{ color: "white" }}
+                                    startIcon={<SaveIcon />}
+                                >
                                     Save
-                                </button>
+                                     </Button>
+
+
 
                             </div>
                         </div>
