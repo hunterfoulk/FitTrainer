@@ -13,7 +13,7 @@ import TrainerScheduleTab from "../components/dashboard/trainer/TrainerScheduleT
 import SubscriptionsTab from '../components/dashboard/subscriptionsTab'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import ProgramsTab from "../components/dashboard/trainer/ProgramsTab"
 import dynamic from 'next/dynamic'
 interface Props {
     trainers: any,
@@ -45,6 +45,11 @@ const reducer = (state, action) => {
                 ...state,
                 appointments: state.appointments.filter((item) => item.id !== action.id),
             };
+        case "CHANGED":
+            return {
+                ...state,
+                appointments: state.appointments.map(appointment => (action.changed[appointment.id] ? { ...appointment, ...action.changed[appointment.id] } : appointment))
+            }
 
 
         default:
@@ -116,6 +121,7 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients
                         {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} TodaysClients={TodaysClients} dispatch={dispatch} state={state} />}
                         {tabT === "Subscriptions" && <SubscriptionsTab />}
                         {tabT === "Clients" && <DynamicComponentWithNoSSR AccountInfo={AccountInfo} TodaysClients={TodaysClients} />}
+                        {tabT === "Programs" && <ProgramsTab AccountInfo={AccountInfo} />}
 
 
                     </div>

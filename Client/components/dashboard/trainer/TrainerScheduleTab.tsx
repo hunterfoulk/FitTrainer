@@ -53,9 +53,7 @@ const TrainerScheduleTab: React.FC<Props> = ({ trainers, AccountInfo, TodaysClie
     const { isOpen, onOpen, onClose } = useDisclosure()
 
 
-    useEffect(() => {
-        console.log("refired")
-    }, [state])
+
 
     console.log("VALUE:", value)
     return (
