@@ -269,21 +269,21 @@ export const TrainerSignup = (req: Request, res: Response): void => {
 			resolver(res, 503, 'Database Error')
 		})
 }
+// let accountName = "fittrainer"
+// const sharedKeyCredential = new StorageSharedKeyCredential(
+// 	'fittrainer',
+// 	'AYQimv122pTLcHo9bjLojyGwDRKFaMgrf+qwtZw2VqEh+3AtamJUH2/VEppKar4yzBLB2K+z41PZo+ckkPUrGw==');
+// const pipeline = newPipeline(sharedKeyCredential);
 
-let accountName = "fittrainer"
-const sharedKeyCredential = new StorageSharedKeyCredential(
-	'fittrainer',
-	'AYQimv122pTLcHo9bjLojyGwDRKFaMgrf+qwtZw2VqEh+3AtamJUH2/VEppKar4yzBLB2K+z41PZo+ckkPUrGw==');
-const pipeline = newPipeline(sharedKeyCredential);
+// const blobServiceClient = new BlobServiceClient(
+// 	`https://${accountName}.blob.core.windows.net`,
+// 	pipeline
+// );
 
-const blobServiceClient = new BlobServiceClient(
-	`https://${accountName}.blob.core.windows.net`,
-	pipeline
-);
+// const container = 'fit-trainer';
+// const ONE_MEGABYTE = 1024 * 1024;
+// const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 
-const container = 'fit-trainer';
-const ONE_MEGABYTE = 1024 * 1024;
-const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 
 const getBlobName = originalName => {
 	// Use a random number to generate a unique file name, 
@@ -301,6 +301,20 @@ export const TrainerCreateClient = async (req: MulterRequest, res: Response): Pr
 	console.log(typeof gymId)
 	let GymId = Math.floor(gymId)
 	let TrainerId = Math.floor(trainerId)
+	let accountName = "fittrainer"
+	const sharedKeyCredential = new StorageSharedKeyCredential(
+		'fittrainer',
+		'AYQimv122pTLcHo9bjLojyGwDRKFaMgrf+qwtZw2VqEh+3AtamJUH2/VEppKar4yzBLB2K+z41PZo+ckkPUrGw==');
+	const pipeline = newPipeline(sharedKeyCredential);
+
+	const blobServiceClient = new BlobServiceClient(
+		`https://${accountName}.blob.core.windows.net`,
+		pipeline
+	);
+
+	const container = 'fit-trainer';
+	const ONE_MEGABYTE = 1024 * 1024;
+	const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 
 	const JoinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 

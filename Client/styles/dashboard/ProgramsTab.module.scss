@@ -171,8 +171,9 @@
       padding: 0px 10px;
       color: white;
       // background-color: rgb(187, 131, 131);
-
-      background-color: #ee2b45;
+      //  border: 1px solid #272727;
+      background-color: #272727;
+      // background-color: #ee2b45;
       div:nth-child(1) {
         //   flex-basis: 100%;
         display: flex;
@@ -255,15 +256,16 @@
           padding: 3px 6px;
           border-radius: 5px;
           border: 1px solid grey;
-          margin-right: 5px;
+          margin-right: 6px;
           margin-bottom: 5px;
           font-size: 13px;
           width: auto;
-          color: white;
-          border: 1px solid #ee2b45;
-          background-color: #ee2b45;
-
-          box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.164);
+          color: #272727;
+          // border: 1px solid #272727;
+          // background-color: #272727;
+          // background-color: #ee2b45;
+          border: 1px solid #272727;
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
 
           span:nth-child(2) {
             position: relative;

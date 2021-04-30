@@ -54,7 +54,7 @@ const Programs: React.FC<Props> = ({ AccountInfo, exerciseList, role, workouts }
 
                     <Modal onOpen={onOpen} onClose={onClose} isOpen={isOpen} exerciseList={exerciseList} AccountInfo={AccountInfo} />
                     <div className={styles.programs_tab_header}>
-                        <h1>Programs List</h1>
+                        <h1>Workouts</h1>
                         {tab === "Home" && <Button onClick={() => setTab("Back")}
                             variant="contained"
                             color="secondary"
