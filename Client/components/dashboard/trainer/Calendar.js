@@ -218,7 +218,7 @@ export default function Demo({ dispatch, state }) {
 
   console.log("workouttt", workout)
   return (
-    <Paper style={{ height: "100%" }}>
+    <Paper style={{ height: "100%", minWidth: "100%", maxHeight: "100%" }}>
       <Scheduler
         data={state.appointments}
         height="auto"
@@ -231,11 +231,11 @@ export default function Demo({ dispatch, state }) {
 
         <WeekView
           startDayHour={6}
-          endDayHour={21.5}
+          endDayHour={20}
         />
         <DayView
           startDayHour={6}
-          endDayHour={21.5} />
+          endDayHour={20} />
         <EditingState
           onCommitChanges={commitChanges}
         />

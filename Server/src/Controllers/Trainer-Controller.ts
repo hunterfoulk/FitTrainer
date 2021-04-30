@@ -69,6 +69,39 @@ export const Dashboard = async (req: Request, res: Response,) => {
 
 }
 
+// Programs //
+export const Programs = async (req: Request, res: Response,) => {
+	let exerciseList = await Query(Statements.Get.GetExercises())
+	const trainer = res.locals
+	const TrainerId = trainer.TrainerId
+	console.log("AccountInfo fireddd")
+	console.log("LOCALS VAR", trainer)
+
+
+	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
+	let workouts = await Query(Statements.Get.GetTrainersWorkouts(TrainerId))
+
+	resolver(res, 200, 'Exercise List Returned', { exerciseList: exerciseList, AccountInfo: AccountInfo[0], role: "Trainer", workouts: workouts })
+
+}
+
+
+// SCHEDULE //
+export const Schedule = async (req: Request, res: Response,) => {
+	const trainer = res.locals
+	const TrainerId = trainer.TrainerId
+	console.log("AccountInfo fireddd")
+	console.log("LOCALS VAR", trainer)
+
+
+	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
+	let TrainersClients = await Query(Statements.Get.AllTrainersClients(TrainerId))
+	let Appointments = await Query(Statements.Get.Appointments(TrainerId))
+
+	resolver(res, 200, 'Exercise List Returned', { AccountInfo: AccountInfo[0], role: "Trainer", Appointments: Appointments, TrainersClients: TrainersClients })
+
+}
+
 
 const TRAINER_SECRET = process.env.JWT_TRAINER_SECRET
 export const Logout = async (req, res) => {
@@ -338,8 +371,37 @@ export const DeleteNewAppointment = async (req: MulterRequest, res: Response): P
 		console.log(err)
 	}
 
+}
 
+export const AccountInfo = async (req: Request, res: Response): Promise<void> => {
+	const trainer = res.locals
+	const TrainerId = trainer.TrainerId
+	console.log("AccountInfo fireddd")
+	console.log("LOCALS VAR", trainer)
+
+
+	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
+
+	console.log(AccountInfo)
+	resolver(res, 200, 'Sending Account Info Back.', { AccountInfo: AccountInfo[0] })
 
 
 }
 
+
+
+export const CreateWorkout = async (req: Request, res: Response): Promise<void> => {
+	const { TrainerId, exercises, workout_name } = req.body
+	// console.log("DATA", JSON.stringify(exercises))
+	let arr = JSON.stringify(exercises)
+	console.log("ARR", arr)
+
+	const JoinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
+
+	await Query(Statements.Post.CreateNewWorkout(TrainerId, arr, workout_name, JoinDate))
+
+
+	console.log(AccountInfo)
+	resolver(res, 200, 'Workouit Created Succesfull.', {})
+
+}

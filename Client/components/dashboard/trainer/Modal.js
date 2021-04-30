@@ -25,9 +25,7 @@ import {
     Select
 } from "@chakra-ui/react"
 
-
-
-export default function ClientModal({ onClose, isOpen, onOpen, TodaysClients, AccountInfo, dispatch, state }) {
+export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, AccountInfo, dispatch, state }) {
     moment.locale("en");
     const [selectedDateStart, handleDateChangeStart] = useState(new Date())
     const [selectedDateEnd, handleDateChangeEnd] = useState(new Date("yyyy-MM-ddThh:mm"));
@@ -89,7 +87,7 @@ export default function ClientModal({ onClose, isOpen, onOpen, TodaysClients, Ac
                     <ModalBody>
                         <>
                             <Select placeholder="Clients" onChange={(e) => setTitle(e.target.value)}>
-                                {TodaysClients.map((client) => (
+                                {TrainersClients.map((client) => (
 
                                     <option style={{ padding: "20px" }} value={client.ClientId}>{client.FirstName} {client.LastName}</option>
                                 ))}

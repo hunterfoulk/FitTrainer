@@ -26,11 +26,10 @@ import { useDisclosure } from "@chakra-ui/react"
 import { Select } from "@chakra-ui/react"
 
 interface Props {
-    trainers: any
     AccountInfo: any
-    TodaysClients: any
     state: any
     dispatch: any
+    TrainersClients: any
 }
 const useStyles = makeStyles({
     list: {
@@ -46,7 +45,7 @@ const useStyles = makeStyles({
 });
 
 
-const TrainerScheduleTab: React.FC<Props> = ({ trainers, AccountInfo, TodaysClients, state, dispatch }) => {
+const TrainerScheduleTab: React.FC<Props> = ({ AccountInfo, TrainersClients, state, dispatch }) => {
     const [value, onChange] = useState(new Date());
     const [tab, setTab] = useState("Schedule")
     const classes = useStyles();
@@ -58,31 +57,25 @@ const TrainerScheduleTab: React.FC<Props> = ({ trainers, AccountInfo, TodaysClie
     console.log("VALUE:", value)
     return (
         <>
-            <div className={styles.bottom_container_left}>
-                <Modal onOpen={onOpen} isOpen={isOpen} onClose={onClose} TodaysClients={TodaysClients} AccountInfo={AccountInfo} dispatch={dispatch} state={state} />
-                <div className={styles.buttons}>
-                    <Fab onClick={onOpen} color="primary" aria-label="add" style={{ position: "absolute", bottom: "25px", right: "60px", zIndex: 1, backgroundColor: "#ee2b45" }}>
-                        <AddIcon />
-                    </Fab>
-                    {/* <div onClick={() => setTab("Add")} style={tab === "Add" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}> <FiUserPlus className={styles.banner_button_plus} /> Add Client </div> */}
 
-                </div>
-
-                <div className={styles.banner_container}>
-
-
-                </div>
-
-                <div className={styles.content_container}>
-
-                    <div style={{ width: "100%" }}>
-                        {tab === "Add" ? <CreateClientAppointment TodaysClients={TodaysClients} AccountInfo={AccountInfo} /> : <Calendar dispatch={dispatch} state={state} />
-
-                        }
-
-                    </div>
-                </div>
+            <div className={styles.buttons}>
+                <Fab onClick={onOpen} color="primary" aria-label="add" style={{ position: "absolute", bottom: "25px", right: "60px", zIndex: 1, backgroundColor: "#ee2b45" }}>
+                    <AddIcon />
+                </Fab>
+                {/* <div onClick={() => setTab("Add")} style={tab === "Add" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}> <FiUserPlus className={styles.banner_button_plus} /> Add Client </div> */}
             </div>
+
+            <Modal onOpen={onOpen} isOpen={isOpen} onClose={onClose} TrainersClients={TrainersClients} AccountInfo={AccountInfo} dispatch={dispatch} state={state} />
+
+
+
+            {tab === "Add" ? <CreateClientAppointment TrainersClients={TrainersClients} AccountInfo={AccountInfo} /> : <Calendar dispatch={dispatch} state={state} />
+
+            }
+
+
+
+
 
         </>
     )

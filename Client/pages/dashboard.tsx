@@ -9,18 +9,25 @@ import requireAuthentication from "./auth/authtwo"
 import fetch from "isomorphic-unfetch"
 import TrainerSidebar from '../components/dashboard/trainerSidebar'
 import TrainersTab from "../components/dashboard/trainersTab/trainersTab"
-import TrainerScheduleTab from "../components/dashboard/trainer/TrainerScheduleTab"
+// import TrainerScheduleTab from "../components/dashboard/trainer/TrainerScheduleTab"
 import SubscriptionsTab from '../components/dashboard/subscriptionsTab'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProgramsTab from "../components/dashboard/trainer/ProgramsTab"
+// import ProgramsTab from "../components/dashboard/trainer/ProgramsTab"
+import DashboardHome from "../components/dashboard/DashboardHome"
+import Layout from "../components/layout"
 import dynamic from 'next/dynamic'
+
 interface Props {
     trainers: any,
-    role: any
     AccountInfo: any
     TodaysClients: any
     Appointments: any
+    setTabG: any
+    tabG: any
+    setTabT: any
+    tabT: any
+    role: any
 
 }
 const DynamicComponentWithNoSSR = dynamic(
@@ -58,11 +65,8 @@ const reducer = (state, action) => {
 };
 
 
-const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients, Appointments }) => {
-    // const dispatch = useDispatch();
+const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, Appointments, setTabG, tabG, setTabT, tabT }) => {
     const { auth } = useSelector((state: any) => state.auth);
-    const [tabG, setTabG] = useState("Trainers")
-    const [tabT, setTabT] = useState("Clients")
     const initialState = { appointments: Appointments };
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -81,6 +85,9 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients
         });
     }
 
+    if (!AccountInfo) {
+        return <span>Loading...</span>
+    }
     return (
         <>
             {/* /////GYM//// */}
@@ -98,9 +105,9 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients
 
                 <div className={styles.dashboard_main_right_container}>
 
-                    <div className={styles.topbar_container}>
+                    {/* <div className={styles.topbar_container}>
                         <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} role={role} />
-                    </div>
+                    </div> */}
                     <div className={styles.bottom_container}>
                         {tabG === "Trainers" && <TrainersTab trainers={trainers} notify={notify} AccountInfo={AccountInfo} />}
                         {tabG === "Subscriptions" && <SubscriptionsTab />}
@@ -109,27 +116,36 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, TodaysClients
                 </div>
 
 
-            </div> : <div className={styles.dashboard_main}>
-                {/* /////TRAINER//// */}
-                <div className={styles.dashboard_main_right_container}>
+            </div> : <Layout AccountInfo={AccountInfo} role={role}>
+                <div className={styles.dashboard_main}>
+                    {/* /////TRAINER//// */}
 
-                    <div className={styles.topbar_container}>
+                    <div className={styles.dashboard_main_right_container}>
+
+                        {/* <div className={styles.topbar_container}>
                         <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} role={role} />
+                    </div> */}
+
+
+
+                        <div className={styles.bottom_container}>
+                            <DashboardHome />
+
+                            {/* {tabT === "Schedule" && <TrainerScheduleTab AccountInfo={AccountInfo} TodaysClients={TodaysClients} dispatch={dispatch} state={state} />} */}
+
+                            {/* {tabT === "Clients" && <DynamicComponentWithNoSSR AccountInfo={AccountInfo} TodaysClients={TodaysClients} />} */}
+
+                            {/* {tabT === "Subscriptions" && <SubscriptionsTab />} */}
+                            {/* {tabT === "Clients" && <DynamicComponentWithNoSSR AccountInfo={AccountInfo} TodaysClients={TodaysClients} />} */}
+                            {/* {tabT === "Programs" && <ProgramsTab AccountInfo={AccountInfo} />} */}
+
+
+                        </div>
+
                     </div>
 
-                    <div className={styles.bottom_container}>
-                        {tabT === "Schedule" && <TrainerScheduleTab trainers={trainers} AccountInfo={AccountInfo} TodaysClients={TodaysClients} dispatch={dispatch} state={state} />}
-                        {tabT === "Subscriptions" && <SubscriptionsTab />}
-                        {tabT === "Clients" && <DynamicComponentWithNoSSR AccountInfo={AccountInfo} TodaysClients={TodaysClients} />}
-                        {tabT === "Programs" && <ProgramsTab AccountInfo={AccountInfo} />}
+                </div> </Layout>}
 
-
-                    </div>
-
-                </div>
-
-
-            </div>}
 
         </>
     )

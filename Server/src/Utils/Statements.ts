@@ -75,6 +75,22 @@ export const statements = {
 			FROM appointments
 			WHERE id = ${id}
 		`,
+		GetTrainersPrograms: (
+			TrainerId: number,
+		): SQLStatement => SQL`
+			SELECT * FROM workouts
+			WHERE TrainerId = ${TrainerId}
+		`,
+		GetExercises: (
+		): SQLStatement => SQL`
+			SELECT * FROM exercises
+		`,
+		GetTrainersWorkouts: (
+			TrainerId: string
+		): SQLStatement => SQL`
+			SELECT * FROM workouts WHERE TrainerId = ${TrainerId}
+		`,
+
 	},
 	Post: {
 		Register: (
@@ -133,6 +149,17 @@ export const statements = {
 			SELECT FirstName, LastName, ClientId 
 			FROM clients
 			WHERE ClientId = ${ClientId}
+		`,
+		CreateNewWorkout: (
+			TrainerId: number,
+			arr: any,
+			workout_name: string,
+			JoinDate: string,
+
+		): SQLStatement => SQL`
+			INSERT INTO workouts
+			(workout_name,exercises,JoinDate,TrainerId)
+			VALUES (${workout_name}, ${arr}, ${JoinDate},${TrainerId})
 		`,
 
 	},

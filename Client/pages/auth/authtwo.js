@@ -6,6 +6,7 @@ import Router from 'next/router'
 export default function requireAuthentication(gssp) {
     return async (context) => {
         const { req, res } = context;
+        console.log("HEADERS", req?.headers)
         const token = req?.headers.cookie // Add logic to extract token from `req.headers.cookie`
         console.log("TOKEN FIRED", token)
         if (!token) {

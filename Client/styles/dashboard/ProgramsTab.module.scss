@@ -1,13 +1,50 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap");
+
 .list {
-  background-color: grey;
+  // background-color: grey;
+  margin-bottom: 5px;
+  // display: none;
+  box-shadow: 0 10px 10px rgba(24, 24, 24, 0.164);
+  border: 1px solid rgb(170, 170, 170);
   .list_item {
-    // background-color: red;
-    margin-bottom: 5px;
+    color: black;
+    border-bottom: 1px solid rgb(212, 212, 212);
+    padding: 5px 8px;
     cursor: pointer;
+    font-weight: 500;
   }
   .list_item:hover {
-    background-color: rgb(230, 230, 230);
+    box-shadow: 4px 4px 3px rgba(24, 24, 24, 0.062);
+  }
+}
+.exercise_list {
+  display: flex;
+  flex-wrap: wrap;
+  // background-color: red;
+
+  .exercise {
+    display: flex;
+    align-items: center;
+    padding: 3px 6px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    width: auto;
+    color: white;
+    border: 1px solid #ee2b45;
+    background-color: #ee2b45;
+
+    box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.164);
+
+    span:nth-child(2) {
+      position: relative;
+      top: 1.5px;
+      left: 3px;
+      padding: 0px 1px;
+      cursor: pointer;
+    }
   }
 }
 .programs_tab_main {
@@ -15,7 +52,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  // background-color: green;
+  // background-color: rgb(0, 119, 128);
   padding: 20px;
 
   .programs_tab_header {
@@ -134,30 +171,128 @@
       padding: 0px 10px;
       color: white;
       // background-color: rgb(187, 131, 131);
+
       background-color: #ee2b45;
       div:nth-child(1) {
         //   flex-basis: 100%;
         display: flex;
-        flex-grow: 1;
+        // flex-grow: 1;
         font-size: 19px;
         padding: 6px 6px;
+        width: 20%;
+
         //   background-color: rgb(0, 13, 128);
-        border-right: 2px solid grey;
+        border-right: 2px solid rgba(207, 206, 206, 0.445);
       }
       div:nth-child(2) {
         //   flex-basis: 100%;
         display: flex;
-        flex-grow: 4;
+        width: 60%;
+        // flex-grow: 4;
         font-size: 19px;
         padding: 6px 6px;
         //   background-color: green;
-        border-right: 2px solid grey;
+        border-right: 2px solid rgba(207, 206, 206, 0.445);
       }
       div:nth-child(3) {
         //   flex-basis: 100%;
         display: flex;
-        flex-grow: 1;
+        // flex-grow: 1;
+        width: 20%;
+
         font-size: 19px;
+        padding: 6px 6px;
+        border-right: 2px solid rgba(207, 206, 206, 0.445);
+
+        //   background-color: rgb(100, 128, 0);
+      }
+      div:nth-child(4) {
+        //   flex-basis: 100%;
+        display: flex;
+        align-items: center;
+        // flex-grow: 1;
+        width: 10%;
+
+        font-size: 17px;
+        padding: 6px 6px;
+
+        //   background-color: rgb(100, 128, 0);
+      }
+    }
+
+    .workout {
+      display: flex;
+      width: 100%;
+      padding: 0px 10px;
+      color: black;
+      // background-color: rgb(117, 117, 69);
+      div:nth-child(1) {
+        //   flex-basis: 100%;
+        display: flex;
+        // flex-grow: 1;
+        font-size: 17px;
+        padding: 6px 6px;
+        width: 20%;
+
+        //   background-color: rgb(0, 13, 128);
+        border-right: 2px solid rgba(207, 206, 206, 0.445);
+      }
+      div:nth-child(2) {
+        //   flex-basis: 100%;
+        display: flex;
+        width: 60%;
+        // flex-grow: 4;
+        font-size: 17px;
+        // justify-content: space-between;
+
+        flex-wrap: wrap;
+        padding: 6px 6px;
+        //   background-color: green;
+        border-right: 2px solid rgba(207, 206, 206, 0.445);
+        .exercise {
+          display: flex;
+          align-items: center;
+          padding: 3px 6px;
+          border-radius: 5px;
+          border: 1px solid grey;
+          margin-right: 5px;
+          margin-bottom: 5px;
+          font-size: 13px;
+          width: auto;
+          color: white;
+          border: 1px solid #ee2b45;
+          background-color: #ee2b45;
+
+          box-shadow: 0 0.125rem 0.125rem rgba(0, 0, 0, 0.164);
+
+          span:nth-child(2) {
+            position: relative;
+            top: 1.5px;
+            left: 3px;
+            padding: 0px 1px;
+            cursor: pointer;
+          }
+        }
+      }
+      div:nth-child(3) {
+        //   flex-basis: 100%;
+        display: flex;
+        // flex-grow: 1;
+        width: 20%;
+
+        font-size: 17px;
+        padding: 6px 6px;
+        border-right: 2px solid rgba(207, 206, 206, 0.445);
+
+        //   background-color: rgb(100, 128, 0);
+      }
+      div:nth-child(4) {
+        //   flex-basis: 100%;
+        display: flex;
+        // flex-grow: 1;
+        width: 10%;
+
+        font-size: 17px;
         padding: 6px 6px;
 
         //   background-color: rgb(100, 128, 0);
@@ -183,6 +318,47 @@
         font-size: 12px;
         padding: 0px;
         height: 40px;
+      }
+    }
+    .content_container {
+      .row_header {
+        div:nth-child(1) {
+          align-items: center;
+          font-size: 15px;
+        }
+        div:nth-child(2) {
+          align-items: center;
+          font-size: 15px;
+        }
+        div:nth-child(3) {
+          align-items: center;
+          font-size: 15px;
+        }
+        div:nth-child(4) {
+          align-items: center;
+          font-size: 15px;
+        }
+      }
+      .workout {
+        div:nth-child(1) {
+          align-items: center;
+          font-size: 15px;
+        }
+        div:nth-child(2) {
+          align-items: center;
+          font-size: 15px;
+          .exercise {
+            font-size: 10.5px;
+          }
+        }
+        div:nth-child(3) {
+          align-items: center;
+          font-size: 15px;
+        }
+        div:nth-child(4) {
+          align-items: center;
+          font-size: 15px;
+        }
       }
     }
   }

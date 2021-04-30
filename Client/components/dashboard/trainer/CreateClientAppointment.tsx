@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react"
 
 interface Props {
-    TodaysClients: []
+    TrainersClients: []
     AccountInfo: any
 }
 
@@ -25,7 +25,7 @@ interface Appointment {
 
 }
 
-const CreateClientAppointment: React.FC<Props> = ({ TodaysClients, AccountInfo }) => {
+const CreateClientAppointment: React.FC<Props> = ({ TrainersClients, AccountInfo }) => {
     const [clearedDate, handleClearedDateChange] = useState(null);
     const [selectedDateStart, handleDateChangeStart] = useState<any>(new Date());
     const [selectedDateEnd, handleDateChangeEnd] = useState<any>(new Date());
@@ -74,7 +74,7 @@ const CreateClientAppointment: React.FC<Props> = ({ TodaysClients, AccountInfo }
                             <form >
                                 <div className={styles.title}><h1>Create Session</h1></div>
                                 <Select placeholder="Clients" onChange={(e: any) => setTitle(e.target.value)}>
-                                    {TodaysClients.map((client: any) => (
+                                    {TrainersClients.map((client: any) => (
 
                                         <option style={{ padding: "20px" }} value={client.ClientId}>{client.FirstName} {client.LastName}</option>
                                     ))}

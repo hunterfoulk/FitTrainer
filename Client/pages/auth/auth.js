@@ -1,38 +1,25 @@
-import React, { Component } from 'react'
-import Router from 'next/router'
 import { useSelector } from "react-redux";
+import react, { useEffect, useState } from "react";
+import Router from 'next/router'
 
 
-export default function withAuth(AuthComponent) {
-    return class Authenticated extends Component {
-
-        static async getInitialProps(ctx) {
-            const token = ctx.req?.headers.cookie
-            console.log("AUTH FIRED:", token)
-            if (!token) {
-                if (ctx.res) {
-                    ctx.res.writeHead(302, {
-                        Location: '/login'
-                    })
-                    ctx.res.end()
-                } else {
-
-                    Router.replace('login');
+export default function requireAuthentication(gssp) {
+    return async (context) => {
+        const { req, res } = context;
+        console.log("HEADERS", req?.headers)
+        const token = req?.headers.cookie // Add logic to extract token from `req.headers.cookie`
+        console.log("TOKEN FIRED", token)
+        if (token) {
+            // Redirect to login page
+            return {
+                redirect: {
+                    destination: '/dashboard',
+                    statusCode: 307
                 }
             }
-            // Check if Page has a `getInitialProps`; if so, call it.
-            const pageProps = AuthComponent.getInitialProps && await AuthComponent.getInitialProps(ctx);
-            console.log("PAGE PROPS:", pageProps)
-            // Return props.
-            return { ...pageProps, token }
+
         }
 
-        render() {
-            return (
-
-                <AuthComponent {...this.props} />
-
-            )
-        }
+        return await gssp(context); // Continue on to call `getServerSideProps` logic
     }
 }

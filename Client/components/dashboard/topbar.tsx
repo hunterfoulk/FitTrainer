@@ -19,10 +19,6 @@ import Dropdown from "./trainer/Dropdown"
 
 interface Props {
     AccountInfo: any
-    setTabG: any
-    tabG: any
-    setTabT: any
-    tabT: any
     role: any
 
 }
@@ -39,11 +35,13 @@ const useStyles = makeStyles({
     }
 });
 
-const Topbar: React.FC<Props> = ({ AccountInfo, setTabG, tabG, setTabT, tabT, role }) => {
+const Topbar: React.FC<Props> = ({ AccountInfo, role }) => {
     const classes = useStyles();
     const [state, setState] = React.useState({ left: false, });
     const [open, setOpen] = useState(false)
     const anchorRef = React.useRef<HTMLButtonElement>(null);
+    const [tabG, setTabG] = useState("Trainers")
+    const [tabT, setTabT] = useState("Home")
 
     const handleMenu = () => {
         setOpen(true)
