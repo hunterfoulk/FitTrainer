@@ -2,21 +2,19 @@ import { Router } from 'express'
 import * as trainerController from '../Controllers/Trainer-Controller'
 import { Auth } from "../Controllers/Trainer-Controller"
 import { Request, Response } from 'express'
-// const multer = require('multer')
-// const inMemoryStorage = multer.memoryStorage();
-// const uploadStrategy = multer({ storage: inMemoryStorage }).single('image');
-
 
 export default function userRouter(router: Router): void {
 	console.log("ROUTER FIREDDDD")
 
 	router.route('/dashboard').get(Auth, (req: Request, res: Response): void => {
+
 		trainerController.Dashboard(req, res)
 	})
 
 	router.route('/trainersPrograms').get(Auth, (req: Request, res: Response): void => {
 		trainerController.Programs(req, res)
 	})
+	router.route('/getWorkouts').get(trainerController.TrainersWorkouts)
 
 	router.route('/accountInfo').get(Auth, (req: Request, res: Response): void => {
 		trainerController.AccountInfo(req, res)
@@ -26,11 +24,17 @@ export default function userRouter(router: Router): void {
 		trainerController.Schedule(req, res)
 	})
 
-	// router.route('/createWorkout').get(Auth, (req: Request, res: Response): void => {
-	// 	trainerController.CreateWorkout(req, res)
-	// })
+	router.route('/clientsRoute').get(Auth, (req: Request, res: Response): void => {
+		trainerController.ClientsRoute(req, res)
+	})
 
 	router.route('/createWorkout').post(trainerController.CreateWorkout)
+
+	router.route('/deleteWorkout').post(trainerController.DeleteWorkout)
+
+	router.route('/editProfile').post(trainerController.EditProfile)
+
+	router.route('/deleteClient').post(trainerController.DeleteClient)
 
 	router.route('/logout').get(trainerController.Logout)
 
@@ -48,9 +52,16 @@ export default function userRouter(router: Router): void {
 
 	router.route('/deleteAppointment').post(trainerController.DeleteNewAppointment)
 
+	router.route('/updateWorkout').post(trainerController.EditWorkout)
+
+	router.route('/updateAppointment').post(trainerController.UpdateAppointment)
+
+	router.route('/updateAppointmentWorkout').post(trainerController.EditAppointmentWorkout)
+
+	router.route('/deleteWorkoutFromAppointment').post(trainerController.DeleteWorkoutFromAppointment)
+
+	router.route('/createNewExercise').post(trainerController.CreateNewExercise)
 
 
-	// router.route('/user-auth')
-	// 	.get(trainerController.ValidateToken)
 
 }

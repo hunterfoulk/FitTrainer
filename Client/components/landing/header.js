@@ -10,26 +10,30 @@ export default function Header() {
 
     return (
         <>
-            <div className={styles.header}>
-                <div className={styles.header_content}>
-                    <div className={styles.header_text_container}>
-                        <div className={styles.header_brand_container}>
-                            <h1>FitTrainer</h1>
-                        </div>
-                        <div className={styles.header_quote_container}>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Lorem Ipsum is a great asset for your daily life. </p>
-                        </div>
-                        <div className={styles.header_button_container}>
-                            <Link href='/signup' >
+            <div className="w-full flex justify-center items-center max-w-[1500px] py-[120px] ">
+                <div className="w-full flex-col flex mt-5 lg:flex-row">
+                    <div className="flex py-6 items-center mb-4 justify-center lg:mb-0 ">
+                        <div className=" flex flex-col items-center w-[100%] max-w-full lg:items-start">
+                            <div className="text-lg text-[#F5F5F5] text-center py-5 text-[#808080] lg:text-left">
+                                <h1>GET MORE BENEFIT BY JOINING THE PRO VERSION</h1>
+                            </div>
+                            <div className="text-5xl font-bold text-center flex py-5 text-[#F5F5F5] lg:text-left">
+                                <p>The Ultimate Online Training Software</p>
+                            </div>
+                            <div className="text-lg font-bold text-center flex py-5 text-[#ea2537] lg:text-left">
+                                <p>Coming soon to</p>
+                            </div>
+                            <div className="flex w-full flex-row items-center mb-5 ">
 
-                                <button>Try For Free</button>
+                                <img src="/images/googleplay.png" className="max-h-[46px] w-[153px]" />
+                                <img src="/images/appstore1.png" className="max-h-[46px] w-[152px] ml-5" />
 
-                            </Link>
-                            <span><MdPlayArrow /></span>
+                            </div>
                         </div>
                     </div>
-                    <div className={styles.header_image_container}>
-                        <Image alt="Vercel logo" src="/images/headersvg.png" width={1330} height={810} quality={100} />
+                    <div className="flex w-full relative justify-end min-h-[450px] w-full lg:min-h-[500px] ">
+                        {/* <img alt="Vercel logo" src="/images/headersvg.png" className="" /> */}
+                        <Image alt="Vercel logo" src="/images/header123.png" layout='fill' objectFit="contain" />
                     </div>
                 </div>
             </div>

@@ -30,6 +30,7 @@ interface Props {
     state: any
     dispatch: any
     TrainersClients: any
+    Workouts: any
 }
 const useStyles = makeStyles({
     list: {
@@ -45,9 +46,8 @@ const useStyles = makeStyles({
 });
 
 
-const TrainerScheduleTab: React.FC<Props> = ({ AccountInfo, TrainersClients, state, dispatch }) => {
+const TrainerScheduleTab: React.FC<Props> = ({ AccountInfo, TrainersClients, state, dispatch, Workouts }) => {
     const [value, onChange] = useState(new Date());
-    const [tab, setTab] = useState("Schedule")
     const classes = useStyles();
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -58,24 +58,17 @@ const TrainerScheduleTab: React.FC<Props> = ({ AccountInfo, TrainersClients, sta
     return (
         <>
 
-            <div className={styles.buttons}>
-                <Fab onClick={onOpen} color="primary" aria-label="add" style={{ position: "absolute", bottom: "25px", right: "60px", zIndex: 1, backgroundColor: "#ee2b45" }}>
-                    <AddIcon />
-                </Fab>
-                {/* <div onClick={() => setTab("Add")} style={tab === "Add" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}> <FiUserPlus className={styles.banner_button_plus} /> Add Client </div> */}
-            </div>
+
+
+            {/* <div onClick={() => setTab("Add")} style={tab === "Add" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}> <FiUserPlus className={styles.banner_button_plus} /> Add Client </div> */}
+
 
             <Modal onOpen={onOpen} isOpen={isOpen} onClose={onClose} TrainersClients={TrainersClients} AccountInfo={AccountInfo} dispatch={dispatch} state={state} />
 
-
-
-            {tab === "Add" ? <CreateClientAppointment TrainersClients={TrainersClients} AccountInfo={AccountInfo} /> : <Calendar dispatch={dispatch} state={state} />
-
-            }
-
-
-
-
+            <Calendar dispatch={dispatch} state={state} Workouts={Workouts} />
+            <Fab onClick={onOpen} color="primary" aria-label="add" style={{ position: "fixed", bottom: "25px", right: "60px", zIndex: 1, backgroundColor: "#ee2b45" }}>
+                <AddIcon />
+            </Fab>
 
         </>
     )

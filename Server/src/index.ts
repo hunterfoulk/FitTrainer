@@ -7,7 +7,7 @@ const busboyBodyParser = require('busboy-body-parser');
 import routes from './Routes/index'
 import mySQL from './Database/MySQL'
 
-mySQL.connect(() => console.log('MySQL connected successfully'))
+// mySQL.connect(() => console.log('MySQL connected successfully'))
 
 const app = express()
 const router = Router()

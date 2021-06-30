@@ -8,7 +8,7 @@ import { MdPersonOutline } from 'react-icons/md';
 import { FiPaperclip } from 'react-icons/fi';
 import { FaReply } from 'react-icons/fa';
 import { FaRegCreditCard } from 'react-icons/fa';
-import { MdPeopleOutline } from 'react-icons/Md';
+import { MdPeopleOutline } from 'react-icons/md';
 import { IoMdNotifications } from 'react-icons/io';
 import { MdWeb } from 'react-icons/md';
 

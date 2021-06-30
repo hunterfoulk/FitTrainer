@@ -1,14 +1,19 @@
-import { useSelector } from "react-redux";
+
 import react, { useEffect, useState } from "react";
 import Router from 'next/router'
 
 
 export default function requireAuthentication(gssp) {
+    console.log("PROPS CHECK", gssp)
+
     return async (context) => {
         const { req, res } = context;
-        console.log("HEADERS", req?.headers)
         const token = req?.headers.cookie // Add logic to extract token from `req.headers.cookie`
         console.log("TOKEN FIRED", token)
+        console.log("RES STATUS", res.status)
+
+
+
         if (!token) {
             // Redirect to login page
             res.statusCode = 302;

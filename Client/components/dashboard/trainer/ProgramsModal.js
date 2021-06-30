@@ -19,7 +19,7 @@ import React, { useRef, useState, useReducer, useEffect } from "react"
 import styles from "../../../styles/dashboard/ProgramsTab.module.scss"
 import { MdClose } from 'react-icons/md';
 import List from "./List"
-
+import CreateExercise from "./CreateExercise"
 
 
 const reducer = (state, action) => {
@@ -40,12 +40,12 @@ const reducer = (state, action) => {
                 list: state.list.filter((item) => item.ExerciseId !== action.ExerciseId)
             };
 
-
-        case "RETURN":
+        case "CLEAR":
             return {
                 ...state,
                 list: []
-            }
+            };
+
 
         default:
             return state;
@@ -53,18 +53,20 @@ const reducer = (state, action) => {
 };
 
 
-export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseList, AccountInfo }) {
+export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseState, exerciseDispatch, AccountInfo, workoutDispatch, tab, equipment, muscle_groups }) {
     const [term, setTerm] = useState("")
     const [workout_name, setName] = useState("")
-    const initialState = { list: exerciseList };
+    const initialState = { list: [] }
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [focused, setFocused] = useState(false)
+
+
 
 
     const addToList = (exercise) => {
         console.log("EXERCISE", exercise)
 
         dispatch({ type: "UPDATE", exercise: exercise });
-        setTerm("")
 
 
     }
@@ -73,16 +75,9 @@ export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseList, A
 
         dispatch({ type: "FILTER", ExerciseId: id });
 
-
     }
 
-    const Clear = () => {
 
-        dispatch({ type: "RETURN" });
-        onClose()
-        setTerm("")
-
-    }
 
     const CreateWorkout = async () => {
 
@@ -98,11 +93,28 @@ export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseList, A
         })
 
         const { data, status } = await res.json()
-        console.log("data", data)
+        console.log("data", data.workout)
 
-
+        workoutDispatch({ type: "UPDATE", workout: data.workout });
+        onClose()
 
     }
+
+    const Clear = () => {
+
+        dispatch({ type: "RETURN" });
+        onClose()
+        setTerm("")
+
+    }
+
+    useEffect(() => {
+
+        return () => {
+            dispatch({ type: "CLEAR" });
+        }
+    }, [])
+
 
     return (
         <>
@@ -114,7 +126,9 @@ export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseList, A
                 motionPreset="slideInBottom"
             >
                 <ModalOverlay />
-                <ModalContent>
+
+
+                {tab === "Home" ? <ModalContent>
                     <ModalHeader>Create Program</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody >
@@ -126,10 +140,16 @@ export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseList, A
                                 pointerEvents="none"
                                 children={<SearchIcon color="gray.300" />}
                             />
-                            <Input type="tel" placeholder="Exercises" value={term} onChange={(e) => setTerm(e.target.value)} />
+                            <Input onFocus={() => {
+                                setFocused(true)
+                            }} onBlur={() => {
+                                setTimeout(() => {
+                                    setFocused(false)
+                                }, 240)
+                            }} type="tel" placeholder="Exercises" value={term} onChange={(e) => setTerm(e.target.value)} />
 
-                            {term !== "" && <div className={styles.list} style={{ position: "absolute", backgroundColor: "white", top: "50px", width: "100%", zIndex: "100", maxHeight: "300px", overflowY: "auto" }}>
-                                <List exerciseList={exerciseList} addToList={addToList} term={term} />
+                            {focused && <div className={styles.list} style={{ position: "absolute", backgroundColor: "white", top: "50px", width: "100%", zIndex: "100", maxHeight: "300px", overflowY: "auto" }}>
+                                <List exerciseState={exerciseState} addToList={addToList} term={term} />
 
                             </div>}
                         </InputGroup>
@@ -138,44 +158,22 @@ export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseList, A
                             {state.list.map((listItem) => (
                                 <div className={styles.exercise}>
                                     <span> {listItem.Name}</span>
+
                                     <span onClick={() => deleteFromList(listItem.ExerciseId)}><MdClose /></span>
                                 </div>
-                            ))}</div>
+                            ))}
+                        </div>
 
                     </ModalBody>
                     <ModalFooter>
-                        <Button style={{ marginRight: "6px" }} variant="ghost" onClick={() => CreateWorkout()}>Save</Button>
-                        <Button colorScheme="red" mr={3} onClick={() => Clear()}>
-                            Close
-                       </Button>
+                        <Button style={{ marginRight: "6px" }} variant="ghost" onClick={() => Clear()}>Close</Button>
+                        <Button colorScheme="red" mr={3} onClick={() => CreateWorkout()}>
+                            Save
+                        </Button>
 
                     </ModalFooter>
-                </ModalContent>
+                </ModalContent> : <CreateExercise onClose={onClose} onOpen={onOpen} isOpen={isOpen} exerciseState={exerciseState} exerciseDispatch={exerciseDispatch} muscle_groups={muscle_groups} equipment={equipment} />}
             </Modal>
         </>
     )
 }
-const top100Films = [
-    { title: 'Barbell Bench Press', year: 1994, id: 1 },
-    { title: 'The Godfather', year: 1972, id: 2 },
-    { title: 'The Godfather: Part II', year: 1974, id: 3 },
-    { title: 'The Dark Knight', year: 2008, id: 4 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 }
-
-]

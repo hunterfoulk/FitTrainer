@@ -33,7 +33,7 @@ const CreateClientAppointment: React.FC<Props> = ({ TrainersClients, AccountInfo
     const [title, setTitle] = useState(0)
 
     moment.locale(locale);
-
+    console.log("TITLE", title)
 
     const CreateAppointment = async (e) => {
         e.preventDefault()

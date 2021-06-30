@@ -4,8 +4,12 @@ import Navbar from "../components/landing/navbar/navbar"
 import DashboardNav from "../components/landing/navbar/dashboardnav"
 import Header from "../components/landing/header"
 import About from "../components/landing/about"
+import Features from "../components/landing/features"
+import Cards from "../components/landing/cards"
+import GetStarted from "../components/landing/getStarterd"
+import Footer from "../components/landing/footer"
 import react, { useEffect, useState } from "react"
-import requireAuthentication from "./auth/auth"
+
 
 export default function Home() {
   const [auth, setAuth] = useState(false)
@@ -20,37 +24,23 @@ export default function Home() {
 
 
   return (
-    <div className={styles.main}>
+    <div className="bg-[#0a0a0a] w-full flex flex-col items-center pb-2 px-3 ">
       {auth ? <DashboardNav /> : <Navbar />}
-      <div className={styles.main_header}>
 
 
-        <Header />
+
+      <Header />
 
 
-      </div>
-      <div className={styles.about_section}>
-        <About />
-      </div>
+      <Features />
+
+      <Cards />
+
+      <GetStarted />
+
+      <Footer />
+
     </div>
   )
 }
 
-export const getServerSideProps = requireAuthentication(async context => {
-
-
-  // let cookie = context.req?.headers.cookie
-  // const response = await fetch('http://localhost:9000/dashboard', {
-  //   headers: {
-  //     cookie: cookie!
-  //   }
-  // });
-  // const res = await response.json()
-  // console.log("Dashboard response", res.data.clients)
-
-  return {
-    props: {
-
-    },
-  }
-})

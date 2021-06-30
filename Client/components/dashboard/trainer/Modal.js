@@ -25,6 +25,8 @@ import {
     Select
 } from "@chakra-ui/react"
 
+
+
 export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, AccountInfo, dispatch, state }) {
     moment.locale("en");
     const [selectedDateStart, handleDateChangeStart] = useState(new Date())
@@ -32,7 +34,7 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
     const [locale, setLocale] = useState("en");
     const [title, setTitle] = useState(0)
 
-
+    console.log("TITLE", title)
 
     const CreateAppointment = async (e) => {
         e.preventDefault()
@@ -86,7 +88,7 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
                     <ModalCloseButton />
                     <ModalBody>
                         <>
-                            <Select placeholder="Clients" onChange={(e) => setTitle(e.target.value)}>
+                            <Select placeholder="Clients" onChange={(e) => setTitle(e.target.value)} value={title}>
                                 {TrainersClients.map((client) => (
 
                                     <option style={{ padding: "20px" }} value={client.ClientId}>{client.FirstName} {client.LastName}</option>

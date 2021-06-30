@@ -8,13 +8,16 @@ interface Props {
     exerciseList: any
     addToList: any
     term: any
+    open?: boolean
+    AddToEditList?: any
+    exerciseState: any
 }
 
-const List: React.FC<Props> = ({ exerciseList, addToList, term }) => {
+const List: React.FC<Props> = ({ exerciseState, addToList, term, open, AddToEditList }) => {
     return (
         <>
-            {exerciseList.filter(exercise => exercise.Name.toLowerCase().includes(term.toLowerCase())).map((item, i) => (
-                <div className={styles.list_item} key={i} onClick={() => addToList(item)}>
+            {exerciseState.exercises.filter(exercise => exercise.Name.toLowerCase().includes(term.toLowerCase())).map((item, i) => (
+                <div className={styles.list_item} key={i} onClick={() => open ? AddToEditList(item) : addToList(item)}>
                     <span>{item.Name}</span>
                 </div>
             ))}

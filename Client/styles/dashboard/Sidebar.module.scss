@@ -9,7 +9,7 @@
   height: 100vh;
   z-index: 10;
   // border-right: 1px solid rgba(167, 166, 166, 0.295);
-
+  font-weight: bold;
   // background-color: #0a0a0a;
   background-color: white;
   font-family: "Roboto", sans-serif;
@@ -74,6 +74,7 @@
       // color: #ff0b28;
       //   background-color: khaki;
       padding: 15px;
+      font-size: 16px;
       cursor: pointer;
       .sidebar_tab_content {
         // background-color: magenta;
@@ -115,7 +116,9 @@
       // color: #f75f35;
       //   background-color: khaki;
       padding: 15px;
+      font-size: 16px;
       cursor: pointer;
+      font-weight: bold;
       .sidebar_tab_content {
         // background-color: magenta;
         display: flex;

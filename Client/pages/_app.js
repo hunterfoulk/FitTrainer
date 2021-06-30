@@ -1,55 +1,66 @@
 import '../styles/globals.css'
-import { Provider } from 'react-redux'
-import { store } from "../redux/store"
-import { useDispatch, useSelector } from "react-redux"
-import "react-datetime-picker/dist/DateTimePicker.css"
-import "react-datetime-picker/dist/DateTimePicker.css"
-import "react-clock/dist/Clock.css"
-import { ChakraProvider } from "@chakra-ui/react"
-import Topbar from "../components/dashboard/topbar"
-import React, { useEffect, useState } from "react"
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Head from 'next/head';
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from "../theme"
+import chakraTheme from "../chakratheme"
+import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import Router from 'next/router';
+import "nprogress/nprogress.css";
+import NProgress from 'nprogress';
+import { AppointmentContextProvider } from "../context/context"
+
+
+NProgress.configure({
+  minimum: 0.3,
+  easing: 'ease',
+  speed: 800,
+  showSpinner: false,
+
+});
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
+
+export default function MyApp(props) {
+  const { Component, pageProps } = props;
+  const [loading, setLoading] = useState(false)
+  // const Router = useRouter()
+  React.useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
 
 
 
-import App from 'next/app'
-
-function MyApp({ Component, pageProps, AccountInfo }) {
-  const [tabG, setTabG] = useState("Trainers")
-  const [tabT, setTabT] = useState("Home")
-  console.log("APP FIRED", AccountInfo)
-
-  let yo = "yooo"
 
   return (
-    <Provider store={store}>
-      <ChakraProvider>
-        {/* <Topbar /> */}
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </Provider>
-  )
+    <React.Fragment>
+      <Head>
+        <title>FitTrainer</title>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+      </Head>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ChakraProvider resetCSS theme={chakraTheme}>
+          <ColorModeProvider
+            options={{
+              useSystemColorMode: true,
+            }}
+          >
+            <AppointmentContextProvider>
+              <Component {...pageProps} />
+            </AppointmentContextProvider>
+          </ColorModeProvider>
+        </ChakraProvider>
+      </ThemeProvider>
+    </React.Fragment>
+  );
 }
-
-export default MyApp
-
-// MyApp.getInitialProps = async context => {
-
-//   console.log("SSR FIRED")
-//   let cookie = context.req?.headers.cookie
-//   const response = await fetch('http://localhost:9000/accountInfo', {
-//     headers: {
-//       cookie: cookie
-//     }
-//   });
-//   // const appProps = await App.getInitialProps(context)
-//   const res = await response.json()
-
-//   console.log("ACCOUNT INFO", res)
-//   return {
-//     props: {
-
-//       AccountInfo: res.data.AccountInfo || {},
-
-//     },
-//   }
-// }

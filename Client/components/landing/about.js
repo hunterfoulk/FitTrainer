@@ -16,7 +16,7 @@ export default function About() {
                 <div className={styles.about_card}>
                     <div className={styles.about_card_image_container}>
 
-                        <Image alt="running-icon" src="/images/runningiconblue.png" width={50} height={50} quality={100} className="avatar" />
+                        <Image alt="running-icon" src="/images/runningiconblue.png" width={50} height={50} quality={100} className="avatar" loading="eager" />
                     </div>
                     <div className={styles.about_card_text_container}>
                         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Lorem Ipsum is a great asset for your daily life. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text.</p>

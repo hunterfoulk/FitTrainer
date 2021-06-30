@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "redux/store.js", "components/dashboard/drawer.js", "components/dashboard/trainer/Modal.js", "components/dashboard/trainer/Calendar.js"  ],
+, "redux/store.js", "components/dashboard/drawer.js", "components/dashboard/trainer/Modal.js", "components/dashboard/trainer/Calendar.js", "components/dashboard/trainer/EditModal.js"  ],
   "exclude": [
     "node_modules"
   ]

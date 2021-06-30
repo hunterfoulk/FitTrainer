@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import TrainerScheduleTab from "../components/dashboard/trainer/TrainerScheduleTab"
 import Layout from "../components/layout"
 import requireAuthentication from "./auth/authtwo"
@@ -13,12 +13,14 @@ interface Props {
     tabT: any
     role: any
     TrainersClients: any
+    Workouts: any
 }
 
 const reducer = (state, action) => {
-    console.log("ACTION", action.appointment)
-    console.log("UPDATE", action.type)
-    console.log("STATE", state)
+    console.log("APPOINTMENTSSS REDUCER ACTION", action)
+    // console.log("UPDATE", action.type)
+
+
     switch (action.type) {
 
         case "UPDATE":
@@ -35,21 +37,37 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 appointments: state.appointments.map(appointment => (action.changed[appointment.id] ? { ...appointment, ...action.changed[appointment.id] } : appointment))
+            };
+        case "DELETE_WORKOUT":
+            return {
+                ...state,
+                appointments: state.appointments.map(appointment => action.id == appointment.id ? { ...appointment, WorkoutId: null, workout: {} } : appointment)
             }
-
+        case "UPDATE_WORKOUT":
+            return {
+                ...state,
+                appointments: state.appointments.map(appointment => action.id == appointment.id ? { ...appointment, WorkoutId: action.WorkoutId, workout: action.workout } : appointment)
+            }
+        case "SET_APPOINTMENT":
+            return {
+                ...state,
+                appointment: action.appointment
+            }
 
         default:
             return state;
     }
 };
 
-const Schedule: React.FC<Props> = ({ Appointments, AccountInfo, tabG, setTabG, tabT, role, setTabT, TrainersClients }) => {
-    const initialState = { appointments: Appointments };
+const Schedule: React.FC<Props> = ({ Appointments, AccountInfo, tabG, setTabG, tabT, role, setTabT, TrainersClients, Workouts }) => {
+    const initialState = { appointments: Appointments, appointment: {} };
     const [state, dispatch] = useReducer(reducer, initialState);
+
+
     return (
         <>
             <Layout AccountInfo={AccountInfo} role={role}>
-                <TrainerScheduleTab AccountInfo={AccountInfo} dispatch={dispatch} state={state} TrainersClients={TrainersClients} />
+                <TrainerScheduleTab AccountInfo={AccountInfo} dispatch={dispatch} state={state} TrainersClients={TrainersClients} Workouts={Workouts} />
             </Layout>
 
         </>
@@ -75,7 +93,8 @@ export const getServerSideProps = requireAuthentication(async context => {
             role: res.data.role,
             AccountInfo: res.data.AccountInfo,
             Appointments: res.data.Appointments || [],
-            TrainersClients: res.data.TrainersClients
+            TrainersClients: res.data.TrainersClients || [],
+            Workouts: res.data.workouts || []
         },
     }
 })

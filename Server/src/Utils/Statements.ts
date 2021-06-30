@@ -32,7 +32,7 @@ export const statements = {
 		TrainerAccount: (
 			TrainerId: number
 		): SQLStatement => SQL`
-			SELECT GymId, Email, FirstName, LastName, Avatar, JoinDate, TrainerId
+			SELECT GymId, Email, FirstName, LastName, Avatar, JoinDate, TrainerId, Mobile
 			FROM trainers
 			WHERE TrainerId = ${TrainerId}
 		`,
@@ -65,8 +65,8 @@ export const statements = {
 			TrainerId: number,
 		): SQLStatement => SQL`
 			SELECT *
-			FROM appointments
-			WHERE TrainerId = ${TrainerId}
+		    FROM appointments
+		    WHERE appointments.TrainerId = ${TrainerId}
 		`,
 		GetNewAppointment: (
 			id: number,
@@ -83,12 +83,54 @@ export const statements = {
 		`,
 		GetExercises: (
 		): SQLStatement => SQL`
-			SELECT * FROM exercises
+			SELECT * FROM exercises a INNER JOIN muscle_groups b ON a.Muscle_Group = b.MuscleGroupId INNER JOIN equipment c ON a.Equipment = c.EquipmentId
 		`,
 		GetTrainersWorkouts: (
 			TrainerId: string
 		): SQLStatement => SQL`
 			SELECT * FROM workouts WHERE TrainerId = ${TrainerId}
+		`,
+		GetCreatedWorkout: (
+			WorkoutId: string
+		): SQLStatement => SQL`
+			SELECT * FROM workouts WHERE WorkoutId = ${WorkoutId}
+		`,
+		GetTrainersClients: (
+			TrainerId: number,
+
+		): SQLStatement => SQL`
+			SELECT *
+			FROM clients
+			WHERE ${TrainerId}
+		`,
+		NewClient: (
+			ClientId: string
+		): SQLStatement => SQL`
+			SELECT * FROM clients WHERE ClientId = ${ClientId}
+		`,
+		TrainersWorkouts: (
+			ClientId: string
+		): SQLStatement => SQL`
+			SELECT * FROM workouts WHERE TrainerId = ${ClientId}
+		`,
+		GetAppointmentWorkout: (
+			WorkoutId: string
+		): SQLStatement => SQL`
+			SELECT * FROM workouts WHERE WorkoutId = ${WorkoutId}
+		`,
+
+		GetMuscleGroups: (
+		): SQLStatement => SQL`
+			SELECT * FROM muscle_groups
+		`,
+		GetEquipment: (
+		): SQLStatement => SQL`
+			SELECT * FROM equipment
+		`,
+		GetNewExercise: (
+			ExerciseId: string
+		): SQLStatement => SQL`
+			SELECT * FROM exercises a INNER JOIN muscle_groups b ON a.Muscle_Group = b.MuscleGroupId INNER JOIN equipment c ON a.Equipment = c.EquipmentId WHERE ExerciseId = ${ExerciseId}
 		`,
 
 	},
@@ -97,11 +139,13 @@ export const statements = {
 			email: string,
 			hashedPass: string,
 			joinDate: string,
-			GymName: string
+			phone: string,
+			lastName: string,
+			firstName: string
 		): SQLStatement => SQL`
-			INSERT INTO Gyms
-			(Email, Password, JoinDate, GymName)
-			VALUES (${email}, ${hashedPass}, ${joinDate}, ${GymName})
+			INSERT INTO trainers
+			(Email, Password, JoinDate, Mobile, LastName, FirstName)
+			VALUES (${email}, ${hashedPass}, ${joinDate}, ${phone}, ${lastName}, ${firstName})
 		`,
 		trainerSignup: (
 			email: string,
@@ -120,17 +164,29 @@ export const statements = {
 			email: string,
 			firstName: string,
 			lastName: string,
-			birthday: string,
 			JoinDate: string,
 			mobile: string,
 			goal: string,
 			trainerId: number,
-			GymId: number,
 			avatarUrl: string,
 		): SQLStatement => SQL`
 			INSERT INTO Clients
-			(Email, FirstName, LastName, JoinDate, Birthday, Mobile, Goal, GymId, TrainerId, Avatar)
-			VALUES (${email}, ${firstName}, ${lastName}, ${birthday}, ${JoinDate}, ${mobile},${goal},${GymId},${trainerId},${avatarUrl})
+			(Email, FirstName, LastName, JoinDate, Mobile, Goal, TrainerId, Avatar)
+			VALUES (${email}, ${firstName}, ${lastName}, ${JoinDate}, ${mobile},${goal},${trainerId},${avatarUrl})
+		`,
+		CreateClientDefault: (
+			email: string,
+			firstName: string,
+			lastName: string,
+			JoinDate: string,
+			mobile: string,
+			goal: string,
+			trainerId: number,
+			defaultAvatar: string
+		): SQLStatement => SQL`
+			INSERT INTO Clients
+			(Email, FirstName, LastName, JoinDate, Mobile, Goal, TrainerId, Avatar)
+			VALUES (${email}, ${firstName}, ${lastName}, ${JoinDate}, ${mobile},${goal},${trainerId},${defaultAvatar})
 		`,
 		CreateAppointment: (
 			title: string,
@@ -160,6 +216,16 @@ export const statements = {
 			INSERT INTO workouts
 			(workout_name,exercises,JoinDate,TrainerId)
 			VALUES (${workout_name}, ${arr}, ${JoinDate},${TrainerId})
+		`,
+
+		CreateNewExercise: (
+			MuscleGroupId: number,
+			EquipmentId: number,
+			Name: string,
+		): SQLStatement => SQL`
+			INSERT INTO exercises
+			(Muscle_Group,Equipment,Name)
+			VALUES (${MuscleGroupId}, ${EquipmentId}, ${Name})
 		`,
 
 	},
@@ -193,6 +259,63 @@ export const statements = {
 			SET LoggedIn = false
 			WHERE Email = ${GymId}
 		`,
+		UpdateWorkout: (
+			WorkoutId: number,
+			arr: any,
+			workout_name: string
+		): SQLStatement => SQL`
+			UPDATE workouts
+			SET exercises = ${arr}, workout_name = ${workout_name}
+			WHERE WorkoutId = ${WorkoutId}
+		`,
+		UpdateAppointment: (
+			WorkoutId: number,
+			id: number,
+			startDate: any,
+			endDate: any
+		): SQLStatement => SQL`
+			UPDATE appointments
+			SET WorkoutId = ${WorkoutId}, startDate = ${startDate}, endDate = ${endDate}
+			WHERE id = ${id}
+		`,
+		UpdateProfileWithoutAvatar: (
+			email: string,
+			firstname: string,
+			lastname: string,
+			mobile: string | null,
+			id: any,
+		): SQLStatement => SQL`
+			UPDATE trainers
+			SET Email = ${email}, FirstName = ${firstname}, LastName = ${lastname}, Mobile = ${mobile}
+			WHERE TrainerId = ${id}
+		`,
+		UpdateProfileWithAvatar: (
+			email: string,
+			firstname: string,
+			lastname: string,
+			mobile: string | null,
+			id: any,
+			avatarUrl: string,
+		): SQLStatement => SQL`
+			UPDATE trainers
+			SET Email = ${email}, FirstName = ${firstname}, LastName = ${lastname}, Mobile = ${mobile}, Avatar = ${avatarUrl}
+			WHERE TrainerId = ${id}
+		`,
+		UpdateAppointmentWorkout: (
+			WorkoutId: number,
+			id: number
+		): SQLStatement => SQL`
+			UPDATE appointments
+			SET WorkoutId = ${WorkoutId}
+			WHERE id = ${id}
+		`,
+		deleteWorkoutFromAppointment: (
+			id: number
+		): SQLStatement => SQL`
+			UPDATE appointments
+			SET WorkoutId = NULL
+			WHERE id = ${id}
+		`,
 
 	},
 	Delete: {
@@ -202,6 +325,20 @@ export const statements = {
 			DELETE FROM
 			appointments WHERE id = ${id}
 		`,
+		DeleteClient: (
+			ClientId: number
+		): SQLStatement => SQL`
+			DELETE FROM
+			clients WHERE ClientId = ${ClientId}
+		`,
+		DeleteWorkout: (
+			WorkoutId: number
+		): SQLStatement => SQL`
+			DELETE FROM
+			workouts WHERE WorkoutId = ${WorkoutId}
+		`,
+
+
 
 	},
 }

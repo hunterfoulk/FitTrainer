@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from "../../styles/dashboard/Topbar.module.scss"
 import { FaRegBell } from 'react-icons/fa';
 // import { Drawer } from 'godspeed'
@@ -16,7 +16,7 @@ import TrainerSidebar from "../dashboard/trainerSidebar"
 import MenuIcon from '@material-ui/icons/Menu';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Dropdown from "./trainer/Dropdown"
-
+import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion';
 interface Props {
     AccountInfo: any
     role: any
@@ -39,9 +39,13 @@ const Topbar: React.FC<Props> = ({ AccountInfo, role }) => {
     const classes = useStyles();
     const [state, setState] = React.useState({ left: false, });
     const [open, setOpen] = useState(false)
-    const anchorRef = React.useRef<HTMLButtonElement>(null);
+    const anchorRef = React.useRef<HTMLDivElement>(null);
     const [tabG, setTabG] = useState("Trainers")
     const [tabT, setTabT] = useState("Home")
+
+    useEffect(() => {
+
+    }, [AccountInfo])
 
     const handleMenu = () => {
         setOpen(true)
@@ -82,11 +86,10 @@ const Topbar: React.FC<Props> = ({ AccountInfo, role }) => {
                 </div>
                 <div className={styles.topbar_profile_container}>
                     {role === "Trainer" ? <>
+                        <div onClick={() => { setOpen(true) }} ref={anchorRef} >
+                            <motion.img src={AccountInfo.Avatar ? AccountInfo.Avatar : "/images/default1.jpg"} whileHover={{ scale: 1.1 }} />
+                        </div>
 
-                        <img src={AccountInfo.Avatar} />
-
-
-                        <span ref={anchorRef} onClick={() => setOpen(true)}>  <MdKeyboardArrowDown className={styles.arrow} onClick={() => setOpen(true)} /></span>
 
 
                     </> : <span>{AccountInfo.GymName}</span>}

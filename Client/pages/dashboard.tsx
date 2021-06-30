@@ -3,7 +3,7 @@ import styles from "../styles/dashboard/Dashboard.module.scss"
 import Sidebar from "../components/dashboard/sidebar"
 import Topbar from "../components/dashboard/topbar"
 import { NextPageContext } from "next"
-import { useDispatch, useSelector } from "react-redux"
+
 import { NextPage } from 'next'
 import requireAuthentication from "./auth/authtwo"
 import fetch from "isomorphic-unfetch"
@@ -17,12 +17,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import DashboardHome from "../components/dashboard/DashboardHome"
 import Layout from "../components/layout"
 import dynamic from 'next/dynamic'
+import Router from "next/router"
+
 
 interface Props {
     trainers: any,
     AccountInfo: any
     TodaysClients: any
-    Appointments: any
     setTabG: any
     tabG: any
     setTabT: any
@@ -30,45 +31,12 @@ interface Props {
     role: any
 
 }
-const DynamicComponentWithNoSSR = dynamic(
-    () => import('../components/dashboard/trainer/ClientsTab'),
-    { ssr: false }
-)
 
 
-const reducer = (state, action) => {
-    console.log("ACTION", action.appointment)
-    console.log("UPDATE", action.type)
-    console.log("STATE", state)
-    switch (action.type) {
-
-        case "UPDATE":
-            return {
-                ...state,
-                appointments: [...state.appointments, action.appointment]
-            };
-        case "FILTER_APPOINTMENTS":
-            return {
-                ...state,
-                appointments: state.appointments.filter((item) => item.id !== action.id),
-            };
-        case "CHANGED":
-            return {
-                ...state,
-                appointments: state.appointments.map(appointment => (action.changed[appointment.id] ? { ...appointment, ...action.changed[appointment.id] } : appointment))
-            }
 
 
-        default:
-            return state;
-    }
-};
+const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, setTabG, tabG, setTabT, tabT }) => {
 
-
-const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, Appointments, setTabG, tabG, setTabT, tabT }) => {
-    const { auth } = useSelector((state: any) => state.auth);
-    const initialState = { appointments: Appointments };
-    const [state, dispatch] = useReducer(reducer, initialState);
 
 
 
@@ -85,66 +53,25 @@ const Dashboard: NextPage<Props> = ({ role, trainers, AccountInfo, Appointments,
         });
     }
 
-    if (!AccountInfo) {
-        return <span>Loading...</span>
-    }
+
     return (
         <>
-            {/* /////GYM//// */}
-            {role === "Gym" ? <div className={styles.dashboard_main}>
-                <ToastContainer
-                    position="top-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                />
-
-                <div className={styles.dashboard_main_right_container}>
-
-                    {/* <div className={styles.topbar_container}>
-                        <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} role={role} />
-                    </div> */}
-                    <div className={styles.bottom_container}>
-                        {tabG === "Trainers" && <TrainersTab trainers={trainers} notify={notify} AccountInfo={AccountInfo} />}
-                        {tabG === "Subscriptions" && <SubscriptionsTab />}
-                    </div>
-
-                </div>
-
-
-            </div> : <Layout AccountInfo={AccountInfo} role={role}>
+            <Layout AccountInfo={AccountInfo} role={role}>
                 <div className={styles.dashboard_main}>
                     {/* /////TRAINER//// */}
 
                     <div className={styles.dashboard_main_right_container}>
 
-                        {/* <div className={styles.topbar_container}>
-                        <Topbar AccountInfo={AccountInfo} setTabG={setTabG} tabG={tabG} setTabT={setTabT} tabT={tabT} role={role} />
-                    </div> */}
-
-
 
                         <div className={styles.bottom_container}>
                             <DashboardHome />
-
-                            {/* {tabT === "Schedule" && <TrainerScheduleTab AccountInfo={AccountInfo} TodaysClients={TodaysClients} dispatch={dispatch} state={state} />} */}
-
-                            {/* {tabT === "Clients" && <DynamicComponentWithNoSSR AccountInfo={AccountInfo} TodaysClients={TodaysClients} />} */}
-
-                            {/* {tabT === "Subscriptions" && <SubscriptionsTab />} */}
-                            {/* {tabT === "Clients" && <DynamicComponentWithNoSSR AccountInfo={AccountInfo} TodaysClients={TodaysClients} />} */}
-                            {/* {tabT === "Programs" && <ProgramsTab AccountInfo={AccountInfo} />} */}
-
 
                         </div>
 
                     </div>
 
-                </div> </Layout>}
+                </div>
+            </Layout>
 
 
         </>
@@ -155,22 +82,38 @@ export const getServerSideProps = requireAuthentication(async context => {
 
 
     let cookie = context.req?.headers.cookie
+
+
+    console.log("HEADERS", context.req?.headers)
+
     const response = await fetch('http://localhost:9000/dashboard', {
         headers: {
             cookie: cookie!
-        }
-    });
-    const res = await response.json()
-    console.log("Dashboard response", res.data.clients)
-
-    return {
-        props: {
-            trainers: res.data.trainers || res.data.clients,
-            role: res.data.role,
-            AccountInfo: res.data.AccountInfo,
-            TodaysClients: res.data.TodaysClients || [],
-            Appointments: res.data.Appointments || []
         },
+
+    });
+    console.log("STATUS", response.status)
+    if (response.status === 404) {
+
+        return {
+            redirect: {
+                destination: '/login',
+                statusCode: 307
+            }
+        }
+    } else {
+        const res = await response.json()
+        console.log("Dashboard response", res.data.clients)
+
+
+        return {
+            props: {
+                trainers: res.data.trainers || res.data.clients || [],
+                role: res.data.role || null,
+                AccountInfo: res.data.AccountInfo || null,
+                TodaysClients: res.data.TodaysClients || [],
+            },
+        }
     }
 })
 

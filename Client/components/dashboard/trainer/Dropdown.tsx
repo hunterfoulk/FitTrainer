@@ -7,6 +7,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Link from 'next/link';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,10 +20,10 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function MenuListComposition({open,setOpen,anchorRef}) {
+export default function MenuListComposition({ open, setOpen, anchorRef }) {
   const classes = useStyles();
 
-//   const anchorRef = React.useRef<HTMLButtonElement>(null);
+  //   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -54,26 +55,27 @@ export default function MenuListComposition({open,setOpen,anchorRef}) {
   }, [open]);
 
   return (
- 
+
     <>
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                  <Link href='/profile' >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
- </>
+                  </Link>
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </>
   );
 }

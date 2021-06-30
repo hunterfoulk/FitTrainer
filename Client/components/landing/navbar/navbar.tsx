@@ -11,64 +11,60 @@ interface Props {
 }
 
 const Navbar: React.FC<Props> = ({ }) => {
+    const [loginHovering, setLoginHovering] = useState(false)
+    const [signupHovering, setSignupHovering] = useState(false)
 
 
     return (
-        <div className={styles.navbar}>
-            <div className={styles.navbar_left}>
-                <Image alt="Vercel logo" src="/images/weightslogocrimson.png" width={25} height={28} quality={100} className="avatar" />
+        <div className="navbar flex w-full max-w-[1500px] flex justify-center items-center py-4 px-2">
+            <div className="flex w-full max-w-[1500px] py-1">
+                <div className="w-auto flex items-center py-1">
+                    <div className="h-full relative px-5 ">
+                        <Image alt="Vercel logo" src="/images/weightslogocrimson.png" layout='fill'
+                            objectFit="contain" className="avatar" />
+                    </div>
+                    <div className=" h-full flex items-center">
+                        <Link href='/' >
+                            <span className="mx-1 text-white text-[22px] font-bold">FitTrainer</span>
+                        </Link>
+                    </div>
+                    <div className="flex items-center h-full px-6">
 
-                <Link href='/' >
-                    <span>FitTrainer</span>
-                </Link>
+                        <li className="cursor-pointer inline mx-6 text-white text-md list-none text-[grey] text-[16px]">About</li>
+                        <li className="cursor-pointer inline mx-6 text-white text-md list-none text-[grey] text-[16px]">Features</li>
+                        <li className="cursor-pointer inline mx-6 text-white text-md list-none text-[grey] text-[16px]">Contact</li>
+                        <li className="cursor-pointer inline mx-6 text-white text-md list-none text-[grey] text-[16px]">Pro</li>
 
+                    </div>
+
+                </div>
+                <div className="flex flex-1 justify-end py-1">
+
+                    <div className="flex rounded-sm text-white" style={{ backgroundColor: "#3535359a" }}>
+                        <Link href='/login' >
+
+                            <div className="cursor-pointer text-md py-1.5 flex items-center justify-center" onMouseEnter={() => setLoginHovering(true)} onMouseLeave={() => setLoginHovering(false)} style={loginHovering ? { backgroundColor: "#4e4e4e9a" } : null}>
+                                <span className="border-r border-white w-full px-5 h-full py-1">
+                                    Login
+
+                            </span>
+                            </div>
+
+                        </Link>
+                        <Link href='/signup' >
+
+                            <div className="cursor-pointer text-md flex py-1.5 items-center justify-center" onMouseEnter={() => setSignupHovering(true)} onMouseLeave={() => setSignupHovering(false)} style={signupHovering ? { backgroundColor: "#4e4e4e9a" } : null}>
+                                <span className="px-5 h-full py-1">
+
+                                    Sign Up
+                            </span>
+                            </div>
+
+                        </Link>
+                    </div>
+
+                </div>
             </div>
-            <div className={styles.navbar_right} >
-                <div className={styles.navbar_right_routes}>
-
-                    <ul>
-                        <li>
-                            <span>Features</span>
-                            <ul>
-                                <li><a href="#">Option1</a></li>
-                                <li><a href="#">Option2 yo</a></li>
-                                <li><a href="#">Option3</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <span>Community</span>
-                            <ul>
-                                <li><a href="#">Option1</a></li>
-                                <li><a href="#">Option2 hey</a></li>
-                                <li><a href="#">Option3</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <span>Pricing</span>
-                            <ul>
-                                <li><a href="#">Option1</a></li>
-                                <li><a href="#">Option2 hi</a></li>
-                                <li><a href="#">Option3</a></li>
-                            </ul>
-                        </li>
-
-                    </ul>
-
-                </div>
-                <div className={styles.navbar_right_links}>
-                    <span> <AiOutlineFacebook /></span>
-                    <span> <FiTwitter /></span>
-                    <span> <FaInstagram /></span>
-                </div>
-                <div className={styles.navbar_right_button_container}>
-                    <Link href='/login' >
-
-                        <button className={styles.login_button}>Log in</button>
-                    </Link>
-                </div>
-
-            </div>
-
         </div>
     )
 }

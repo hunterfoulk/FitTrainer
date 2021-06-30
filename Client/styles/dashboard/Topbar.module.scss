@@ -10,8 +10,9 @@
   border-bottom: 1px solid rgba(167, 166, 166, 0.295);
   // background-color: rgba(236, 236, 236, 0.685);
   // background-color: #0a0a0a;
-  position: relative;
+  position: sticky;
   z-index: 10;
+  width: 100%;
   // background-color: #ff592c;
 
   .topbar_empty_container {
@@ -59,8 +60,8 @@
 
     img {
       // height:60%;
-      max-height: 35px;
-      width: 30px;
+      max-height: 38px;
+      width: 32px;
       border-radius: 50%;
       // height:100%;
       //  width:100px;

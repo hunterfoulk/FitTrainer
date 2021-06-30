@@ -52,9 +52,13 @@ export const Dashboard = async (req: Request, res: Response,) => {
 		let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 		let clients = await Query(Statements.Get.AllTrainersClients(TrainerId))
 		let TodaysClients = await Query(Statements.Get.TrainersTodaysClients())
-		let Appointments = await Query(Statements.Get.Appointments(TrainerId))
-		console.log("res", clients)
-		resolver(res, 200, 'Clients Returned', { clients: clients, AccountInfo: AccountInfo[0], role: TrainerRole, TodaysClients: TodaysClients, Appointments: Appointments })
+
+
+
+
+
+
+		resolver(res, 200, 'Clients Returned', { clients: clients, AccountInfo: AccountInfo[0], role: TrainerRole, TodaysClients: TodaysClients })
 
 	} else {
 		console.log("Gyms IN IF", trainer)
@@ -80,8 +84,20 @@ export const Programs = async (req: Request, res: Response,) => {
 
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 	let workouts = await Query(Statements.Get.GetTrainersWorkouts(TrainerId))
+	let muscle_groups = await Query(Statements.Get.GetMuscleGroups())
+	let equipment = await Query(Statements.Get.GetEquipment())
 
-	resolver(res, 200, 'Exercise List Returned', { exerciseList: exerciseList, AccountInfo: AccountInfo[0], role: "Trainer", workouts: workouts })
+	resolver(res, 200, 'Exercise List Returned', { exerciseList: exerciseList, AccountInfo: AccountInfo[0], role: "Trainer", workouts: workouts, muscle_groups: muscle_groups, equipment: equipment })
+
+}
+
+export const TrainersWorkouts = async (req: Request, res: Response,) => {
+	const { TrainerId } = req.query as any
+	console.log("TRIANER IDDD", TrainerId)
+	let workouts = await Query(Statements.Get.GetTrainersPrograms(TrainerId))
+	console.log("WORKOUTS", workouts)
+
+	resolver(res, 200, 'Workouts List Returned', { workouts: workouts })
 
 }
 
@@ -95,10 +111,26 @@ export const Schedule = async (req: Request, res: Response,) => {
 
 
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
-	let TrainersClients = await Query(Statements.Get.AllTrainersClients(TrainerId))
-	let Appointments = await Query(Statements.Get.Appointments(TrainerId))
+	let TrainersClients = await Query(Statements.Get.GetTrainersClients(TrainerId))
+	let _Appointments = await Query(Statements.Get.Appointments(TrainerId))
+	let workouts = await Query(Statements.Get.GetTrainersWorkouts(TrainerId))
 
-	resolver(res, 200, 'Exercise List Returned', { AccountInfo: AccountInfo[0], role: "Trainer", Appointments: Appointments, TrainersClients: TrainersClients })
+	let Appointments = _Appointments.map((app, index) => {
+		if (app.WorkoutId !== null) {
+			let workout = workouts.find(element => element.WorkoutId == app.WorkoutId)
+
+			return { ...app, workout: workout }
+
+		} else {
+			return { ...app, workout: {} }
+		}
+	})
+
+	console.log("NEW", Appointments)
+
+
+
+	resolver(res, 200, 'Exercise List Returned', { AccountInfo: AccountInfo[0], role: "Trainer", Appointments: Appointments, TrainersClients: TrainersClients, workouts: workouts })
 
 }
 
@@ -120,22 +152,30 @@ export const Auth = (req: Request, res: Response, next): void => {
 	if (Object.keys(trainerCookie).length <= 0) return resolver(res, 400, 'No Cookies', null)
 
 	jwt.verify(trainerCookie, TRAINER_SECRET, { issuer: 'FT-Server' }, async (err, decoded: IDecoded) => {
-		let gym = decoded.gym
-		let trainer = decoded.trainer
-		if (!decoded) {
-			console.log("BAD TOKEN")
+
+		console.log("FIRED OFF!", decoded)
+		if (err && !decoded) {
+			console.log("TOKEN ERROR", err) //token expired error handler.
+
+			revokeTrainerCookie(res)
+
 
 		}
 
-		else if (trainer) {
+		if (!decoded && !err) {
+			console.log("BAD TOKEN")
+			revokeTrainerCookie(res)
+
+		}
+
+
+		if (decoded) {
+			let trainer = decoded.trainer
 			console.log("decoded ID TRAINER", decoded.trainer)
 			res.locals = trainer
 			next()
-		} else {
-			console.log("decoded ID GYM", decoded.trainer)
-			res.locals = gym
-			next()
 		}
+
 	})
 }
 
@@ -159,9 +199,9 @@ export const trainerLogin = (req: Request, res: Response): void => {
 			if (!passedComparison) return resolver(res, 401, 'Password Incorrect')
 			console.log({ passedComparison })
 
+			// const accessToken = createAccessToken(tPayload)
 			const tPayload = new Trainer(TrainerId, email, 'Trainer')
 			const trainerToken = createTrainerToken(tPayload)
-			// const accessToken = createAccessToken(tPayload)
 
 			sendTrainerCookie(res, trainerToken)
 			resolver(res, 200, 'Authenticated', { TrainerId })
@@ -211,9 +251,8 @@ export const gymLogin = (req: Request, res: Response): void => {
 
 
 export const Register = (req: Request, res: Response): void => {
-	const { email, password, gymName } = req.body
+	const { email, password, firstName, lastName, phone } = req.body
 	console.log({ body: req.body })
-	console.log("GYM NAME", gymName)
 	Query(Statements.Get.Register(email))
 		.then(async (getResults) => {
 			const trainerFound = getResults.length > 0
@@ -224,7 +263,7 @@ export const Register = (req: Request, res: Response): void => {
 			const hashedPass = await bcryptHash(password)
 			const joinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
-			Query(Statements.Post.Register(email, hashedPass, joinDate, gymName))
+			Query(Statements.Post.Register(email, hashedPass, joinDate, phone, lastName, firstName))
 				.then((postResults) => {
 					resolver(res, 200, 'Account Created', { trainerId: postResults.insertId })
 				})
@@ -269,6 +308,7 @@ export const TrainerSignup = (req: Request, res: Response): void => {
 			resolver(res, 503, 'Database Error')
 		})
 }
+
 // let accountName = "fittrainer"
 // const sharedKeyCredential = new StorageSharedKeyCredential(
 // 	'fittrainer',
@@ -295,50 +335,136 @@ interface MulterRequest extends Request {
 	files: any;
 }
 
+
+
+export const EditProfile = async (req: MulterRequest, res: Response): Promise<void> => {
+	const { firstname, email, lastname, mobile, avatar, id } = req.body;
+	console.log("AVATAR", avatar)
+	console.log("FILES", req.files.avatar)
+	let Avatar = req.files.avatar
+	console.log("avatar yo", Avatar)
+	if (req.files.avatar === undefined) {
+		console.log("no files yo")
+		await Query(Statements.Update.UpdateProfileWithoutAvatar(email, firstname, lastname, mobile, id));
+		let TrainerId = id
+		const AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId));
+		resolver(res, 200, 'Client Created Succesfully!', { AccountInfo: AccountInfo[0] })
+
+	} else {
+		console.log("ELSE")
+		/////////////////////////////////////////////////////////////////////////////////////
+		let accountName = "fittrainerstorage"
+
+
+
+		const sharedKeyCredential = new StorageSharedKeyCredential(
+			'fittrainerstorage',
+			'R3DC3z3ioYPvK5AcEzIchvxOGBUkGnpg9p67gUa120eiDzOBU6lkkixxiQ8k82z68PF/BFjeFFbeMGCfsD6Zbw==');
+		const pipeline = newPipeline(sharedKeyCredential);
+
+		const blobServiceClient = new BlobServiceClient(
+			`https://fittrainerstorage.blob.core.windows.net`,
+			pipeline
+		);
+
+		const container = 'fit-container';
+		const ONE_MEGABYTE = 1024 * 1024;
+		const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
+
+
+		const blobName = req.files.avatar.name;
+		const stream = getStream(req.files.avatar.data);
+		const containerClient = blobServiceClient.getContainerClient(container);
+		const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+		try {
+
+			await blockBlobClient.uploadStream(stream, uploadOptions.bufferSize, uploadOptions.maxBuffers, { blobHTTPHeaders: { blobContentType: "image/jpeg" } });
+			let avatarUrl = blockBlobClient.url
+			console.log("AVATAR URL:", avatarUrl)
+
+			await Query(Statements.Update.UpdateProfileWithAvatar(email, firstname, lastname, mobile, id, avatarUrl));
+			let TrainerId = id
+			const AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId));
+			resolver(res, 200, 'Client Created Succesfully!', { AccountInfo: AccountInfo[0] })
+
+		} catch (err) {
+			console.log(`ERROR IN AVATAR UPLOAD: ${err.message}`);
+			resolver(res, 503, 'Database Error')
+
+		}
+
+	}
+
+}
+
+
+
+
 export const TrainerCreateClient = async (req: MulterRequest, res: Response): Promise<void> => {
-	const { gymId, trainerId, email, firstName, lastName, birthday, mobile, goal } = req.body;
-	console.log({ body: req.body })
-	console.log(typeof gymId)
-	let GymId = Math.floor(gymId)
-	let TrainerId = Math.floor(trainerId)
-	let accountName = "fittrainer"
-	const sharedKeyCredential = new StorageSharedKeyCredential(
-		'fittrainer',
-		'AYQimv122pTLcHo9bjLojyGwDRKFaMgrf+qwtZw2VqEh+3AtamJUH2/VEppKar4yzBLB2K+z41PZo+ckkPUrGw==');
-	const pipeline = newPipeline(sharedKeyCredential);
-
-	const blobServiceClient = new BlobServiceClient(
-		`https://${accountName}.blob.core.windows.net`,
-		pipeline
-	);
-
-	const container = 'fit-trainer';
-	const ONE_MEGABYTE = 1024 * 1024;
-	const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
+	const { trainerId, email, firstName, lastName, mobile, goal } = req.body;
+	let accountName = "fittrainerstorage"
+	let TrainerId = trainerId
+	let avatar = req.files.avatar
+	console.log("TRAINER ID", trainerId, email, avatar)
 
 	const JoinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
-	const blobName = req.files.avatar.name;
-	const stream = getStream(req.files.avatar.data);
-	const containerClient = blobServiceClient.getContainerClient(container);
-	const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+	if (!avatar) {
+		console.log("no avatar dawg")
+		let defaultAvatar = "https://fittrainerstorage.blob.core.windows.net/fit-container/defaultavatar.png"
+		let result = await Query(Statements.Post.CreateClient(email, firstName, lastName, JoinDate, mobile, goal, TrainerId, defaultAvatar));
+		let ClientId = result.insertId
+		let newClient = await Query(Statements.Get.NewClient(ClientId))
+		resolver(res, 200, 'Client Created Succesfully!', { newClient: newClient[0] })
 
-	try {
 
-		await blockBlobClient.uploadStream(stream,
-			uploadOptions.bufferSize, uploadOptions.maxBuffers,
-			{ blobHTTPHeaders: { blobContentType: "image/jpeg" } });
-		let avatarUrl = blockBlobClient.url
-		console.log("AVATAR URL:", avatarUrl)
-		await Query(Statements.Post.CreateClient(email, firstName, lastName, JoinDate, birthday, mobile, goal, GymId, TrainerId, avatarUrl));
+	} else if (avatar) {
 
-		resolver(res, 200, 'Client Created Succesfully!', { Results: [] })
 
-	} catch (err) {
-		console.log(`ERROR IN AVATAR UPLOAD: ${err.message}`);
-		resolver(res, 503, 'Database Error')
+		console.log("REQUEST HAS AVATAR")
 
+		const sharedKeyCredential = new StorageSharedKeyCredential(
+			'fittrainerstorage',
+			'R3DC3z3ioYPvK5AcEzIchvxOGBUkGnpg9p67gUa120eiDzOBU6lkkixxiQ8k82z68PF/BFjeFFbeMGCfsD6Zbw==');
+		const pipeline = newPipeline(sharedKeyCredential);
+
+		const blobServiceClient = new BlobServiceClient(
+			`https://fittrainerstorage.blob.core.windows.net`,
+			pipeline
+		);
+
+
+		const container = 'fit-container';
+		const ONE_MEGABYTE = 1024 * 1024;
+		const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
+
+
+		const blobName = req.files.avatar.name;
+		const stream = getStream(req.files.avatar.data);
+		const containerClient = blobServiceClient.getContainerClient(container);
+		const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+		try {
+
+			await blockBlobClient.uploadStream(stream,
+				uploadOptions.bufferSize, uploadOptions.maxBuffers,
+				{ blobHTTPHeaders: { blobContentType: "image/jpeg" } });
+			let avatarUrl = blockBlobClient.url
+			console.log("AVATAR URL:", avatarUrl)
+
+			let result = await Query(Statements.Post.CreateClient(email, firstName, lastName, JoinDate, mobile, goal, TrainerId, avatarUrl));
+			let ClientId = result.insertId
+			let newClient = await Query(Statements.Get.NewClient(ClientId))
+			resolver(res, 200, 'Client Created Succesfully!', { newClient: newClient[0] })
+
+		} catch (err) {
+			console.log(`ERROR IN AVATAR UPLOAD: ${err.message}`);
+			resolver(res, 503, 'Database Error')
+
+		}
 	}
+
 
 
 }
@@ -351,7 +477,7 @@ export const CreateAppointment = async (req: MulterRequest, res: Response): Prom
 		console.log("BODY", payload)
 
 		const clientName = await Query(Statements.Post.getClientName(payload.ClientId));
-
+		console.log("CLIENT NAME", clientName)
 		const firstName = clientName[0].FirstName.charAt(0).toUpperCase() + clientName[0].FirstName.slice(1);
 		const lastName = clientName[0].LastName.charAt(0).toUpperCase() + clientName[0].LastName.slice(1);
 		const title = firstName.concat(" ", lastName)
@@ -373,6 +499,25 @@ export const CreateAppointment = async (req: MulterRequest, res: Response): Prom
 }
 
 
+export const UpdateAppointment = async (req: MulterRequest, res: Response): Promise<void> => {
+	try {
+		const { payload } = req.body
+		let WorkoutId = payload.WorkoutId
+		let id = parseInt(payload.id)
+		let endDate = payload.endDate
+		let startDate = payload.startDate
+
+		console.log("PAYLOAD", payload)
+		await Query(Statements.Update.UpdateAppointment(WorkoutId, id, startDate, endDate));
+
+		resolver(res, 200, 'Sending New Appointment Back.')
+
+	} catch (err) {
+		console.log(err)
+	}
+}
+
+
 
 export const DeleteNewAppointment = async (req: MulterRequest, res: Response): Promise<void> => {
 	try {
@@ -384,15 +529,42 @@ export const DeleteNewAppointment = async (req: MulterRequest, res: Response): P
 	} catch (err) {
 		console.log(err)
 	}
+}
+
+
+export const DeleteClient = async (req: MulterRequest, res: Response): Promise<void> => {
+	try {
+		const { ClientId } = req.body
+		await Query(Statements.Delete.DeleteClient(ClientId));
+
+		resolver(res, 200, 'Deleted Client Succesfully')
+
+	} catch (err) {
+		console.log(err)
+	}
+
+}
+
+
+export const DeleteWorkout = async (req: MulterRequest, res: Response): Promise<void> => {
+	try {
+		const { WorkoutId } = req.body
+		await Query(Statements.Delete.DeleteWorkout(WorkoutId));
+
+		resolver(res, 200, 'Deleted Workout Succesfully')
+
+	} catch (err) {
+		console.log(err)
+	}
 
 }
 
 export const AccountInfo = async (req: Request, res: Response): Promise<void> => {
+
 	const trainer = res.locals
 	const TrainerId = trainer.TrainerId
 	console.log("AccountInfo fireddd")
 	console.log("LOCALS VAR", trainer)
-
 
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 
@@ -405,17 +577,95 @@ export const AccountInfo = async (req: Request, res: Response): Promise<void> =>
 
 
 export const CreateWorkout = async (req: Request, res: Response): Promise<void> => {
+
 	const { TrainerId, exercises, workout_name } = req.body
-	// console.log("DATA", JSON.stringify(exercises))
+
 	let arr = JSON.stringify(exercises)
-	console.log("ARR", arr)
 
 	const JoinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
-	await Query(Statements.Post.CreateNewWorkout(TrainerId, arr, workout_name, JoinDate))
+	let results = await Query(Statements.Post.CreateNewWorkout(TrainerId, arr, workout_name, JoinDate))
+	let WorkoutId = results.insertId
+
+	let workout = await Query(Statements.Get.GetCreatedWorkout(WorkoutId))
 
 
 	console.log(AccountInfo)
-	resolver(res, 200, 'Workouit Created Succesfull.', {})
+	resolver(res, 200, 'Workouit Created Succesfull.', { workout: workout[0] })
+
+
+}
+
+
+export const EditWorkout = async (req: Request, res: Response): Promise<void> => {
+
+	const { WorkoutId, exercises, workout_name } = req.body
+	console.log("ID", WorkoutId)
+	let arr = JSON.stringify(exercises)
+
+	// const JoinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
+
+	await Query(Statements.Update.UpdateWorkout(WorkoutId, arr, workout_name))
+
+
+	let workout = await Query(Statements.Get.GetCreatedWorkout(WorkoutId))
+
+
+	console.log(AccountInfo)
+	resolver(res, 200, 'Workouit Created Succesfull.', { workout: workout[0] })
+
+}
+
+
+
+
+export const ClientsRoute = async (req: Request, res: Response): Promise<void> => {
+	const trainer = res.locals
+	const TrainerId = trainer.TrainerId
+	console.log("AccountInfo fireddd")
+	console.log("LOCALS VAR", trainer)
+
+
+	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
+	let Clients = await Query(Statements.Get.GetTrainersClients(TrainerId))
+
+	resolver(res, 200, 'Sending Account Info Back.', { AccountInfo: AccountInfo[0], clients: Clients, role: "Trainer" })
+
+
+}
+
+
+
+export const EditAppointmentWorkout = async (req: Request, res: Response): Promise<void> => {
+
+	const { WorkoutId, id } = req.body
+
+	await Query(Statements.Update.UpdateAppointmentWorkout(WorkoutId, id))
+	let Appointment = await Query(Statements.Get.GetNewAppointment(id))
+
+	resolver(res, 200, 'Sending Appointment Info Back.', { Appointment: Appointment })
+
+
+}
+
+export const DeleteWorkoutFromAppointment = async (req: Request, res: Response): Promise<void> => {
+	const { id } = req.body
+	await Query(Statements.Update.deleteWorkoutFromAppointment(id))
+	let Appointment = await Query(Statements.Get.GetNewAppointment(id))
+
+	resolver(res, 200, 'Sending Appointment Info Back.', { Appointment: Appointment })
+}
+
+
+export const CreateNewExercise = async (req: Request, res: Response): Promise<void> => {
+	const { MuscleGroupId, EquipmentId, Name } = req.body
+	console.log(MuscleGroupId, EquipmentId, Name)
+	let _newExercise = await Query(Statements.Post.CreateNewExercise(MuscleGroupId, EquipmentId, Name))
+	console.log("YOO", _newExercise.insertId)
+	let ExerciseId = _newExercise.insertId
+	let newExercise = await Query(Statements.Get.GetNewExercise(ExerciseId))
+
+	resolver(res, 200, 'Sending Exercise Info Back.', { newExercise: newExercise[0] })
+
 
 }
