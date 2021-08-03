@@ -17,9 +17,7 @@ const Modal = ({ isToggled, setToggled, dispatch, state }) => {
     const [endDate, setEndDate] = useState<any>(new Date(state.endDate));
 
     const event = new Date(state.endDate);
-    console.log("state", state.endDate)
 
-    console.log("EVENT", event)
 
     const ref = useRef<any>();
     useClickOutside(ref, () => {
