@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 
 const ClientsList = ({ state, term, setModalToggled, setClientDetails, setHover, hover }) => {
 
-
+    console.log("STATE", state)
 
     const style = {
         normal: {
@@ -56,35 +56,40 @@ const ClientsList = ({ state, term, setModalToggled, setClientDetails, setHover,
     }
 
 
+
+
     return (
         <>
             {state.clients.filter(user => user.FirstName.toLowerCase().includes(term.toLowerCase())).map((client, i) => {
                 let FirstName = client.FirstName.charAt(0).toUpperCase() + client.FirstName.slice(1)
                 let LastName = client.LastName.charAt(0).toUpperCase() + client.LastName.slice(1)
                 let JoinDate = client.JoinDate.split('T')[0]
+                let maxGoals = 5
+                let clientCurr = client.thisWeeksWorkouts
+                let clientGoal = parseInt(client.Goal)
+
+                let currTotal = clientCurr / clientGoal
+                console.log("YO PERECENTAGE", clientCurr)
+
+                let goalPercentage = currTotal * 100
+                console.log("GOAL PERECENTAGE", goalPercentage)
+
                 return (
 
-                    <StyledTableRow onClick={() => {
+                    <StyledTableRow className="cursor-pointer" onClick={() => {
                         setClientDetails(client)
                         setModalToggled(true)
                     }}
-                        onMouseEnter={() => {
-                            setHover(true);
-                        }}
-                        onMouseLeave={() => {
-                            setHover(false);
-                        }}
-                        style={{
-                            ...style.normal,
-                            ...(hover ? style.hover : null)
-                        }}>
+
+
+                    >
                         <StyledTableCell className="flex flex-row "> <div className="flex flex-row items-center"><img className="rounded-full w-[30px] h-[30px] mr-3 " src={client.Avatar} /> {FirstName} {LastName}</div></StyledTableCell>
                         <StyledTableCell className="flex justify-center items-center w-[200px]" >
 
 
 
                             <motion.div className="table-progress-bar-striped max-w-[100%]">
-                                <motion.div style={{ width: "33%" }}><b><p>33%</p></b></motion.div>
+                                <motion.div style={goalPercentage == 0 ? { color: "white", width: `10%`, maxWidth: "100%" } : { width: `${goalPercentage}%`, maxWidth: "100%" }}><b><p>{Math.round(goalPercentage)}%</p></b></motion.div>
                             </motion.div>
 
                         </StyledTableCell>

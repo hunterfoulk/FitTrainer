@@ -1,9 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 export default function GetStarted() {
+    const controls = useAnimation();
+    const [ref, inView] = useInView();
+
+    useEffect(() => {
+        if (inView) {
+            controls.start("visible");
+        }
+    }, [controls, inView]);
+
+
+
     return (
-        <div className="flex-col started:flex flex-row w-full mt-[140px] p-5 max-w-[1500px]">
+        <motion.div ref={ref}
+            animate={controls}
+            initial="hidden"
+            transition={{ duration: 0.4 }}
+            variants={{
+                visible: { opacity: 1, scale: 1 },
+                hidden: { opacity: 0, scale: 1 }
+            }} className="flex-col started:flex flex-row w-full mt-[160px] p-5 max-w-[1500px]">
             <div className="flex-1 flex justify-center mb-[30px] started:justify-start flex-1 px-2">
                 <div >
                     <Image
@@ -26,6 +46,6 @@ export default function GetStarted() {
                 </div>
             </div>
 
-        </div>
+        </motion.div>
     )
 }

@@ -16,7 +16,7 @@ import {
     Input,
     Button
 } from "@chakra-ui/react"
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useContext } from "react"
 import { useDisclosure } from "@chakra-ui/react"
 import { DateTimePicker, KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import moment from "moment";
@@ -24,15 +24,17 @@ import MomentUtils from "@date-io/moment";
 import {
     Select
 } from "@chakra-ui/react"
+import { AppointmentContext } from "../../../context/context"
 
 
 
-export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, AccountInfo, dispatch, state }) {
+export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, AccountInfo }) {
     moment.locale("en");
     const [selectedDateStart, handleDateChangeStart] = useState(new Date())
     const [selectedDateEnd, handleDateChangeEnd] = useState(new Date("yyyy-MM-ddThh:mm"));
     const [locale, setLocale] = useState("en");
     const [title, setTitle] = useState(0)
+    const { dispatch: appointmentDispatch, appData } = useContext(AppointmentContext);
 
     console.log("TITLE", title)
 
@@ -73,7 +75,8 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
         console.log("DATA", data)
 
         onClose()
-        dispatch({ type: "UPDATE", appointment: data });
+        // dispatch({ type: "UPDATE", appointment: data });
+        appointmentDispatch({ type: "UPDATE_APPOINTMENTS", appointment: data })
 
     }
 

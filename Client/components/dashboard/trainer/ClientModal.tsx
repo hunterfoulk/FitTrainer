@@ -15,6 +15,15 @@ const ClientModal = ({ isModalToggled, setModalToggled, clientDetails, state, di
         hidden: { opacity: 0 },
     }
 
+    console.log("client details", clientDetails)
+    let clientCurr = clientDetails.thisWeeksWorkouts
+    let clientGoal = parseInt(clientDetails.Goal)
+
+    let currTotal = clientCurr / clientGoal
+    console.log("YO PERECENTAGE", clientCurr)
+
+    let goalPercentage = currTotal * 100
+    console.log("GOAL PERECENTAGE", goalPercentage)
 
     return (
         <>
@@ -72,7 +81,7 @@ const ClientModal = ({ isModalToggled, setModalToggled, clientDetails, state, di
 
 
                                 <motion.div className="progress-bar-striped max-w-[100%] ">
-                                    <motion.div style={{ width: "33%" }}><b><p>33%</p></b></motion.div>
+                                    <motion.div style={goalPercentage == 0 ? { color: "white", width: `10%`, maxWidth: "100%" } : { width: `${goalPercentage}%`, maxWidth: "100%" }}><b><p>{Math.round(goalPercentage)}%</p></b></motion.div>
                                 </motion.div>
                             </motion.div>
                             <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 1 }} exit={{ opacity: 0, y: 30 }} className="flex justify-around flex-wrap">

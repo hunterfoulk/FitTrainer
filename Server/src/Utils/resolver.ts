@@ -6,8 +6,8 @@ export default function resolver(
 	message: string = '',
 	data: any = {}
 ) {
-	message.length > 0 && console.log('Resolver: ', data)
-	console.log("RESOLVER FIRED", code)
+	// message.length > 0 && console.log('Resolver: ', data)
+	// console.log("RESOLVER FIRED", code)
 
 	res.json({
 		status: code,

@@ -146,7 +146,7 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
 
             <Layout AccountInfo={AccountInfo} role={role}>
                 <motion.div className={styles.programs_tab_main}>
-                    <EditModal workoutState={workoutState} open={open} setOpen={setOpen} workoutDispatch={workoutDispatch} exerciseList={exerciseList} myWorkoutsDispatch={dispatch} />
+                    <EditModal workoutState={workoutState} open={open} setOpen={setOpen} workoutDispatch={workoutDispatch} exerciseState={exerciseState} myWorkoutsDispatch={dispatch} />
                     <Modal onOpen={onOpen} onClose={onClose} isOpen={isOpen} exerciseState={exerciseState} exerciseDispatch={exerciseDispatch} AccountInfo={AccountInfo} workoutDispatch={dispatch} tab={tab} equipment={equipment} muscle_groups={muscle_groups} />
                     <div className={styles.programs_tab_header}>
                         <h1>{tab === "Home" ? "Programs" : "Exercises"}</h1>
@@ -287,7 +287,7 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
                                                 }
                                             })
                                         }}>
-                                            <DeleteIcon style={{ color: "#cf2121", outline: "none" }} />
+                                            <DeleteIcon style={{ color: "#ea2537", outline: "none" }} />
                                         </IconButton>
 
                                     </div>

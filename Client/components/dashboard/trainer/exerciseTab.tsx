@@ -44,22 +44,22 @@ const ExerciseTab = ({ exerciseState, exerciseDispatch, exerciseTerm, muscle_gro
 
     return (
         <>
-            <div className="flex flex-col w-full max-w-[1400px] items-center px-4 overflow-x-hidden mt-4">
+            <div className="flex flex-col w-full max-w-[1400px] items-center px-4 mt-4">
 
-                <motion.div className="example w-full max-w-[1400px] ">
-                    <TableContainer component={Paper} className="w-full max-w-[1400px] mt-5">
+                <motion.div className="w-full max-w-[1400px] h-[100vh]">
+                    <TableContainer component={Paper} className="w-full max-w-[1400px] mt-5 ">
                         <Table className={classes.table} aria-label="customized table">
                             <TableHead >
                                 <TableRow>
                                     <StyledTableCell >Muscle Group</StyledTableCell>
                                     <StyledTableCell align="center">Exercise Name</StyledTableCell>
-                                    <StyledTableCell align="center">Equipment</StyledTableCell>
+                                    <StyledTableCell align="right">Equipment</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-
-                                {/* //clients list // */}
                                 <ExerciseList exerciseTerm={exerciseTerm} exerciseState={exerciseState} exerciseDispatch={exerciseDispatch} muscle_groups={muscle_groups} equipment={equipment} />
+                                {/* //clients list // */}
+
 
                             </TableBody>
                         </Table>

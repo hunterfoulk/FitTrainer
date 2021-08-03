@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Link from 'next/link';
+import Router from "next/router"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,10 +30,30 @@ export default function MenuListComposition({ open, setOpen, anchorRef }) {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: React.MouseEvent<EventTarget>) => {
+
+  const handleLogout = async () => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
       return;
     }
+
+    await fetch('http://localhost:9000/logout', {
+      method: 'get',
+      credentials: 'include'
+    });
+    window.localStorage.removeItem('_ftTrainerAuth')
+    Router.push("/login")
+
+    setOpen(false);
+  }
+
+  const handleClose = async (event: React.MouseEvent<EventTarget>) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
+      return;
+    }
+
+
+
+
 
     setOpen(false);
   };
@@ -69,7 +90,7 @@ export default function MenuListComposition({ open, setOpen, anchorRef }) {
                   <Link href='/profile' >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
                   </Link>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

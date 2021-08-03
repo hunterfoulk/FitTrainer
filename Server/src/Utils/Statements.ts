@@ -59,14 +59,13 @@ export const statements = {
 		`,
 		RefreshValidation: (
 		): SQLStatement => SQL`
-		
 		`,
 		Appointments: (
 			TrainerId: number,
 		): SQLStatement => SQL`
-			SELECT *
-		    FROM appointments
-		    WHERE appointments.TrainerId = ${TrainerId}
+			SELECT a.*, b.Avatar, b.ClientId,b.JoinDate
+		    FROM appointments a INNER JOIN clients b ON a.ClientId = b.ClientId
+		    WHERE a.TrainerId = ${TrainerId}
 		`,
 		GetNewAppointment: (
 			id: number,
@@ -131,6 +130,13 @@ export const statements = {
 			ExerciseId: string
 		): SQLStatement => SQL`
 			SELECT * FROM exercises a INNER JOIN muscle_groups b ON a.Muscle_Group = b.MuscleGroupId INNER JOIN equipment c ON a.Equipment = c.EquipmentId WHERE ExerciseId = ${ExerciseId}
+		`,
+		GetRecentAppointments: (
+			TrainerId: number,
+
+		): SQLStatement => SQL`
+		select * from appointments
+		where startDate between date_sub(now(),INTERVAL 1 WEEK) and now() AND TrainerId = ${TrainerId} AND completed = 1
 		`,
 
 	},
@@ -316,6 +322,20 @@ export const statements = {
 			SET WorkoutId = NULL
 			WHERE id = ${id}
 		`,
+		UpdateAppointmentCompletedStatusTrue: (
+			id: number
+		): SQLStatement => SQL`
+			UPDATE appointments
+			SET completed = 1
+			WHERE id = ${id}
+		`,
+		UpdateAppointmentCompletedStatusFalse: (
+			id: number
+		): SQLStatement => SQL`
+			UPDATE appointments
+			SET completed = 0
+			WHERE id = ${id}
+		`,
 
 	},
 	Delete: {
@@ -337,7 +357,12 @@ export const statements = {
 			DELETE FROM
 			workouts WHERE WorkoutId = ${WorkoutId}
 		`,
-
+		DeleteAppointmentsAfterClientDeleted: (
+			ClientId: number
+		): SQLStatement => SQL`
+			DELETE FROM
+			appointments WHERE ClientId = ${ClientId}
+		`,
 
 
 	},

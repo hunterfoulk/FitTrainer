@@ -28,6 +28,10 @@ export default function userRouter(router: Router): void {
 		trainerController.ClientsRoute(req, res)
 	})
 
+	router.route('/appointmentsPage').get(Auth, (req: Request, res: Response): void => {
+		trainerController.AppointmentsPage(req, res)
+	})
+
 	router.route('/createWorkout').post(trainerController.CreateWorkout)
 
 	router.route('/deleteWorkout').post(trainerController.DeleteWorkout)
@@ -61,6 +65,11 @@ export default function userRouter(router: Router): void {
 	router.route('/deleteWorkoutFromAppointment').post(trainerController.DeleteWorkoutFromAppointment)
 
 	router.route('/createNewExercise').post(trainerController.CreateNewExercise)
+
+	router.route('/updateAppointmentCompletedStatus').post(trainerController.UpdateAppointmentCompletedStatus)
+
+	router.route('/test').post(trainerController.Test)
+
 
 
 

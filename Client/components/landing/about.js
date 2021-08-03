@@ -1,12 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from "../../styles/Main.module.scss"
 import { MdPlayArrow } from 'react-icons/md';
 import Image from 'next/image'
-
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 export default function About() {
+    const controls = useAnimation();
+    const [ref, inView] = useInView();
+
+    useEffect(() => {
+        if (inView) {
+            controls.start("visible");
+        }
+    }, [controls, inView]);
+
+
     return (
-        <div className={styles.about_container}>
+        <motion.div ref={ref}
+            animate={controls}
+            initial="hidden"
+            transition={{ duration: 0.4 }}
+            variants={{
+                visible: { opacity: 1, scale: 1 },
+                hidden: { opacity: 0, scale: 1 }
+            }} className={styles.about_container}>
 
             <div className={styles.about_header_container}>
                 <span>The Worlds Leading Fitness Training And Gym Software <span style={{ color: "#e0021b" }}>Around The World.</span></span>
@@ -42,6 +60,6 @@ export default function About() {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }

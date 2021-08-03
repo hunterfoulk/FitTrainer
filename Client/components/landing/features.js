@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IoMdCheckbox } from 'react-icons/io';
 import Image from 'next/image'
 // import myImg from "../../public/images/qualitative-research.PNG"
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 export default function Features() {
+    const controls = useAnimation();
+    const [ref, inView] = useInView();
+
+    useEffect(() => {
+        if (inView) {
+            controls.start("visible");
+        }
+    }, [controls, inView]);
+
+
     return (
-        <div className="flex flex-col items-center features:flex-row w-full max-w-[1500px] justify-center mt-[120px] mb-[100px] ">
+        <motion.div ref={ref}
+            animate={controls}
+            initial="hidden"
+            transition={{ duration: 0.4 }}
+            variants={{
+                visible: { opacity: 1, scale: 1 },
+                hidden: { opacity: 0, scale: 1 }
+            }} className="flex flex-col items-center features:flex-row w-full max-w-[1500px] justify-center mt-[160px] mb-[160px] ">
 
 
             <div className="flex flex-1 flex-col items-center features:items-start">
@@ -49,19 +68,6 @@ export default function Features() {
                     </div>
 
 
-
-
-                    {/* <div className="flex items-center justify-center w-[100%] md:w-[50%] justify-start">
-                            <IoMdCheckbox className="text-[#575757] mx-3" />
-                            <span className="text-[#F5F5F5]">Improve training experience</span>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-center w-[100%] md:w-[50%] justify-start">
-                        <IoMdCheckbox className="text-[#575757] mx-3" />
-                        <span className="text-[#F5F5F5]">Use on any device</span>
-                    </div> */}
-
                 </div>
 
             </div>
@@ -88,7 +94,7 @@ export default function Features() {
                 <div className="min-w-[50%] mb-4 md:mb-0">
                     <div className="flex-basis flex-col flex-1 m-auto min-w-[300px] max-w-[300px] mb-10">
                         <div className="flex justify-center py-1 mb-2 650:justify-start">
-                            <img className="h-[50px] w-[50px]" src="/images/qualitative-research.png" />
+                            <img className="h-[50px] w-[50px]" src="/images/line-chart.png" />
 
                         </div>
                         <div className="flex justify-center py-1 650:justify-start">
@@ -135,6 +141,6 @@ export default function Features() {
 
 
 
-        </div >
+        </motion.div >
     )
 }

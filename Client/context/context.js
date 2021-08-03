@@ -11,7 +11,8 @@ export const AppointmentContext = createContext(undefined);
 export const AppointmentContextProvider = ({ children }) => {
     const initialState = {
         appointment: {},
-        workouts: []
+        workouts: [],
+        appointments: []
 
 
     };

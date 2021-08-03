@@ -1,6 +1,7 @@
-import React, { useReducer, useState, useEffect } from 'react'
+import React, { useReducer, useState, useEffect, useContext } from 'react'
 import TrainerScheduleTab from "../components/dashboard/trainer/TrainerScheduleTab"
 import Layout from "../components/layout"
+import { AppointmentContext } from "../context/context"
 import requireAuthentication from "./auth/authtwo"
 
 interface Props {
@@ -60,14 +61,23 @@ const reducer = (state, action) => {
 };
 
 const Schedule: React.FC<Props> = ({ Appointments, AccountInfo, tabG, setTabG, tabT, role, setTabT, TrainersClients, Workouts }) => {
-    const initialState = { appointments: Appointments, appointment: {} };
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const { dispatch: appointmentDispatch, appData } = useContext(AppointmentContext);
+
+
+    useEffect(() => {
+
+        if (Appointments) {
+            appointmentDispatch({ type: "SET_APPOINTMENTS", appointments: Appointments })
+
+        }
+
+    }, [])
 
 
     return (
         <>
             <Layout AccountInfo={AccountInfo} role={role}>
-                <TrainerScheduleTab AccountInfo={AccountInfo} dispatch={dispatch} state={state} TrainersClients={TrainersClients} Workouts={Workouts} />
+                <TrainerScheduleTab AccountInfo={AccountInfo} TrainersClients={TrainersClients} Workouts={Workouts} />
             </Layout>
 
         </>

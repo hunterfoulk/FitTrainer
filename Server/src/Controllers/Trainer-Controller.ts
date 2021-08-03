@@ -110,6 +110,7 @@ export const Schedule = async (req: Request, res: Response,) => {
 	console.log("LOCALS VAR", trainer)
 
 
+
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 	let TrainersClients = await Query(Statements.Get.GetTrainersClients(TrainerId))
 	let _Appointments = await Query(Statements.Get.Appointments(TrainerId))
@@ -472,6 +473,8 @@ export const TrainerCreateClient = async (req: MulterRequest, res: Response): Pr
 
 
 export const CreateAppointment = async (req: MulterRequest, res: Response): Promise<void> => {
+
+
 	try {
 		const { payload } = req.body
 		console.log("BODY", payload)
@@ -492,7 +495,6 @@ export const CreateAppointment = async (req: MulterRequest, res: Response): Prom
 	} catch (err) {
 		console.log(err)
 	}
-
 
 
 
@@ -536,6 +538,7 @@ export const DeleteClient = async (req: MulterRequest, res: Response): Promise<v
 	try {
 		const { ClientId } = req.body
 		await Query(Statements.Delete.DeleteClient(ClientId));
+		await Query(Statements.Delete.DeleteAppointmentsAfterClientDeleted(ClientId));
 
 		resolver(res, 200, 'Deleted Client Succesfully')
 
@@ -619,15 +622,35 @@ export const EditWorkout = async (req: Request, res: Response): Promise<void> =>
 
 
 
+
+
 export const ClientsRoute = async (req: Request, res: Response): Promise<void> => {
 	const trainer = res.locals
 	const TrainerId = trainer.TrainerId
-	console.log("AccountInfo fireddd")
-	console.log("LOCALS VAR", trainer)
-
 
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 	let Clients = await Query(Statements.Get.GetTrainersClients(TrainerId))
+	let recentAppointments = await Query(Statements.Get.GetRecentAppointments(TrainerId))
+
+	Clients.forEach((client) => {
+		client.thisWeeksWorkouts = 0
+	})
+
+	console.log("RECENTS", recentAppointments)
+
+	for (let i = 0; i < Clients.length; i++) {
+		let match = false
+		for (let j = 0; j < recentAppointments.length; j++) {
+			if (Clients[i].ClientId == recentAppointments[j].ClientId) {
+				match = true
+				console.log("MATCH", match)
+				console.log("Client Name", Clients[i].FirstName)
+				Clients[i].thisWeeksWorkouts++
+			}
+		}
+		console.log("RAN")
+	}
+
 
 	resolver(res, 200, 'Sending Account Info Back.', { AccountInfo: AccountInfo[0], clients: Clients, role: "Trainer" })
 
@@ -661,7 +684,6 @@ export const CreateNewExercise = async (req: Request, res: Response): Promise<vo
 	const { MuscleGroupId, EquipmentId, Name } = req.body
 	console.log(MuscleGroupId, EquipmentId, Name)
 	let _newExercise = await Query(Statements.Post.CreateNewExercise(MuscleGroupId, EquipmentId, Name))
-	console.log("YOO", _newExercise.insertId)
 	let ExerciseId = _newExercise.insertId
 	let newExercise = await Query(Statements.Get.GetNewExercise(ExerciseId))
 
@@ -669,3 +691,57 @@ export const CreateNewExercise = async (req: Request, res: Response): Promise<vo
 
 
 }
+
+
+export const UpdateAppointmentCompletedStatus = async (req: Request, res: Response): Promise<void> => {
+	const { id, status } = req.body
+	console.log("STATUS:", status)
+	if (status === true) {
+
+		await Query(Statements.Update.UpdateAppointmentCompletedStatusTrue(id))
+	} else if (status === false) {
+		console.log("FALSE FIRED!!!")
+		await Query(Statements.Update.UpdateAppointmentCompletedStatusFalse(id))
+	}
+
+	resolver(res, 200, 'Sending Exercise Info Back')
+
+
+}
+
+export const AppointmentsPage = async (req: Request, res: Response): Promise<void> => {
+	const trainer = res.locals
+	const TrainerId = trainer.TrainerId
+	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
+	let Appointments = await Query(Statements.Get.Appointments(TrainerId))
+	let Workouts = await Query(Statements.Get.GetTrainersPrograms(TrainerId))
+
+
+	let newAppointments = Appointments.map((item) => {
+		if (item.WorkoutId !== null) {
+
+			const found = Workouts.find(element => element.WorkoutId == item.WorkoutId);
+
+			return { ...item, workout: found }
+
+		} else {
+
+			return { ...item }
+
+		}
+	})
+	console.log("NEW APPOINTMENTS", newAppointments)
+
+
+	resolver(res, 200, 'Sending Exercise Info Back.', { AccountInfo: AccountInfo[0], Appointments: newAppointments })
+
+
+}
+
+
+export const Test = async (req: Request, res: Response): Promise<void> => {
+	console.log(req.body.startDate)
+
+
+}
+

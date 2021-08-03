@@ -23,10 +23,11 @@ import List from "./List"
 
 
 
-export default function EditModal({ workoutState, open, setOpen, workoutDispatch, exerciseList, myWorkoutsDispatch }) {
+export default function EditModal({ workoutState, open, setOpen, workoutDispatch, exerciseState, myWorkoutsDispatch }) {
     const [term, setTerm] = useState("")
     const [arr, setArr] = useState(workoutState.workout.exercises)
-    const [workout_name, setName] = useState("")
+    const [workout_name, setName] = useState(workoutState.workout.workout_name)
+    const [focused, setFocused] = useState(false)
 
 
 
@@ -65,11 +66,7 @@ export default function EditModal({ workoutState, open, setOpen, workoutDispatch
 
     }
 
-    useEffect(() => {
 
-        workoutDispatch({ type: "CHANGE_WORKOUT_NAME", workout_name: workout_name });
-
-    }, [workout_name])
 
 
     const editName = (value) => {
@@ -94,17 +91,23 @@ export default function EditModal({ workoutState, open, setOpen, workoutDispatch
                     <ModalCloseButton onClick={Clear} />
                     <ModalBody >
 
-                        <Input type="tel" placeholder="Name" style={{ marginBottom: "30px" }} value={workoutState.workout.workout_name} onChange={(e) => setName(e.target.value)} />
+                        <Input type="tel" placeholder="Name" style={{ marginBottom: "30px" }} value={workout_name} onChange={(e) => setName(e.target.value)} />
 
                         <InputGroup style={{ marginBottom: "30px", position: "relative" }} className={styles.group}>
                             <InputLeftElement
                                 pointerEvents="none"
                                 children={<SearchIcon color="gray.300" />}
                             />
-                            <Input type="tel" placeholder="Exercises" value={term} onChange={(e) => setTerm(e.target.value)} />
+                            <Input onFocus={() => {
+                                setFocused(true)
+                            }} onBlur={() => {
+                                setTimeout(() => {
+                                    setFocused(false)
+                                }, 240)
+                            }} type="tel" placeholder="Exercises" value={term} onChange={(e) => setTerm(e.target.value)} />
 
-                            {term !== "" && <div className={styles.list} style={{ position: "absolute", backgroundColor: "white", top: "50px", width: "100%", zIndex: "100", maxHeight: "300px", overflowY: "auto" }}>
-                                <List exerciseList={exerciseList} term={term} open={open} AddToEditList={AddToEditList} />
+                            {focused && <div className={styles.list} style={{ position: "absolute", backgroundColor: "white", top: "50px", width: "100%", zIndex: "100", maxHeight: "300px", overflowY: "auto" }}>
+                                <List exerciseState={exerciseState} term={term} open={open} AddToEditList={AddToEditList} />
 
                             </div>}
                         </InputGroup>
@@ -128,7 +131,7 @@ export default function EditModal({ workoutState, open, setOpen, workoutDispatch
                         <Button style={{ marginRight: "6px" }} variant="ghost" onClick={() => Clear()}>Close</Button>
                         <Button colorScheme="red" mr={3} onClick={() => SendEditedWorkout()}>
                             Save
-                       </Button>
+                        </Button>
 
                     </ModalFooter>
                 </ModalContent>

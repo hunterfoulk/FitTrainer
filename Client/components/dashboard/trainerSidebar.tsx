@@ -21,7 +21,7 @@ interface Props {
 const MyButton = React.forwardRef(({ onClick, href }: any, ref: any) => {
     return (
         <a href={href} onClick={onClick} ref={ref}>
-            <Image alt="Vercel logo" src="/images/weightslogocrimson.png" width={25} height={28} quality={100} />
+            <Image alt="Vercel logo" src="/images/weightslogocrimson.png" width={25} height={28} quality={100} loading="eager" />
             <span>FitTrainer</span>
         </a>
     )
@@ -98,8 +98,8 @@ const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
                             </div>
                         </div>
                     </Link>
-                    <Link href="/recents" >
-                        <div onClick={() => setTabT("Recents")} className={window.location.href === "http://localhost:3000/recents" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                    <Link href="/appointments" >
+                        <div onClick={() => setTabT("Appointments")} className={window.location.href === "http://localhost:3000/appointments" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
                             <div className={styles.sidebar_tab_content}>
                                 <div>
 
@@ -107,7 +107,7 @@ const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
                                 </div>
                                 <div>
 
-                                    <span>Recents</span>
+                                    <span>Appointments</span>
                                 </div>
                             </div>
 

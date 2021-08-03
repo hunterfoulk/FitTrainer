@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
 import { FaInstagram } from 'react-icons/fa';
 import { AiOutlineFacebook } from 'react-icons/ai';
 import { FiTwitter } from 'react-icons/fi';
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 export default function Footer() {
+    const controls = useAnimation();
+    const [ref, inView] = useInView();
+
+    useEffect(() => {
+        if (inView) {
+            controls.start("visible");
+        }
+    }, [controls, inView]);
+
+
+
+
     return (
-        <div className="w-full max-w-[1500px] flex mt-[120px] px-2 ">
+        <motion.div ref={ref}
+            animate={controls}
+            initial="hidden"
+            transition={{ duration: 0.4 }}
+            variants={{
+                visible: { opacity: 1, scale: 1 },
+                hidden: { opacity: 0, scale: 1 }
+            }} className="w-full max-w-[1500px] flex mt-[120px] px-2 ">
             <div className="flex flex-col md:flex-row w-full h-full border-[#808080af] border-t pt-10 pb-1">
                 <div className="flex-1 flex-col h-full">
 
@@ -46,6 +67,6 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }

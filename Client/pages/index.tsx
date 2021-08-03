@@ -9,7 +9,7 @@ import Cards from "../components/landing/cards"
 import GetStarted from "../components/landing/getStarterd"
 import Footer from "../components/landing/footer"
 import react, { useEffect, useState } from "react"
-
+import ProgramsFeature from "../components/landing/programsFeature"
 
 export default function Home() {
   const [auth, setAuth] = useState(false)
@@ -33,6 +33,8 @@ export default function Home() {
 
 
       <Features />
+
+      <ProgramsFeature />
 
       <Cards />
 

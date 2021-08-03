@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from "../../../styles/Navbar.module.scss"
 import Image from 'next/image'
 import Link from 'next/link';
 import { FaInstagram } from 'react-icons/fa';
 import { AiOutlineFacebook } from 'react-icons/ai';
 import { FiTwitter } from 'react-icons/fi';
-
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 interface Props {
 
 }
@@ -13,15 +14,29 @@ interface Props {
 const Navbar: React.FC<Props> = ({ }) => {
     const [loginHovering, setLoginHovering] = useState(false)
     const [signupHovering, setSignupHovering] = useState(false)
+    const controls = useAnimation();
+    const [ref, inView] = useInView();
 
+    useEffect(() => {
+        if (inView) {
+            controls.start("visible");
+        }
+    }, [controls, inView]);
 
     return (
-        <div className="navbar flex w-full max-w-[1500px] flex justify-center items-center py-4 px-2">
+        <motion.div ref={ref}
+            animate={controls}
+            initial="hidden"
+            transition={{ duration: 0.4 }}
+            variants={{
+                visible: { opacity: 1, scale: 1 },
+                hidden: { opacity: 0, scale: 1 }
+            }} className="navbar flex w-full max-w-[1500px] flex justify-center items-center py-4 px-2">
             <div className="flex w-full max-w-[1500px] py-1">
                 <div className="w-auto flex items-center py-1">
                     <div className="h-full relative px-5 ">
                         <Image alt="Vercel logo" src="/images/weightslogocrimson.png" layout='fill'
-                            objectFit="contain" className="avatar" />
+                            objectFit="contain" loading="eager" className="avatar" />
                     </div>
                     <div className=" h-full flex items-center">
                         <Link href='/' >
@@ -47,7 +62,7 @@ const Navbar: React.FC<Props> = ({ }) => {
                                 <span className="border-r border-white w-full px-5 h-full py-1">
                                     Login
 
-                            </span>
+                                </span>
                             </div>
 
                         </Link>
@@ -57,7 +72,7 @@ const Navbar: React.FC<Props> = ({ }) => {
                                 <span className="px-5 h-full py-1">
 
                                     Sign Up
-                            </span>
+                                </span>
                             </div>
 
                         </Link>
@@ -65,7 +80,7 @@ const Navbar: React.FC<Props> = ({ }) => {
 
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 export default Navbar

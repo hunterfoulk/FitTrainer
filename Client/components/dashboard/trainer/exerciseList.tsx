@@ -36,11 +36,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
         },
     }),
 )(TableRow);
-const useStyles = makeStyles({
-    table: {
-        minWidth: 700,
-    },
-});
+
 
 const ExerciseList = ({ exerciseState, exerciseDispatch, exerciseTerm, muscle_groups, equipment }) => {
 
@@ -64,11 +60,12 @@ const ExerciseList = ({ exerciseState, exerciseDispatch, exerciseTerm, muscle_gr
                 return (
 
                     <StyledTableRow
+
                     >
                         <StyledTableCell className="flex flex-row ">  {newExercise.muscle_group_name} </StyledTableCell>
 
                         <StyledTableCell className="" align="center">{newExercise.Name}</StyledTableCell>
-                        <StyledTableCell className="" align="center">{newExercise.equipment_name}</StyledTableCell>
+                        <StyledTableCell className="" align="right">{newExercise.equipment_name}</StyledTableCell>
 
 
                     </StyledTableRow>
