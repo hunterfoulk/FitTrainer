@@ -228,26 +228,26 @@ const Modal = ({ isToggled, setToggled, dispatch, state, Workouts }) => {
                                 <div>
                                     {state.WorkoutId !== null ?
                                         <>
-                                            <div className="mt-2">
+                                            <motion.div className="mt-2" initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3 }}>
 
                                                 <span className="text-[16px] font-semibold mt-2">{state.workout.workout_name}</span>
 
-                                            </div>
+                                            </motion.div>
                                             <div className="w-full flex flex-col mt-3 mb-2 ">
-                                                {state.workout.exercises.map((item) => (
+                                                {state.workout.exercises.map((item, index) => (
                                                     <>
-                                                        <div className="shadow-md rounded-md p-1 mb-2 border border-gray-200">
+                                                        <motion.div className="shadow-md rounded-md p-1 mb-2 border border-gray-200" initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3, delay: index / 20 }}>
 
                                                             <span>{item.Name}</span>
-                                                        </div>
+                                                        </motion.div>
                                                     </>
                                                 ))}
 
                                             </div>
-                                            <div className="mt-2 mb-3">
+                                            <motion.div className="mt-2 mb-3" initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.1 }}>
                                                 <span className="text-[#649CEA] font-medium cursor-pointer hover:underline " onClick={() => handleDelete()}>Delete Workout</span>
 
-                                            </div>
+                                            </motion.div>
                                         </>
                                         :
                                         <>
