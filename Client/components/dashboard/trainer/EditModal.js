@@ -30,7 +30,10 @@ export default function EditModal({ workoutState, open, setOpen, workoutDispatch
     const [focused, setFocused] = useState(false)
 
 
+    useEffect(() => {
+        setName(workoutState.workout.workout_name)
 
+    }, [workoutState.workout.workout_name])
 
     const AddToEditList = (Exercise) => {
         workoutDispatch({ type: "ADD", Exercise: Exercise });
@@ -49,21 +52,26 @@ export default function EditModal({ workoutState, open, setOpen, workoutDispatch
 
     const SendEditedWorkout = async () => {
         console.log("STATE", workoutState)
-        const res = await fetch('http://localhost:9000/updateWorkout', {
-            method: 'POST',
-            'credentials': 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ exercises: workoutState.workout.exercises, WorkoutId: workoutState.workout.WorkoutId, workout_name: workout_name }),
-        })
+        if (workout_name === "" || undefined || null) {
+            return
+        } else {
 
-        const { data, status } = await res.json()
-        console.log("data", data.workout)
 
-        myWorkoutsDispatch({ type: "CHANGED", workout: data.workout });
-        Clear()
+            const res = await fetch('http://localhost:9000/updateWorkout', {
+                method: 'POST',
+                'credentials': 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ exercises: workoutState.workout.exercises, WorkoutId: workoutState.workout.WorkoutId, workout_name: workout_name }),
+            })
 
+            const { data, status } = await res.json()
+            console.log("data", data.workout)
+
+            myWorkoutsDispatch({ type: "CHANGED", workout: data.workout });
+            Clear()
+        }
     }
 
 

@@ -733,7 +733,7 @@ export const AppointmentsPage = async (req: Request, res: Response): Promise<voi
 	console.log("NEW APPOINTMENTS", newAppointments)
 
 
-	resolver(res, 200, 'Sending Exercise Info Back.', { AccountInfo: AccountInfo[0], Appointments: newAppointments })
+	resolver(res, 200, 'Sending Exercise Info Back.', { AccountInfo: AccountInfo[0], Appointments: newAppointments, Workouts: Workouts })
 
 
 }
@@ -741,6 +741,7 @@ export const AppointmentsPage = async (req: Request, res: Response): Promise<voi
 
 export const Test = async (req: Request, res: Response): Promise<void> => {
 	console.log(req.body.startDate)
+	console.log(req.body.endDate)
 
 
 }

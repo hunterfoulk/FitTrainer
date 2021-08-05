@@ -44,9 +44,9 @@ const ExerciseTab = ({ exerciseState, exerciseDispatch, exerciseTerm, muscle_gro
 
     return (
         <>
-            <div className="flex flex-col w-full max-w-[1400px] items-center px-4 mt-4">
+            <motion.div className="flex flex-col w-full max-w-[1400px] items-center px-4 mt-4" >
 
-                <motion.div className="w-full max-w-[1400px] h-[100vh]">
+                <motion.div className="w-full max-w-[1400px] h-[100vh]" initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3 }}>
                     <TableContainer component={Paper} className="w-full max-w-[1400px] mt-5 ">
                         <Table className={classes.table} aria-label="customized table">
                             <TableHead >
@@ -56,7 +56,7 @@ const ExerciseTab = ({ exerciseState, exerciseDispatch, exerciseTerm, muscle_gro
                                     <StyledTableCell align="right">Equipment</StyledTableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
+                            <TableBody >
                                 <ExerciseList exerciseTerm={exerciseTerm} exerciseState={exerciseState} exerciseDispatch={exerciseDispatch} muscle_groups={muscle_groups} equipment={equipment} />
                                 {/* //clients list // */}
 
@@ -65,7 +65,7 @@ const ExerciseTab = ({ exerciseState, exerciseDispatch, exerciseTerm, muscle_gro
                         </Table>
                     </TableContainer>
                 </motion.div>
-            </div>
+            </motion.div>
         </>
     )
 }

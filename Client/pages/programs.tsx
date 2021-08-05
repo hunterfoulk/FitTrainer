@@ -145,7 +145,7 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
         <>
 
             <Layout AccountInfo={AccountInfo} role={role}>
-                <motion.div className={styles.programs_tab_main}>
+                <motion.div className={styles.programs_tab_main} >
                     <EditModal workoutState={workoutState} open={open} setOpen={setOpen} workoutDispatch={workoutDispatch} exerciseState={exerciseState} myWorkoutsDispatch={dispatch} />
                     <Modal onOpen={onOpen} onClose={onClose} isOpen={isOpen} exerciseState={exerciseState} exerciseDispatch={exerciseDispatch} AccountInfo={AccountInfo} workoutDispatch={dispatch} tab={tab} equipment={equipment} muscle_groups={muscle_groups} />
                     <div className={styles.programs_tab_header}>
@@ -216,7 +216,7 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
                         </InputGroup>
                     </div>
 
-                    {tab === "Home" ? <div className={styles.content_container}>
+                    {tab === "Home" ? <motion.div className={styles.content_container} initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3 }}>
                         <div className={styles.row_header}>
                             <div>
                                 <span>Name</span>
@@ -295,7 +295,7 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
                             )
                         })}
 
-                    </div> : <ExerciseTab exerciseState={exerciseState} exerciseDispatch={exerciseDispatch} exerciseTerm={exerciseTerm} muscle_groups={muscle_groups} equipment={equipment} />}
+                    </motion.div> : <ExerciseTab exerciseState={exerciseState} exerciseDispatch={exerciseDispatch} exerciseTerm={exerciseTerm} muscle_groups={muscle_groups} equipment={equipment} />}
 
 
                 </motion.div>

@@ -69,6 +69,7 @@ const ExerciseList = ({ exerciseState, exerciseDispatch, exerciseTerm, muscle_gr
 
 
                     </StyledTableRow>
+
                 )
             })}
 

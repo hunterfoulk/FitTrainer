@@ -15,22 +15,6 @@ const reducer = (state, action) => {
     console.log("FIRED", action)
     switch (action.type) {
 
-        case "UPDATE":
-            return {
-                ...state,
-                clients: [...state.appointments, action.client]
-            };
-        case "FILTER":
-            return {
-                ...state,
-                clients: state.clients.filter((item, i) => item.ClientId !== action.id),
-            };
-        case "CHANGED":
-            return {
-                ...state,
-                clients: state.clients.map(client => (action.client.ClientId === client.ClientId ? { ...client, ...action.client } : client))
-            }
-
         case "SET_APPOINTMENT":
             return {
                 ...state,
@@ -39,13 +23,25 @@ const reducer = (state, action) => {
         case "UPDATE_APPOINTMENT":
             return {
                 ...state,
-                appointment: { ...state.appointment, startDate: action.startDate, endDate: action.EndDate, WorkoutId: action.WorkoutId, workout: action.workout },
-                appointments: state.appointments.map(appointment => (action.id === appointment.AppointmentId ? { ...appointment, startDate: action.startDate, endDate: action.EndDate, WorkoutId: action.WorkoutId, workout: action.workout } : appointment))
+                appointment: { ...state.appointment, startDate: action.startDate, endDate: action.endDate, WorkoutId: action.WorkoutId, workout: action.workout },
+                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.AppointmentId ? { ...appointment, startDate: action.startDate, endDate: action.EndDate, WorkoutId: action.WorkoutId, workout: action.workout } : appointment))
+            }
+        case "DELETE_WORKOUT":
+            return {
+                ...state,
+                appointment: { ...state.appointment, WorkoutId: null, workout: {} },
+                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.AppointmentId ? { ...appointment, WorkoutId: null, workout: {} } : appointment))
             }
         case "CLEAR_APPOINTMENT":
             return {
                 ...state,
                 appointment: {}
+            }
+        case "UPDATE_APPOINTMENT_WORKOUT":
+            return {
+                ...state,
+                appointment: { ...state.appointment, WorkoutId: action.WorkoutId, workout: action.workout },
+                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.AppointmentId ? { ...appointment, WorkoutId: action.WorkoutId, workout: action.workout } : appointment))
             }
         default:
             return state;
@@ -53,7 +49,7 @@ const reducer = (state, action) => {
 };
 
 
-const AppointmentsPage = ({ AccountInfo, Appointments }) => {
+const AppointmentsPage = ({ AccountInfo, Appointments, Workouts }) => {
     const initialState = { Appointments: Appointments, appointment: {} };
     const [state, dispatch] = useReducer(reducer, initialState);
     const [isToggled, setToggled] = useState(false)
@@ -70,7 +66,7 @@ const AppointmentsPage = ({ AccountInfo, Appointments }) => {
     return (
         <>
             <Layout AccountInfo={AccountInfo} role="Trainer">
-                <Modal isToggled={isToggled} setToggled={setToggled} state={state.appointment} dispatch={dispatch} />
+                <Modal isToggled={isToggled} setToggled={setToggled} state={state.appointment} dispatch={dispatch} Workouts={Workouts} />
                 <div className=" w-full flex justify-center py-3 px-4 bg-[#FCFCFC]">
                     <div className=" w-full max-w-[1400px] flex flex-col ">
                         <div className="flex items-center py-2 justify-between">
@@ -111,7 +107,7 @@ export const getServerSideProps = requireAuthentication(async context => {
         props: {
             Appointments: res.data.Appointments,
             AccountInfo: res.data.AccountInfo,
-
+            Workouts: res.data.Workouts,
 
         },
     }

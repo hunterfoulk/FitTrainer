@@ -22,7 +22,7 @@
 9 verbose stack     at Process.ChildProcess._handle.onexit (node:internal/child_process:301:5)
 10 verbose pkgid server@1.0.0
 11 verbose cwd C:\Users\hunte\Desktop\PROJECTS\fitness-app\Server
-12 error Windows_NT 10.0.19041
+12 error Windows_NT 10.0.19043
 13 error argv "C:\\Users\\hunte\\node_modules\\node\\bin\\node.exe" "C:\\Users\\hunte\\node_modules\\npm\\bin\\npm-cli.js" "run" "dev"
 14 error node v15.12.0
 15 error npm  v2.15.12

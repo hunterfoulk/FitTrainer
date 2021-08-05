@@ -30,6 +30,7 @@
     "@reduxjs/toolkit": "^1.5.1",
     "@tailwindcss/jit": "^0.1.18",
     "@types/material-ui": "^0.21.8",
+    "@types/react-datepicker": "^4.1.4",
     "@types/react-redux": "^7.1.16",
     "@wojtekmaj/react-datetimerange-picker": "^3.2.0",
     "@zeit/next-sass": "^1.0.1",

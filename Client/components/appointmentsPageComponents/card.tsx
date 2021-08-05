@@ -6,13 +6,11 @@ import { FaRegCalendar } from 'react-icons/fa';
 
 const Card = ({ item, index, isToggled, setToggled, dispatch }) => {
 
-    let itemyo = item.startDate.split('T')[0]
-    console.log("itemyo", itemyo)
 
 
     return (
         <>
-            <motion.div key={index} initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.1, delay: index / 15 }} className="rounded-sm mb-6 mx-2 min-w-[330px] max-w-[400px] bg-white flex flex-col" style={{ boxShadow: "0 0 8px rgba(0,0,0,0.12)" }}>
+            <motion.div key={index} initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3 }} className="rounded-sm mb-6 mx-2 min-w-[330px] max-w-[400px] bg-white flex flex-col" style={{ boxShadow: "0 0 8px rgba(0,0,0,0.12)" }}>
                 <div className={item.completed ? "px-4 py-3 w-full flex justify-between text-[#414141] border-t-[7px] border-[#149414] rounded-t-sm" : "px-4 py-3 w-full flex justify-between text-[#414141] border-t-[7px] border-gray-400 rounded-t-sm"}>
                     <span className="text-[16px] font-semibold">{item.title}</span>
                     <span className={item.completed ? "text-[#149414]" : "text-red-500"}>{item.completed ? "Completed" : "Not Completed"}</span>
@@ -30,7 +28,7 @@ const Card = ({ item, index, isToggled, setToggled, dispatch }) => {
                     </div>
                     <div className="flex items-center justify-center text-[#649CEA] cursor-pointer hover:underline">
                         <span onClick={async () => {
-                            dispatch({ type: "SET_APPOINTMENT", item: item });
+                            await dispatch({ type: "SET_APPOINTMENT", item: item });
                             setToggled(true)
                         }}>View More</span>
                     </div>
