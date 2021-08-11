@@ -24,7 +24,6 @@ import MomentUtils from "@date-io/moment";
 import {
     Select
 } from "@chakra-ui/react"
-import { AppointmentContext } from "../../../context/context"
 import DatePicker from "react-datepicker";
 import setHours from 'date-fns/setHours'
 import setMinutes from 'date-fns/setMinutes'
@@ -33,12 +32,10 @@ import { FaRegCalendar } from 'react-icons/fa';
 import "react-datepicker/dist/react-datepicker.css";
 
 
-export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, AccountInfo }) {
-    moment.locale("en");
+const CreateAppointmentModal = ({ onClose, isOpen, onOpen, TrainersClients, AccountInfo, state, dispatch }) => {
     const [selectedDateStart, handleDateChangeStart] = useState(new Date())
     const [selectedDateEnd, handleDateChangeEnd] = useState(new Date())
     const [title, setTitle] = useState(0)
-    const { dispatch: appointmentDispatch, appData } = useContext(AppointmentContext);
 
     console.log("TITLE", title)
 
@@ -80,7 +77,7 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
 
             onClose()
             // dispatch({ type: "UPDATE", appointment: data });
-            appointmentDispatch({ type: "UPDATE_APPOINTMENTS", appointment: data })
+            dispatch({ type: "UPDATE_APPOINTMENTS", appointment: data })
         }
     }
 
@@ -91,11 +88,9 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
 
         </button>
     ));
-
     return (
         <>
-
-            <Modal onClose={onClose} isOpen={isOpen} isCentered>
+            <Modal onClose={onClose} isOpen={isOpen} isCentered >
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Create Appointment</ModalHeader>
@@ -105,7 +100,7 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
                             <Select className="selecter" placeholder="Clients" onChange={(e) => setTitle(e.target.value)} value={title}>
                                 {TrainersClients.map((client) => (
 
-                                    <option style={{ padding: "20px" }} value={client.ClientId}>{client.FirstName} {client.LastName}</option>
+                                    <option style={{ textIndent: "10px" }} value={client.ClientId}>{client.FirstName} {client.LastName}</option>
                                 ))}
 
                             </Select>
@@ -169,3 +164,5 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
         </>
     )
 }
+
+export default CreateAppointmentModal

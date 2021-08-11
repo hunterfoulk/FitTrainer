@@ -297,7 +297,7 @@ const TooltipContent = ({ appointmentData, formatDate, appointmentResources }) =
       </Grid>
 
 
-      <div className="flex w-full mt-2 ">
+      {/* <div className="flex w-full mt-2 ">
         <div className="flex justify-center items-center w-[15%] pl-2">
 
           <FaThumbtack className="text-[20px] text-[#e0021b]" />
@@ -343,13 +343,13 @@ const TooltipContent = ({ appointmentData, formatDate, appointmentResources }) =
 
         </div>
 
-      </div>
-      <div className="flex w-full mt-2 px-6">
+      </div> */}
+      {/* <div className="flex w-full mt-2 px-6">
         <FormControlLabel
           control={<GreenCheckbox checked={appData.appointment.completed} onChange={handleChange} name="checkedG" />}
           label={appData.appointment.completed ? "Completed" : "Not Completed"}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

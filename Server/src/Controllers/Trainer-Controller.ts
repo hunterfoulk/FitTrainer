@@ -704,7 +704,7 @@ export const UpdateAppointmentCompletedStatus = async (req: Request, res: Respon
 		await Query(Statements.Update.UpdateAppointmentCompletedStatusFalse(id))
 	}
 
-	resolver(res, 200, 'Sending Exercise Info Back')
+	resolver(res, 200, 'Sending Appointment Info Back')
 
 
 }
@@ -715,6 +715,7 @@ export const AppointmentsPage = async (req: Request, res: Response): Promise<voi
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 	let Appointments = await Query(Statements.Get.Appointments(TrainerId))
 	let Workouts = await Query(Statements.Get.GetTrainersPrograms(TrainerId))
+	let TrainersClients = await Query(Statements.Get.GetTrainersClients(TrainerId))
 
 
 	let newAppointments = Appointments.map((item) => {
@@ -733,7 +734,7 @@ export const AppointmentsPage = async (req: Request, res: Response): Promise<voi
 	console.log("NEW APPOINTMENTS", newAppointments)
 
 
-	resolver(res, 200, 'Sending Exercise Info Back.', { AccountInfo: AccountInfo[0], Appointments: newAppointments, Workouts: Workouts })
+	resolver(res, 200, 'Sending Exercise Info Back.', { AccountInfo: AccountInfo[0], Appointments: newAppointments, Workouts: Workouts, TrainersClients: TrainersClients })
 
 
 }
@@ -745,4 +746,3 @@ export const Test = async (req: Request, res: Response): Promise<void> => {
 
 
 }
-

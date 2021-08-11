@@ -150,3 +150,16 @@ a {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+.MuiFormControlLabel-root{
+	margin-left:0px;
+}
+.selecter{
+	 /* text-align-last:center;
+
+    padding-left: 29px;
+    /* direction:rtl; */
+	/* display: flex;
+align-items: center;
+justify-content: center;  */
+text-align-last:center;
+}

@@ -3,7 +3,7 @@ import Card from "./card"
 import Test from "./test"
 import Moment from 'react-moment';
 
-const Today = ({ Appointments, isToggled, setToggled, dispatch }) => {
+const Today = ({ Appointments, isToggled, setToggled, dispatch, handleChange }) => {
     const [state, setState] = useState([])
     let today = new Date()
 
@@ -48,7 +48,7 @@ const Today = ({ Appointments, isToggled, setToggled, dispatch }) => {
 
 
 
-                <Card item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} />
+                <Card item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />
 
             )) : <MyContents />}
         </>

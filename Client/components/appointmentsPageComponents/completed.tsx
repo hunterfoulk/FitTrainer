@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react'
 import Card from "./card"
 import Moment from 'react-moment';
 
-const Completed = ({ Appointments, isToggled, setToggled, dispatch }) => {
-    const [state, setState] = useState([])
+const Completed = ({ Appointments, isToggled, setToggled, dispatch, handleChange }) => {
+    // const [state, setState] = useState([])
 
     let today = new Date("2021-07-21T14:00")
     console.log("TODAY", today)
 
 
-    useEffect(() => {
-        let _appointments = Appointments.filter(appointment => appointment.completed == 1)
+    // useEffect(() => {
+    //     let _appointments = Appointments.filter(appointment => appointment.completed == 1)
 
-        if (_appointments) {
-            setState(_appointments)
-        } else {
-            setState(null)
+    //     if (_appointments) {
+    //         setState(_appointments)
+    //     } else {
+    //         setState(null)
 
-        }
-    }, [])
+    //     }
+    // }, [])
 
     function MyContents() {
         return (
@@ -32,10 +32,10 @@ const Completed = ({ Appointments, isToggled, setToggled, dispatch }) => {
     return (
         <>
 
-            {state.length ? state.map((item, index: number) => (
+            {Appointments.length ? Appointments.filter(appointment => appointment.completed == 1).map((item, index: number) => (
                 <>
 
-                    <Card item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} />
+                    <Card item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />
                 </>
             )) : <MyContents />}
         </>

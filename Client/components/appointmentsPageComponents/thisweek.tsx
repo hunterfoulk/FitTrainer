@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Card from "./card"
 import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 
-const ThisWeek = ({ Appointments, isToggled, setToggled, dispatch }) => {
+const ThisWeek = ({ Appointments, isToggled, setToggled, dispatch, handleChange }) => {
     const [state, setState] = useState([])
 
     let curr = new Date()
@@ -40,12 +40,12 @@ const ThisWeek = ({ Appointments, isToggled, setToggled, dispatch }) => {
     return (
         <>
 
-            {state.length ?
+            {Appointments.length ?
                 <AnimateSharedLayout type="crossfade">
-                    {state.map((item, index: number) => (
+                    {Appointments.filter(appointment => week.includes(appointment.startDate.split('T')[0])).map((item, index: number) => (
 
 
-                        <Card item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} />
+                        <Card item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />
 
                     ))}
                 </ AnimateSharedLayout>
