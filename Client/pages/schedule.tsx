@@ -55,6 +55,7 @@ const reducer = (state, action) => {
                 appointment: action.appointment
             }
 
+
         default:
             return state;
     }

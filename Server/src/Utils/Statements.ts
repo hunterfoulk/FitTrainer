@@ -94,6 +94,12 @@ export const statements = {
 		): SQLStatement => SQL`
 			SELECT * FROM workouts WHERE WorkoutId = ${WorkoutId}
 		`,
+		GetMostRecentWorkoutId: (
+			TrainerId: string
+		): SQLStatement => SQL`
+		SELECT MAX(WorkoutId) from workouts WHERE TrainerId = ${TrainerId}
+		`,
+
 		GetTrainersClients: (
 			TrainerId: number,
 
@@ -138,7 +144,20 @@ export const statements = {
 		select * from appointments
 		where startDate between date_sub(now(),INTERVAL 1 WEEK) and now() AND TrainerId = ${TrainerId} AND completed = 1
 		`,
+		GetMostRecentWorkoutWithExercises: (
+			TrainerId: number,
+			WorkoutId: number,
 
+		): SQLStatement => SQL`
+		select * from workouts WHERE TrainerId = ${TrainerId} AND WorkoutId = ${WorkoutId}
+
+		`,
+		SelectWorkoutExercises: (
+			WorkoutId: number,
+		): SQLStatement => SQL`
+		select * from workout_exercises a INNER JOIN exercises b ON a.ex_Id = b.ExerciseId INNER JOIN muscle_groups c ON b.Muscle_Group =  c.MuscleGroupId WHERE w_Id = ${WorkoutId}
+
+		`,
 	},
 	Post: {
 		Register: (
@@ -214,14 +233,13 @@ export const statements = {
 		`,
 		CreateNewWorkout: (
 			TrainerId: number,
-			arr: any,
 			workout_name: string,
 			JoinDate: string,
 
 		): SQLStatement => SQL`
 			INSERT INTO workouts
-			(workout_name,exercises,JoinDate,TrainerId)
-			VALUES (${workout_name}, ${arr}, ${JoinDate},${TrainerId})
+			(workout_name,JoinDate,TrainerId)
+			VALUES (${workout_name},${JoinDate},${TrainerId})
 		`,
 
 		CreateNewExercise: (
@@ -233,7 +251,16 @@ export const statements = {
 			(Muscle_Group,Equipment,Name)
 			VALUES (${MuscleGroupId}, ${EquipmentId}, ${Name})
 		`,
-
+		InsertIntoWorkoutExercises: (
+			WorkoutId: number,
+			ExerciseId: number,
+			reps: number,
+			sets: number,
+		): SQLStatement => SQL`
+			INSERT INTO workout_exercises
+			(w_Id,ex_Id,reps,sets)
+			VALUES (${WorkoutId}, ${ExerciseId}, ${reps}, ${sets})
+		`,
 	},
 
 	Update: {
@@ -356,6 +383,12 @@ export const statements = {
 		): SQLStatement => SQL`
 			DELETE FROM
 			workouts WHERE WorkoutId = ${WorkoutId}
+		`,
+		DeleteWorkoutFromWorkoutExerciseTable: (
+			WorkoutId: number
+		): SQLStatement => SQL`
+			DELETE FROM
+			workout_exercises WHERE w_Id = ${WorkoutId}
 		`,
 		DeleteAppointmentsAfterClientDeleted: (
 			ClientId: number

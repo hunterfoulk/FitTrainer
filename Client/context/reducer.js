@@ -21,18 +21,13 @@ export const appointmentReducer = (state, action) => {
                 appointment: { ...state.appointment, WorkoutId: null, workout: {} },
                 appointments: state.appointments.map(appointment => action.id === appointment.id ? { ...appointment, WorkoutId: null, workout: {} } : appointment)
             };
-        case 'UPDATE_COMPLETED_STATUS_TRUE':
+
+        case "UPDATE_APPOINTMENT_STATUS":
             return {
                 ...state,
-                appointment: { ...state.appointment, completed: true },
-                appointments: state.appointments.map(appointment => action.id === appointment.id ? { ...appointment, completed: true } : appointment)
-            };
-        case 'UPDATE_COMPLETED_STATUS_FALSE':
-            return {
-                ...state,
-                appointment: { ...state.appointment, completed: false },
-                appointments: state.appointments.map(appointment => action.id === appointment.id ? { ...appointment, completed: false } : appointment)
-            };
+                appointment: { ...state.appointment, completed: action.completed },
+                appointments: state.appointments.map(appointment => (action.AppointmentId == appointment.id ? { ...appointment, completed: action.completed } : appointment))
+            }
         case "SET_APPOINTMENTS":
             return {
                 ...state,

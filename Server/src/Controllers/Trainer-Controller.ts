@@ -84,6 +84,18 @@ export const Programs = async (req: Request, res: Response,) => {
 
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 	let workouts = await Query(Statements.Get.GetTrainersWorkouts(TrainerId))
+
+	for (const x of workouts) {
+		let workout_exercise = await Query(Statements.Get.SelectWorkoutExercises(x.WorkoutId))
+
+		if (x.WorkoutId == workout_exercise[0].w_Id) {
+			x.exercises = workout_exercise
+		}
+	}
+
+	console.log("NEW WORKOUTS:", workouts)
+
+
 	let muscle_groups = await Query(Statements.Get.GetMuscleGroups())
 	let equipment = await Query(Statements.Get.GetEquipment())
 
@@ -553,6 +565,7 @@ export const DeleteWorkout = async (req: MulterRequest, res: Response): Promise<
 	try {
 		const { WorkoutId } = req.body
 		await Query(Statements.Delete.DeleteWorkout(WorkoutId));
+		await Query(Statements.Delete.DeleteWorkoutFromWorkoutExerciseTable(WorkoutId));
 
 		resolver(res, 200, 'Deleted Workout Succesfully')
 
@@ -581,20 +594,48 @@ export const AccountInfo = async (req: Request, res: Response): Promise<void> =>
 
 export const CreateWorkout = async (req: Request, res: Response): Promise<void> => {
 
-	const { TrainerId, exercises, workout_name } = req.body
+	const { TrainerId, exercises, workout_name, exerciseList } = req.body
 
-	let arr = JSON.stringify(exercises)
+	let arr = [...exercises]
 
 	const JoinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
+	console.log("payload", TrainerId, workout_name, exercises)
+	if (!TrainerId || !exercises || !workout_name) return resolver(res, 409, 'No Data Selected')
 
-	let results = await Query(Statements.Post.CreateNewWorkout(TrainerId, arr, workout_name, JoinDate))
+	let results = await Query(Statements.Post.CreateNewWorkout(TrainerId, workout_name, JoinDate))
 	let WorkoutId = results.insertId
+	console.log("RESULTS ID:", results)
 
-	let workout = await Query(Statements.Get.GetCreatedWorkout(WorkoutId))
+
+	for (const exercise of arr) {
+		let ExerciseId = exercise.ExerciseId
+		let reps = exercise.reps
+		let sets = exercise.sets
+		await Query(Statements.Post.InsertIntoWorkoutExercises(WorkoutId, ExerciseId, reps, sets))
+	}
+
+	let Workout = await Query(Statements.Get.GetMostRecentWorkoutWithExercises(TrainerId, WorkoutId))
 
 
-	console.log(AccountInfo)
-	resolver(res, 200, 'Workouit Created Succesfull.', { workout: workout[0] })
+	let Exercises = await Query(Statements.Get.SelectWorkoutExercises(WorkoutId))
+
+	let _exercises = []
+	for (const ex of Exercises) {
+
+		const found = exerciseList.find(x => x.ExerciseId == ex.ex_Id)
+		if (found) {
+			_exercises.push(found)
+		}
+	}
+	console.log("NEW ARR:", _exercises)
+
+
+	let finalWorkout = Workout[0];
+	finalWorkout.exercises = _exercises
+	console.log("final workout", finalWorkout)
+
+
+	resolver(res, 200, 'Workout Created Succesfull.', { workout: finalWorkout })
 
 
 }

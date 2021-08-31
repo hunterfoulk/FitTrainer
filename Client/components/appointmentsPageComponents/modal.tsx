@@ -97,7 +97,7 @@ const Modal = ({ isToggled, setToggled, dispatch, state, Workouts }) => {
         if (workoutId) {
             dispatch({ type: "UPDATE_APPOINTMENT_WORKOUT", WorkoutId: workoutId, workout: workoutObject })
             setEditingWorkout(false)
-            await fetch('http://localhost:9000/saveWorkoutToAppointment', {
+            await fetch('http://localhost:9000/updateAppointmentWorkout', {
                 method: 'POST',
                 'credentials': 'include',
                 headers: {

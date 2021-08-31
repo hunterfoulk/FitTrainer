@@ -163,3 +163,53 @@ align-items: center;
 justify-content: center;  */
 text-align-last:center;
 }
+/* 
+::-webkit-scrollbar {
+  width: 13px;
+  height: 36px;
+}
+
+
+::-webkit-scrollbar-track {
+  border-radius: 30vh;
+  background: #edf2f7;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: #c2c7cc;
+  border-radius: 30vh;
+  border: 3px solid #edf2f7;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+} */
+
+#exercises::-webkit-scrollbar {
+  width: 13px;
+  height: 36px;
+}
+
+/* Track */
+#exercises::-webkit-scrollbar-track {
+  border-radius: 30vh;
+  background: green;
+}
+
+/* Handle */
+#exercises::-webkit-scrollbar-thumb {
+  background: #c2c7cc;
+  border-radius: 30vh;
+  border: 3px solid #edf2f7;
+}
+
+/* Handle on hover */
+#exercises::-webkit-scrollbar-thumb:hover {
+  background: red;
+}
+
+.my-swal {
+  z-index: 100000 !important;
+}

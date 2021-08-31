@@ -98,7 +98,7 @@ const AppointmentsPage = ({ AccountInfo, Appointments, Workouts, TrainersClients
             <Layout AccountInfo={AccountInfo} role="Trainer">
                 <CreateModal onOpen={onOpen} isOpen={isOpen} onClose={onClose} TrainersClients={TrainersClients} AccountInfo={AccountInfo} state={state} dispatch={dispatch} />
                 <Modal isToggled={isToggled} setToggled={setToggled} state={state.appointment} dispatch={dispatch} Workouts={Workouts} />
-                <div className=" w-full flex justify-center py-3 px-4 bg-[#FCFCFC]">
+                <div className=" w-full flex justify-center py-3 px-4 bg-[#FCFCFC] overflow-y-auto">
                     <div className=" w-full max-w-[1400px] flex flex-col ">
                         <div className="flex items-center py-2">
 
@@ -113,7 +113,7 @@ const AppointmentsPage = ({ AccountInfo, Appointments, Workouts, TrainersClients
                             </div>
                         </div>
                         <div className=" flex justify-center py-4">
-                            <div className=" mt-10 flex flex-row flex-wrap justify-center w-[100%] xl:justify-start ">
+                            <div className=" mt-10 flex flex-row flex-wrap justify-center w-[100%] overflow-y-auto xl:justify-start ">
                                 {tab === "All" && <All Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />}
                                 {tab === "Today" && <Today Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />}
                                 {tab === "This Week" && <ThisWeek Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />}

@@ -30,15 +30,8 @@ import {
 import { FaThumbtack } from 'react-icons/fa';
 import 'react-tippy/dist/tippy.css'
 import { Tooltip } from 'react-tippy';
-import { connectProps } from '@devexpress/dx-react-core';
-import PriorityHigh from '@material-ui/icons/PriorityHigh';
-import LowPriority from '@material-ui/icons/LowPriority';
-import Lens from '@material-ui/icons/Lens';
-import Event from '@material-ui/icons/Event';
 import AccessTime from '@material-ui/icons/AccessTime';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
+
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import classNames from 'clsx';
@@ -49,6 +42,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { grey } from '@material-ui/core/colors';
+
+import Switch from '@material-ui/core/Switch';
 
 const reducer = (state, action) => {
   console.log("REDUCER JUST FIRED", action)
@@ -63,6 +59,33 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
+const useStyles = makeStyles({
+  input: {
+    height: "20px",
+    left: "19px",
+    marginLeft: "0px",
+    marginRight: "0px",
+
+  }
+});
+const PurpleSwitch = withStyles({
+
+  switchBase: {
+
+    color: grey[300],
+    '&$checked': {
+      color: green[500],
+
+    },
+    '&$checked + $track': {
+      backgroundColor: green[300],
+
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
 
 const fetchWorkouts = async (TrainerId) => {
   const res = await axios.get('http://localhost:9000/getWorkouts', { params: { TrainerId: TrainerId } });
@@ -265,6 +288,21 @@ const TooltipContent = ({ appointmentData, formatDate, appointmentResources }) =
 
 
 
+  const handleChanged = async (event, item) => {
+    console.log("ON CHANGE FIRED!", event.target.checked)
+    appointmentDispatch({ type: "UPDATE_APPOINTMENT_STATUS", AppointmentId: item.id, completed: event.target.checked });
+    item.completed = event.target.checked
+
+    await fetch('http://localhost:9000/updateAppointmentCompletedStatus', {
+      method: 'POST',
+      'credentials': 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: item.id, status: event.target.checked }),
+    })
+
+  };
 
 
   return (
@@ -294,6 +332,14 @@ const TooltipContent = ({ appointmentData, formatDate, appointmentResources }) =
               - ${formatDate(appointmentData.endDate, { hour: 'numeric', minute: 'numeric' })}`}
           </div>
         </Grid>
+        <div className="w-full flex px-5 mt-2">
+          <FormControlLabel
+            classes={{ root: classes.input }}
+            control={<PurpleSwitch checked={appointmentData.completed} onChange={(event) => handleChanged(event, appointmentData)} />}
+            label=""
+          />
+        </div>
+
       </Grid>
 
 

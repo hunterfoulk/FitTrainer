@@ -129,7 +129,7 @@ export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseState, 
 
 
                 {tab === "Home" ? <ModalContent>
-                    <ModalHeader>Create Program</ModalHeader>
+                    <ModalHeader>Create Workout</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody >
 
