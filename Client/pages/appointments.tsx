@@ -33,7 +33,7 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 appointment: { ...state.appointment, startDate: action.startDate, endDate: action.endDate, WorkoutId: action.WorkoutId, workout: action.workout },
-                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.id ? { ...appointment, startDate: action.startDate, endDate: action.EndDate, WorkoutId: action.WorkoutId, workout: action.workout } : appointment))
+                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.id ? { ...appointment, startDate: action.startDate, endDate: action.EndDate } : appointment))
             }
         case "DELETE_WORKOUT":
             return {
@@ -62,6 +62,8 @@ const reducer = (state, action) => {
                 ...state,
                 Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.id ? { ...appointment, completed: action.completed } : appointment))
             }
+
+
         default:
             return state;
     }
@@ -74,7 +76,7 @@ const AppointmentsPage = ({ AccountInfo, Appointments, Workouts, TrainersClients
     const [isToggled, setToggled] = useState(false)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    console.log("Appointments", Appointments)
+    console.log("Workouts", Workouts)
 
     const handleChange = (event, item) => {
         console.log("ON CHANGE FIRED!", event.target.checked)
@@ -114,10 +116,10 @@ const AppointmentsPage = ({ AccountInfo, Appointments, Workouts, TrainersClients
                         </div>
                         <div className=" flex justify-center py-4">
                             <div className=" mt-10 flex flex-row flex-wrap justify-center w-[100%] overflow-y-auto xl:justify-start ">
-                                {tab === "All" && <All Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />}
-                                {tab === "Today" && <Today Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />}
-                                {tab === "This Week" && <ThisWeek Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />}
-                                {tab === "Completed" && <Completed Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />}
+                                {tab === "All" && <All Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} Workouts={Workouts} />}
+                                {tab === "Today" && <Today Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} Workouts={Workouts} />}
+                                {tab === "This Week" && <ThisWeek Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} Workouts={Workouts} />}
+                                {tab === "Completed" && <Completed Appointments={state.Appointments} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} Workouts={Workouts} />}
                             </div>
                         </div>
                     </div>

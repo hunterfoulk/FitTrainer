@@ -80,8 +80,8 @@ const ClientModal = ({ isModalToggled, setModalToggled, clientDetails, state, di
                             <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 1 }} exit={{ opacity: 0, y: 30 }} className="w-full overflow-x-hidden px-5 justify-center flex mb-3">
 
 
-                                <motion.div className="progress-bar-striped max-w-[100%] ">
-                                    <motion.div style={goalPercentage == 0 ? { color: "white", width: `10%`, maxWidth: "100%" } : { width: `${goalPercentage}%`, maxWidth: "100%" }}><b><p>{Math.round(goalPercentage)}%</p></b></motion.div>
+                                <motion.div className={goalPercentage == 0 ? "grey-progress-bar-striped max-w-[100%] " : "progress-bar-striped max-w-[100%] "}>
+                                    <motion.div style={goalPercentage == 0 ? { color: "white", width: `100%`, maxWidth: "100%" } : { width: `${goalPercentage}%`, maxWidth: "100%" }}><b><p>{Math.round(goalPercentage)}%</p></b></motion.div>
                                 </motion.div>
                             </motion.div>
                             <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 1 }} exit={{ opacity: 0, y: 30 }} className="flex justify-around flex-wrap">

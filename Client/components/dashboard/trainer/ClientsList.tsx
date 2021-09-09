@@ -35,26 +35,11 @@ const StyledTableRow = withStyles((theme: Theme) =>
         },
     }),
 )(TableRow);
-const useStyles = makeStyles({
-    table: {
-        minWidth: 700,
-    },
-});
+
 
 const ClientsList = ({ state, term, setModalToggled, setClientDetails, setHover, hover }) => {
 
     console.log("STATE", state)
-
-    const style = {
-        normal: {
-            background: 'white',
-            color: '#ffffff',
-            cursor: "pointer"
-        },
-        hover: {
-        }
-    }
-
 
 
 
@@ -88,8 +73,8 @@ const ClientsList = ({ state, term, setModalToggled, setClientDetails, setHover,
 
 
 
-                            <motion.div className="table-progress-bar-striped max-w-[100%]">
-                                <motion.div style={goalPercentage == 0 ? { color: "white", width: `10%`, maxWidth: "100%" } : { width: `${goalPercentage}%`, maxWidth: "100%" }}><b><p>{Math.round(goalPercentage)}%</p></b></motion.div>
+                            <motion.div className={goalPercentage == 0 ? "grey-table-progress-bar-striped max-w-[100%]" : "table-progress-bar-striped max-w-[100%]"}>
+                                <motion.div style={goalPercentage == 0 ? { color: "white", width: `100%`, maxWidth: "100%" } : { width: `${goalPercentage}%`, maxWidth: "100%" }}><b><p>{Math.round(goalPercentage)}%</p></b></motion.div>
                             </motion.div>
 
                         </StyledTableCell>

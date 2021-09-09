@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function WorkoutsTab({ workouts, dispatch }) {
+export default function WorkoutsTab({ workouts, dispatch, workoutTerm }) {
     const classes = useStyles();
     const [size, setSize] = React.useState("md")
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -219,7 +219,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/arms-icon.png" className="h-20 w-20 shadow-md " />
+                                <img src="/images/arms-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -245,7 +245,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/chest-icon.png" className="h-20 w-20" />
+                                <img src="/images/chest-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -270,7 +270,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/legs-icon.png" className="h-20 w-20" />
+                                <img src="/images/legs-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -296,7 +296,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/legs-icon.png" className="h-20 w-20" />
+                                <img src="/images/legs-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -322,7 +322,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/arms-icon.png" className="h-20 w-20" />
+                                <img src="/images/arms-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -349,7 +349,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/abs-icon.png" className="h-20 w-20" />
+                                <img src="/images/abs-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -376,7 +376,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/shoulders-icon.png" className="h-20 w-20" />
+                                <img src="/images/shoulders-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -402,7 +402,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/cavles-icon.png" className="h-20 w-20" />
+                                <img src="/images/cavles-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -428,7 +428,7 @@ export default function WorkoutsTab({ workouts, dispatch }) {
                     return (
                         <div className="w-full flex mb-6 shadow-md border border-gray-200 rounded-sm">
                             <div className="flex flex-none items-center">
-                                <img src="/images/back-icon.png" className="h-20 w-20" />
+                                <img src="/images/back-icon.png" className="h-24 w-24" />
                             </div>
                             <div className="flex flex-grow text-center flex-col items-center">
                                 <div className="w-full text-black p-1 bg-gray-200">
@@ -488,28 +488,28 @@ export default function WorkoutsTab({ workouts, dispatch }) {
             </Drawer> : null}
 
             <div className="flex w-full max-w-[1400px] p-1 justify-around flex-wrap mt-6">
-                {workouts.map((x: any) => (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3 }} className="px-2 w-[350px] shadow-lg rounded-md bg-white mb-4 border-[#010102] border-t-8">
-                        <div className="w-full flex flex-row mt-2">
-                            <div className=" flex flex-none items-center">
-                                <img src="/images/workouts_default.png" className="h-[80px] w-[80px]" />
+                {workouts.filter(workout => workout.workout_name.toLowerCase().includes(workoutTerm.toLowerCase())).map((x: any) => (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3 }} className="px-2 w-[350px] border border-gray-200 bg-white mb-4" style={{ boxShadow: " 0 8px 16px 0 rgba(0,0,0,0.2)" }}>
+                        <div className="w-full flex flex-col mt-2">
+                            <div className=" flex flex-none items-center justify-center">
+                                <img src="/images/workouticon2.png" className="h-[80px] w-[80px]" />
                             </div>
                             <div className="flex flex-grow flex-col items-center justify-around px-1 py-2">
-                                <div className="w-full flex flex-col items-center mb-2 py-1">
+                                <div className="w-full flex flex-col items-center mb-2 py-1 mt-1">
 
                                     <span className="text-xl font-medium mb-1">{x.workout_name}</span>
                                 </div>
 
-                                <div className="w-full flex flex-col text-md text-gray-500 items-center mb-2 py-1">
+                                {/* <div className="w-full flex flex-col text-md text-gray-500 items-center mb-2 py-1">
                                     {/* <span className="mb-2">Exercises</span> */}
-                                    <div className="-space-x-2 mb-2">
+                                {/* <div className="-space-x-2 mb-2">
 
                                         {setIcons(x)}
-                                    </div>
+                                    </div> */}
 
-                                </div>
+                                {/* </div>  */}
 
-                                <div className="flex items-end justify-end mt-1 text-[#649CEA] cursor-pointer hover:underline">
+                                <div className="flex items-end justify-end mt-1 mb-1 text-[#649CEA] cursor-pointer hover:underline">
                                     <span onClick={() => {
                                         handleClick(x)
                                     }}>View More</span>
@@ -524,53 +524,10 @@ export default function WorkoutsTab({ workouts, dispatch }) {
 
                         </div>
 
-                        {/* <div id="exercises" className="exercises flex flex-col items-center mt-2 max-h-[400px] overflow-y-auto">
-                            {x.exercises.map((y) => (
-                                <div className="w-[80%] mb-2 p-1 border border-gray-100 flex flex-col items-center ">
-                                    <div className="flex w-full justify-center py-1">
-                                        <span className="text-md font-medium">{y.Name}</span>
-                                    </div>
-                                    <div className="flex w-full jsutify-center">
-                                        <div className=" w-full items-center flex flex-col">
-                                            <span className="mb-1">Sets</span>
-                                            <img src="images/sets.png" className="h-[30px] w-[30px] mb-1" />
-                                            <span>{y.sets}</span>
-                                        </div>
-                                        <div className="w-full items-center flex flex-col">
-                                            <span className="mb-1">Reps</span>
-                                            <img src="images/reps.png" className="h-[30px] w-[30px] mb-1" />
-                                            <span>{y.reps}</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            ))}
-
-                        </div> */}
-                        {/* <div className="w-full flex justify-center py-1">
-                            <Button
-
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                className={classes.buttontwo}
-                                startIcon={<EditIcon />}
-                            >
-                                Edit
-                            </Button>
-                            <Button
-                                onClick={() => handleDelete(x.WorkoutId)}
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                className={classes.button}
-                                startIcon={<DeleteIcon />}
-                            >
-                                Delete
-                            </Button>
-                        </div> */}
                     </motion.div>
                 ))}
+
+
             </div>
         </>
     )

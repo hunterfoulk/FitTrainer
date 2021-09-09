@@ -10,8 +10,8 @@ import { FiClock } from 'react-icons/fi';
 import { FaRegCalendar } from 'react-icons/fa';
 import setHours from 'date-fns/setHours'
 import setMinutes from 'date-fns/setMinutes'
-import styles from "../../styles/dashboard/ProgramsTab.module.scss"
 import { Select } from "@chakra-ui/react"
+import styles from "../../styles/dashboard/ProgramsTab.module.scss"
 
 
 const Modal = ({ isToggled, setToggled, dispatch, state, Workouts }) => {
@@ -133,9 +133,9 @@ const Modal = ({ isToggled, setToggled, dispatch, state, Workouts }) => {
                                     duration: 0.3,
                                     ease: "easeIn",
                                 }
-                            }} animate={{ y: 100, x: 0, scale: 1 }} exit={{ x: 0, y: 0, scale: 0 }} className="bg-white w-[650px] max-w-[90%] flex flex-col p-3 rounded-[5px]" style={{ margin: "0 auto", boxShadow: "0 3px 9px rgba(0, 0, 0, 0.3)" }}>
+                            }} animate={{ y: 100, x: 0, scale: 1 }} exit={{ x: 0, y: 0, scale: 0 }} className="bg-white w-[850px] max-w-[90%] flex flex-col p-3 rounded-[5px]" style={{ margin: "0 auto", boxShadow: "0 3px 9px rgba(0, 0, 0, 0.3)" }}>
 
-                            <div className="w-full flex flex-row">
+                            <div className="w-full flex flex-row bg-red-300">
                                 <motion.div className="flex w-[65%] flex-col" initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.1 }}>
                                     <div className="w-full flex justify-center py-1 mb-2">
 
@@ -232,6 +232,9 @@ const Modal = ({ isToggled, setToggled, dispatch, state, Workouts }) => {
                                                             <motion.div className="shadow-md rounded-md p-1 mb-2 border border-gray-200" initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3, delay: index / 20 }}>
 
                                                                 <span>{item.Name}</span>
+                                                                <span>{item.sets}</span>
+                                                                <span>{item.reps}</span>
+
                                                             </motion.div>
                                                         </>
                                                     ))}

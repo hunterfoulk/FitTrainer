@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion';
 import Card from "./card"
 
-const All = ({ Appointments, isToggled, setToggled, dispatch, handleChange }) => {
+const All = ({ Appointments, isToggled, setToggled, dispatch, handleChange, Workouts }) => {
     // const [state, setState] = useState([])
 
     // useEffect(() => {
@@ -34,7 +34,7 @@ const All = ({ Appointments, isToggled, setToggled, dispatch, handleChange }) =>
             {Appointments.length ? Appointments.map((item, index: number) => (
                 <>
 
-                    <Card item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />
+                    <Card Workouts={Workouts} item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />
                 </>
             )) : <MyContents />}
         </>

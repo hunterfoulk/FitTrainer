@@ -24,14 +24,9 @@ import Drawer from "@material-ui/core/Drawer";
 import Modal from "./Modal"
 import { useDisclosure } from "@chakra-ui/react"
 import { Select } from "@chakra-ui/react"
-import { AppointmentContext } from "../../../context/context"
 
 
-interface Props {
-    AccountInfo: any
-    TrainersClients: any
-    Workouts: any
-}
+
 const useStyles = makeStyles({
     list: {
         width: 300,
@@ -46,7 +41,7 @@ const useStyles = makeStyles({
 });
 
 
-const TrainerScheduleTab: React.FC<Props> = ({ AccountInfo, TrainersClients, Workouts }) => {
+const TrainerScheduleTab = ({ AccountInfo, TrainersClients, Workouts, state, dispatch, setDrawerState, drawerState, handleClick }) => {
     const [value, onChange] = useState(new Date());
     const classes = useStyles();
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -63,9 +58,9 @@ const TrainerScheduleTab: React.FC<Props> = ({ AccountInfo, TrainersClients, Wor
             {/* <div onClick={() => setTab("Add")} style={tab === "Add" ? { boxShadow: "0 0.5em 0.7em -0.4em #000000ce", transform: "translateY(-0.25em)" } : null}> <FiUserPlus className={styles.banner_button_plus} /> Add Client </div> */}
 
 
-            <Modal onOpen={onOpen} isOpen={isOpen} onClose={onClose} TrainersClients={TrainersClients} AccountInfo={AccountInfo} />
+            <Modal onOpen={onOpen} isOpen={isOpen} onClose={onClose} TrainersClients={TrainersClients} AccountInfo={AccountInfo} dispatch={dispatch} />
 
-            <Calendar Workouts={Workouts} />
+            <Calendar Workouts={Workouts} dispatch={dispatch} state={state} drawerState={drawerState} setDrawerState={setDrawerState} handleClick={handleClick} />
             <Fab onClick={onOpen} color="primary" aria-label="add" style={{ position: "fixed", bottom: "25px", right: "60px", zIndex: 1, backgroundColor: "#ee2b45" }}>
                 <AddIcon />
             </Fab>

@@ -35,7 +35,7 @@ const Profile = ({ AccountInfo }) => {
     const [pic, setPic] = useState<any>();
     const [avatar, setPicFile] = useState<any>(null);
     const classes = useStyles();
-
+    const [mobile, setMobile] = useState(false)
 
 
 
@@ -50,6 +50,9 @@ const Profile = ({ AccountInfo }) => {
             Avatar: AccountInfo.Avatar || null
         })
         setPic(AccountInfo.Avatar)
+        if (window.innerWidth > 700) {
+            setMobile(true)
+        }
         // setPicFile(AccountInfo.Avatar)
     }, [])
 
@@ -106,10 +109,10 @@ const Profile = ({ AccountInfo }) => {
         <>
             <Layout AccountInfo={profile} role="Trainer">
 
-                <div className=" w-full flex flex-col items-center p-2">
-                    <div className="w-auto mt-20 rounded-md " style={{ boxShadow: "0 2px 6px rgb(0 0 0 / 15%)" }}>
-                        <h1 className="text-3xl w-auto p-2 rounded-t-lg bg-[#000] text-white">Edit Profile</h1>
-                        <div className="flex mt-10 justify-center mb-4">
+                <div className=" w-full flex flex-col items-center p-2 bg-[#FCFCFC]">
+                    <div className="w-auto mt-20 p-5" style={mobile ? { boxShadow: "0 2px 6px rgb(0 0 0 / 15%)" } : null}>
+                        <h1 className="text-3xl text-center w-auto p-2 rounded-t-lg text-black mb-2">Edit Profile</h1>
+                        <div className="flex flex-col items-center mt-10 justify-center mb-4 md:flex-row">
                             <div className="p-2 ">
                                 <label htmlFor="avatar">
                                     <div className="relative w-[110px] h-[110px] cursor-pointer ">
@@ -124,9 +127,9 @@ const Profile = ({ AccountInfo }) => {
                                 </label>
 
                             </div>
-                            <div className="flex flex-col py-5 px-4 w-auto">
+                            <div className="flex flex-col items-center py-5 px-4 w-auto">
                                 <span className="text-3xl">{AccountInfo.FirstName} {AccountInfo.LastName}</span>
-                                <span className="text-lg text-grey-300">Trainer</span>
+                                <span className="text-lg text-grey-300 ">Trainer</span>
                             </div>
                         </div>
                         <div className="flex p-2 flex-wrap justify-around min-h-[200px]">

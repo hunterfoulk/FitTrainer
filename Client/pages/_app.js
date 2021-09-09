@@ -11,7 +11,6 @@ import { useRouter } from 'next/router'
 import Router from 'next/router';
 import "nprogress/nprogress.css";
 import NProgress from 'nprogress';
-import { AppointmentContextProvider } from "../context/context"
 
 
 NProgress.configure({
@@ -55,9 +54,9 @@ export default function MyApp(props) {
               useSystemColorMode: true,
             }}
           >
-            <AppointmentContextProvider>
-              <Component {...pageProps} />
-            </AppointmentContextProvider>
+
+            <Component {...pageProps} />
+
           </ColorModeProvider>
         </ChakraProvider>
       </ThemeProvider>

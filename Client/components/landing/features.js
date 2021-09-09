@@ -24,13 +24,13 @@ export default function Features() {
             variants={{
                 visible: { opacity: 1, scale: 1 },
                 hidden: { opacity: 0, scale: 1 }
-            }} className="flex flex-col items-center features:flex-row w-full max-w-[1500px] justify-center mt-[160px] mb-[160px] ">
+            }} className="flex flex-col py-14 items-center features:flex-row w-full max-w-[1500px] justify-center mt-[160px] mb-[160px] ">
 
 
             <div className="flex flex-1 flex-col items-center features:items-start">
                 <div className="w-full max-w-[700px] py-3 mb-4 text-center features:text-left max-w-[600px] ">
-                    <span className=" text-[#F5F5F5] t text-4xl font-Roboto font-bold">
-                        <span className="text-[#cf2121] ">FitTrainer</span> is designed for trainers who want to easily track clients progress and their training goals
+                    <span className=" text-[#F5F5F5] t text-4xl font-Roboto font-bold ">
+                        <span className="text-[#cf2121] ">Apex's</span> Training Software is designed for trainers who want to easily track clients progress and their training goals
                     </span>
                 </div>
 
@@ -86,7 +86,7 @@ export default function Features() {
                             <span className="text-[#F5F5F5] text-lg font-bold flex justify-center py-1 650:justify-start">Simple client creation</span>
                         </div>
                         <div className="py-1 text-[#7c7c7c] flex justify-center py-1 650:justify-start">
-                            heyyy sedgas asdgasd asg afgaefas astasetq asev setq asev asdfaset asef asdfqaset asdv a
+                            Create a profile for your client with customizble features.
                         </div>
                     </div>
                 </div>
@@ -101,7 +101,7 @@ export default function Features() {
                             <span className="text-[#F5F5F5] text-lg font-bold">Detailed progress tracking</span>
                         </div>
                         <div className="py-1 text-[#7c7c7c] flex justify-center py-1 650:justify-start">
-                            heyyy sedgas asdgasd asg afgaefas astasetq asev setq asev asdfaset asef asdfqaset asdv a
+                            Track your clients goals and completed workouts easily.
                         </div>
                     </div>
                 </div>
@@ -113,10 +113,10 @@ export default function Features() {
 
                         </div>
                         <div className="py-1 flex justify-center py-1 650:justify-start">
-                            <span className="text-[#F5F5F5] text-lg font-bold" >Client training scheduling</span>
+                            <span className="text-[#F5F5F5] text-lg font-bold" >Trainer training scheduling</span>
                         </div >
                         <div className="py-1 text-[#7c7c7c] flex justify-center py-1 650:justify-start">
-                            heyyy sedgas asdgasd asg afgaefas astasetq asev setq asev asdfaset asef asdfqaset asdv a
+                            Easy to use scheduler to create and keep up with daily, weekly and monthly appointments.
                         </div>
                     </div>
                 </div>
@@ -132,7 +132,7 @@ export default function Features() {
                             <span className="text-[#F5F5F5] text-lg font-bold">Large exercises database</span>
                         </div>
                         <div className="py-1 text-[#7c7c7c] flex justify-center py-1 650:justify-start">
-                            <span> heyyy sedgas asdgasd asg afgaefas astasetq asev setq asev asdfaset asef asdfqaset asdv a</span>
+                            <span>Over 200 exercises to add to your created workouts.</span>
                         </div>
                     </div>
                 </div>

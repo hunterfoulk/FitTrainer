@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Card from "./card"
 import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 
-const ThisWeek = ({ Appointments, isToggled, setToggled, dispatch, handleChange }) => {
+const ThisWeek = ({ Appointments, isToggled, setToggled, dispatch, handleChange, Workouts }) => {
     const [state, setState] = useState([])
 
     let curr = new Date()
@@ -45,7 +45,7 @@ const ThisWeek = ({ Appointments, isToggled, setToggled, dispatch, handleChange 
                     {Appointments.filter(appointment => week.includes(appointment.startDate.split('T')[0])).map((item, index: number) => (
 
 
-                        <Card item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />
+                        <Card Workouts={Workouts} item={item} index={index} isToggled={isToggled} setToggled={setToggled} dispatch={dispatch} handleChange={handleChange} />
 
                     ))}
                 </ AnimateSharedLayout>

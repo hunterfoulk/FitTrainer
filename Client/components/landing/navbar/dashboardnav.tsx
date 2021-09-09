@@ -20,11 +20,11 @@ const DashboardNav: React.FC<Props> = ({ }) => {
         <>
             <div className={styles.navbar}>
                 <div className={styles.navbar_left}>
-                    <Image alt="Vercel logo" src="/images/weightslogocrimson.png" width={25} height={28} quality={100} className="avatar" />
-
+                    <Image alt="Vercel logo" src="/images/apexlogo.png" width={25} height={28} quality={100} className="avatar" />
+                    {/* 
                     <Link href='/' >
                         <span>FitTrainer</span>
-                    </Link>
+                    </Link> */}
 
                 </div>
                 <div className={styles.navbar_right} >

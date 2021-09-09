@@ -33,7 +33,7 @@ export default function programsFeature() {
                 </div>
                 <div className=" text-[22] font-bold flex flex-col items-center py-5 text-[#7C7C7C] lg:items-start">
 
-                    <p className="max-w-[80%] mb-4 text-center lg:text-left">FitTrainer is a PWA training software with the purpose of making fitness trainers day to day lives easier.</p>
+                    <p className="max-w-[80%] mb-4 text-center lg:text-left">Apex's Training Software is a PWA training software with the purpose of making fitness trainers day to day lives easier.</p>
                     <p className="max-w-[80%] text-center lg:text-left">We make it easy for trainers to create appointments, create workouts, and attach workouts to client appointments.</p>
                 </div>
             </div>

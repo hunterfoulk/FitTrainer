@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion, AnimateSharedLayout, AnimatePresence } from 'framer-motion';
 import Moment from 'react-moment';
 import { FiClock } from 'react-icons/fi';
@@ -11,6 +11,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { green100 } from 'material-ui/styles/colors';
 import { makeStyles } from "@material-ui/core";
+import { useDisclosure } from "@chakra-ui/react"
+import Drawer from "../appointmentsPageComponents/drawer"
 
 const useStyles = makeStyles({
     input: {
@@ -39,8 +41,19 @@ const PurpleSwitch = withStyles({
     track: {},
 })(Switch);
 
-const Card = ({ item, index, isToggled, setToggled, dispatch, handleChange }) => {
+const Card = ({ item, index, isToggled, setToggled, dispatch, handleChange, Workouts }) => {
     const classes = useStyles();
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [drawerState, setDrawerState] = useState()
+    const [size, setSize] = useState("md")
+
+    const handleClick = () => {
+        console.log("ITEM", item)
+        setDrawerState(item)
+        setSize("md")
+        onOpen()
+    }
+
 
     const handleChanged = async (event, item) => {
         console.log("ON CHANGE FIRED!", event.target.checked)
@@ -60,6 +73,7 @@ const Card = ({ item, index, isToggled, setToggled, dispatch, handleChange }) =>
 
     return (
         <>
+            <Drawer Workouts={Workouts} onClose={onClose} onOpen={onOpen} isOpen={isOpen} size={size} drawerState={drawerState} dispatch={dispatch} setDrawerState={setDrawerState} />
             <motion.div key={index} initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.3 }} className="rounded-sm mb-6 mx-2 min-w-[330px] max-w-[400px] bg-white flex flex-col" style={{ boxShadow: "0 0 8px rgba(0,0,0,0.12)" }}>
                 <div className={item.completed ? "px-2 py-3 w-full items-center justify-between flex text-[#414141] border-t-[7px] border-[#149414] rounded-t-sm" : " px-2 py-3 w-full flex items-center justify-between text-[#414141] border-t-[7px] border-gray-400 rounded-t-sm"}>
                     <div className="flex flex-1 justify-start">
@@ -90,10 +104,7 @@ const Card = ({ item, index, isToggled, setToggled, dispatch, handleChange }) =>
                         <Moment format="dddd, MMMM Do YYYY">{item.startDate}</Moment>
                     </div>
                     <div className="flex items-center justify-center text-[#649CEA] cursor-pointer hover:underline">
-                        <span onClick={async () => {
-                            await dispatch({ type: "SET_APPOINTMENT", item: item });
-                            setToggled(true)
-                        }}>View More</span>
+                        <span onClick={() => handleClick()}>View More</span>
                     </div>
                 </div>
             </motion.div>

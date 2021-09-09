@@ -125,21 +125,16 @@ export const Schedule = async (req: Request, res: Response,) => {
 
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 	let TrainersClients = await Query(Statements.Get.GetTrainersClients(TrainerId))
-	let _Appointments = await Query(Statements.Get.Appointments(TrainerId))
-	let workouts = await Query(Statements.Get.GetTrainersWorkouts(TrainerId))
+	let Appointments = await Query(Statements.Get.Appointments(TrainerId))
+	let workouts = await Query(Statements.Get.GetWorkoutsForAppointmentsJoin(TrainerId))
+	for (let x of Appointments) {
+		if (x.WorkoutId !== null) {
+			let newObj = JSON.parse(x.workout)
+			x.workout = newObj
 
-	let Appointments = _Appointments.map((app, index) => {
-		if (app.WorkoutId !== null) {
-			let workout = workouts.find(element => element.WorkoutId == app.WorkoutId)
-
-			return { ...app, workout: workout }
-
-		} else {
-			return { ...app, workout: {} }
 		}
-	})
+	}
 
-	console.log("NEW", Appointments)
 
 
 
@@ -322,21 +317,6 @@ export const TrainerSignup = (req: Request, res: Response): void => {
 		})
 }
 
-// let accountName = "fittrainer"
-// const sharedKeyCredential = new StorageSharedKeyCredential(
-// 	'fittrainer',
-// 	'AYQimv122pTLcHo9bjLojyGwDRKFaMgrf+qwtZw2VqEh+3AtamJUH2/VEppKar4yzBLB2K+z41PZo+ckkPUrGw==');
-// const pipeline = newPipeline(sharedKeyCredential);
-
-// const blobServiceClient = new BlobServiceClient(
-// 	`https://${accountName}.blob.core.windows.net`,
-// 	pipeline
-// );
-
-// const container = 'fit-trainer';
-// const ONE_MEGABYTE = 1024 * 1024;
-// const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
-
 
 const getBlobName = originalName => {
 	// Use a random number to generate a unique file name, 
@@ -493,17 +473,22 @@ export const CreateAppointment = async (req: MulterRequest, res: Response): Prom
 
 		const clientName = await Query(Statements.Post.getClientName(payload.ClientId));
 		console.log("CLIENT NAME", clientName)
-		const firstName = clientName[0].FirstName.charAt(0).toUpperCase() + clientName[0].FirstName.slice(1);
-		const lastName = clientName[0].LastName.charAt(0).toUpperCase() + clientName[0].LastName.slice(1);
-		const title = firstName.concat(" ", lastName)
+		if (!clientName) {
+			resolver(res, 503, 'Client didnt set a first name.')
+			return;
 
-		const newAppointment = await Query(Statements.Post.CreateAppointment(title, payload.startDate, payload.endDate, payload.ClientId, payload.TrainerId));
-		const newlyCreatedAppointment = await Query(Statements.Get.GetNewAppointment(newAppointment.insertId));
-		const appointmentData = newlyCreatedAppointment[0]
+		} else {
+			const firstName = clientName[0].FirstName.charAt(0).toUpperCase() + clientName[0].FirstName.slice(1);
+			const lastName = clientName[0].LastName.charAt(0).toUpperCase() + clientName[0].LastName.slice(1);
+			const title = firstName.concat(" ", lastName)
 
-		console.log("NEW APPOINTMENT", appointmentData)
-		resolver(res, 200, 'Sending New Appointment Back.', appointmentData)
+			const newAppointment = await Query(Statements.Post.CreateAppointment(title, payload.startDate, payload.endDate, payload.ClientId, payload.TrainerId));
+			const newlyCreatedAppointment = await Query(Statements.Get.GetNewAppointment(newAppointment.insertId));
+			const appointmentData = newlyCreatedAppointment[0]
 
+			console.log("NEW APPOINTMENT", appointmentData)
+			resolver(res, 200, 'Sending New Appointment Back.', appointmentData)
+		}
 	} catch (err) {
 		console.log(err)
 	}
@@ -516,13 +501,12 @@ export const CreateAppointment = async (req: MulterRequest, res: Response): Prom
 export const UpdateAppointment = async (req: MulterRequest, res: Response): Promise<void> => {
 	try {
 		const { payload } = req.body
-		let WorkoutId = payload.WorkoutId
 		let id = parseInt(payload.id)
 		let endDate = payload.endDate
 		let startDate = payload.startDate
 
 		console.log("PAYLOAD", payload)
-		await Query(Statements.Update.UpdateAppointment(WorkoutId, id, startDate, endDate));
+		await Query(Statements.Update.UpdateAppointmentDateTime(id, startDate, endDate));
 
 		resolver(res, 200, 'Sending New Appointment Back.')
 
@@ -755,27 +739,23 @@ export const AppointmentsPage = async (req: Request, res: Response): Promise<voi
 	const TrainerId = trainer.TrainerId
 	let AccountInfo = await Query(Statements.Get.TrainerAccount(TrainerId))
 	let Appointments = await Query(Statements.Get.Appointments(TrainerId))
-	let Workouts = await Query(Statements.Get.GetTrainersPrograms(TrainerId))
+	let Workouts = await Query(Statements.Get.GetWorkoutsForAppointmentsJoin(TrainerId))
+	let Exercises = await Query(Statements.Get.GetExercises())
 	let TrainersClients = await Query(Statements.Get.GetTrainersClients(TrainerId))
 
 
-	let newAppointments = Appointments.map((item) => {
-		if (item.WorkoutId !== null) {
-
-			const found = Workouts.find(element => element.WorkoutId == item.WorkoutId);
-
-			return { ...item, workout: found }
-
-		} else {
-
-			return { ...item }
+	for (let x of Appointments) {
+		if (x.WorkoutId !== null) {
+			let newObj = JSON.parse(x.workout)
+			x.workout = newObj
 
 		}
-	})
-	console.log("NEW APPOINTMENTS", newAppointments)
+	}
 
 
-	resolver(res, 200, 'Sending Exercise Info Back.', { AccountInfo: AccountInfo[0], Appointments: newAppointments, Workouts: Workouts, TrainersClients: TrainersClients })
+	console.log(Appointments)
+
+	resolver(res, 200, 'Sending Exercise Info Back.', { AccountInfo: AccountInfo[0], Appointments: Appointments, Workouts: Workouts, TrainersClients: TrainersClients })
 
 
 }

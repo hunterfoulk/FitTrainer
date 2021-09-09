@@ -1,21 +1,9 @@
 import React, { useReducer, useState, useEffect, useContext } from 'react'
 import TrainerScheduleTab from "../components/dashboard/trainer/TrainerScheduleTab"
 import Layout from "../components/layout"
-import { AppointmentContext } from "../context/context"
 import requireAuthentication from "./auth/authtwo"
-
-interface Props {
-    Appointments: any
-    AccountInfo: any
-    TodaysClients: any
-    setTabG: any
-    tabG: any
-    setTabT: any
-    tabT: any
-    role: any
-    TrainersClients: any
-    Workouts: any
-}
+import { useDisclosure } from "@chakra-ui/react"
+import Drawer from "../components/appointmentsPageComponents/drawer"
 
 const reducer = (state, action) => {
     console.log("APPOINTMENTSSS REDUCER ACTION", action)
@@ -24,61 +12,78 @@ const reducer = (state, action) => {
 
     switch (action.type) {
 
-        case "UPDATE":
-            return {
-                ...state,
-                appointments: [...state.appointments, action.appointment]
-            };
-        case "FILTER_APPOINTMENTS":
-            return {
-                ...state,
-                appointments: state.appointments.filter((item) => item.id !== action.id),
-            };
-        case "CHANGED":
-            return {
-                ...state,
-                appointments: state.appointments.map(appointment => (action.changed[appointment.id] ? { ...appointment, ...action.changed[appointment.id] } : appointment))
-            };
-        case "DELETE_WORKOUT":
-            return {
-                ...state,
-                appointments: state.appointments.map(appointment => action.id == appointment.id ? { ...appointment, WorkoutId: null, workout: {} } : appointment)
-            }
-        case "UPDATE_WORKOUT":
-            return {
-                ...state,
-                appointments: state.appointments.map(appointment => action.id == appointment.id ? { ...appointment, WorkoutId: action.WorkoutId, workout: action.workout } : appointment)
-            }
         case "SET_APPOINTMENT":
             return {
                 ...state,
-                appointment: action.appointment
+                appointment: action.item
             }
-
+        case "UPDATE_APPOINTMENTS":
+            return {
+                ...state,
+                Appointments: [...state.Appointments, action.appointment]
+            }
+        case "UPDATE_APPOINTMENT":
+            return {
+                ...state,
+                appointment: { ...state.appointment, startDate: action.startDate, endDate: action.endDate, WorkoutId: action.WorkoutId, workout: action.workout },
+                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.id ? { ...appointment, startDate: action.startDate, endDate: action.endDate } : appointment))
+            }
+        case "DELETE_WORKOUT":
+            return {
+                ...state,
+                appointment: { ...state.appointment, WorkoutId: null, workout: {} },
+                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.id ? { ...appointment, WorkoutId: null, workout: {} } : appointment))
+            }
+        case "FILTER_APPOINTMENTS":
+            return {
+                ...state,
+                Appointments: state.Appointments.filter((item) => item.id !== action.id)
+            };
+        case "CLEAR_APPOINTMENT":
+            return {
+                ...state,
+                appointment: {}
+            }
+        case "UPDATE_APPOINTMENT_WORKOUT":
+            return {
+                ...state,
+                appointment: { ...state.appointment, WorkoutId: action.WorkoutId, workout: action.workout },
+                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.id ? { ...appointment, WorkoutId: action.WorkoutId, workout: action.workout } : appointment))
+            }
+        case "UPDATE_APPOINTMENT_COMPLETED":
+            return {
+                ...state,
+                Appointments: state.Appointments.map(appointment => (action.AppointmentId == appointment.id ? { ...appointment, completed: action.completed } : appointment))
+            }
 
         default:
             return state;
     }
 };
 
-const Schedule: React.FC<Props> = ({ Appointments, AccountInfo, tabG, setTabG, tabT, role, setTabT, TrainersClients, Workouts }) => {
-    const { dispatch: appointmentDispatch, appData } = useContext(AppointmentContext);
+const Schedule = ({ Appointments, AccountInfo, tabG, setTabG, tabT, role, setTabT, TrainersClients, Workouts }) => {
+    const initialState = { Appointments: Appointments, appointment: {} };
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [isToggled, setToggled] = useState(false)
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [drawerState, setDrawerState] = useState()
+    const [size, setSize] = useState("md")
 
+    const handleClick = (data) => {
+        console.log("ITEM", data)
+        setDrawerState(data)
+        setSize("md")
+        onOpen()
+    }
 
-    useEffect(() => {
-
-        if (Appointments) {
-            appointmentDispatch({ type: "SET_APPOINTMENTS", appointments: Appointments })
-
-        }
-
-    }, [])
 
 
     return (
         <>
             <Layout AccountInfo={AccountInfo} role={role}>
-                <TrainerScheduleTab AccountInfo={AccountInfo} TrainersClients={TrainersClients} Workouts={Workouts} />
+                <Drawer Workouts={Workouts} onClose={onClose} onOpen={onOpen} isOpen={isOpen} size={size} drawerState={drawerState} dispatch={dispatch} setDrawerState={setDrawerState} />
+
+                <TrainerScheduleTab AccountInfo={AccountInfo} TrainersClients={TrainersClients} Workouts={Workouts} drawerState={drawerState} setDrawerState={setDrawerState} state={state} dispatch={dispatch} handleClick={handleClick} />
             </Layout>
 
         </>

@@ -63,9 +63,32 @@ export const statements = {
 		Appointments: (
 			TrainerId: number,
 		): SQLStatement => SQL`
-			SELECT a.*, b.Avatar, b.ClientId,b.JoinDate
-		    FROM appointments a INNER JOIN clients b ON a.ClientId = b.ClientId
-		    WHERE a.TrainerId = ${TrainerId}
+		SELECT a.*, (SELECT IFNULL(JSON_OBJECT(
+            'WorkoutId', w.WorkoutId,
+            'workout_name', w.workout_name,
+            'exercises', (SELECT JSON_ARRAYAGG(
+                JSON_OBJECT(
+                    'ExecerciseId', e.ExerciseId,
+                     'WorkoutId', b.w_Id,
+                     'muscle_group_name', mg.muscle_group_name,
+                    'Name', e.Name,
+                    'sets', b.sets,
+					'reps', b.reps
+                    )
+                )
+                FROM workout_exercises b
+				INNER JOIN muscle_groups mg
+                ON mg.MuscleGroupId = b.ex_Id
+                INNER JOIN exercises e
+                WHERE b.ex_Id = e.ExerciseId
+                AND b.w_Id = w.WorkoutId
+
+                )
+
+        ), '{}')
+        FROM workouts w
+        WHERE w.workoutId = a.WorkoutId
+    ) as workout FROM appointments a WHERE a.TrainerId = ${TrainerId}
 		`,
 		GetNewAppointment: (
 			id: number,
@@ -152,10 +175,35 @@ export const statements = {
 		select * from workouts WHERE TrainerId = ${TrainerId} AND WorkoutId = ${WorkoutId}
 
 		`,
+		GetWorkoutsForAppointmentsJoin: (
+			TrainerId: number
+
+		): SQLStatement => SQL`
+		SELECT w.*, (SELECT JSON_ARRAYAGG(
+                JSON_OBJECT(
+                    'ExecerciseId', e.ExerciseId,
+                     'WorkoutId', b.w_Id,
+                     'muscle_group_name',mg.muscle_group_name,
+                    'Name', e.Name,
+                    'sets', b.sets,
+					'reps', b.reps
+                    )
+                )
+                FROM workout_exercises b
+				INNER JOIN muscle_groups mg
+                ON mg.MuscleGroupId = b.ex_Id
+                INNER JOIN exercises e
+                WHERE b.ex_Id = e.ExerciseId
+                AND b.w_Id = w.WorkoutId
+
+                ) as exercises FROM workouts w WHERE w.TrainerId = ${TrainerId}
+
+		`,
+
 		SelectWorkoutExercises: (
 			WorkoutId: number,
 		): SQLStatement => SQL`
-		select * from workout_exercises a INNER JOIN exercises b ON a.ex_Id = b.ExerciseId INNER JOIN muscle_groups c ON b.Muscle_Group =  c.MuscleGroupId WHERE w_Id = ${WorkoutId}
+		select * from workout_exercises a INNER JOIN exercises b ON a.ex_Id = b.ExerciseId INNER JOIN muscle_groups c ON b.Muscle_Group = c.MuscleGroupId WHERE w_Id = ${WorkoutId}
 
 		`,
 	},
@@ -309,6 +357,15 @@ export const statements = {
 		): SQLStatement => SQL`
 			UPDATE appointments
 			SET WorkoutId = ${WorkoutId}, startDate = ${startDate}, endDate = ${endDate}
+			WHERE id = ${id}
+		`,
+		UpdateAppointmentDateTime: (
+			id: number,
+			startDate: any,
+			endDate: any
+		): SQLStatement => SQL`
+			UPDATE appointments
+			SET startDate = ${startDate}, endDate = ${endDate}
 			WHERE id = ${id}
 		`,
 		UpdateProfileWithoutAvatar: (

@@ -74,18 +74,23 @@ const Login: React.FC<Props> = ({ }) => {
         <>
             <body>
                 <div
-                    className="min-h-screen flex flex-col items-center justify-center bg-gray-100"
+                    className="min-h-screen flex flex-col items-center justify-center bg-[#0a0a0a]"
                 >
                     <div
-                        className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-[500px]"
+                        className="flex flex-col rounded bg-transparent shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-10 rounded-md w-full max-w-[500px]" style={{
+                            boxShadow: "inset 0 -3em 3em rgba(0, 0, 0, 0.1),0 0  0 2px rgb(255,255,255),0.3em 0.3em 1em rgba(0,0,0,0.3)"
+                        }}
                     >
-                        <h1 className="text-center text-5xl font-light">FitTrainer</h1>
+                        <div className="flex w-full justify-center">
+
+                            <img className="text-center h-[75px] w-[230px]" src="/images/whiteapexlogo.png" />
+                        </div>
                         <div className="mt-10">
                             <form id="form" onSubmit={(e) => Log(e)}>
                                 <div className="flex flex-col mb-6">
                                     <label
                                         htmlFor="email"
-                                        className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
+                                        className="mb-1 text-xs sm:text-sm tracking-wide text-white"
                                     >
                                         Email:
                                     </label>
@@ -123,7 +128,7 @@ const Login: React.FC<Props> = ({ }) => {
                                 <div className="flex flex-col">
                                     <label
                                         htmlFor="password"
-                                        className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
+                                        className="mb-1 text-xs sm:text-sm tracking-wide text-white"
                                     >
                                         Password:
                                     </label>
@@ -162,7 +167,7 @@ const Login: React.FC<Props> = ({ }) => {
                                     </div>
                                 </div>
                                 <div className="flex w-full my-3">
-                                    <span className="hover:underline cursor-pointer mr-1">Dont have an account?</span>
+                                    <span className="text-white hover:underline cursor-pointer mr-1">Dont have an account?</span>
 
                                     <Link href="/signup">
                                         <a className="text-indigo-600 hover:underline cursor-pointer">Sign up</a>

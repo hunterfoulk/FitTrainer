@@ -24,7 +24,7 @@ import MomentUtils from "@date-io/moment";
 import {
     Select
 } from "@chakra-ui/react"
-import { AppointmentContext } from "../../../context/context"
+
 import DatePicker from "react-datepicker";
 import setHours from 'date-fns/setHours'
 import setMinutes from 'date-fns/setMinutes'
@@ -33,12 +33,11 @@ import { FaRegCalendar } from 'react-icons/fa';
 import "react-datepicker/dist/react-datepicker.css";
 
 
-export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, AccountInfo }) {
+export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, AccountInfo, dispatch }) {
     moment.locale("en");
     const [selectedDateStart, handleDateChangeStart] = useState(new Date())
     const [selectedDateEnd, handleDateChangeEnd] = useState(new Date())
     const [title, setTitle] = useState(0)
-    const { dispatch: appointmentDispatch, appData } = useContext(AppointmentContext);
 
     console.log("TITLE", title)
 
@@ -67,20 +66,11 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
             console.log(res)
             const { data, status } = await res.json()
 
-            // data = {
-            //     TrainerId: 1,
-            //     id: 14,
-            //     ClientId: 10,
-            //     title: 'Hunter Foulk',
-            //     startDate: '2021-04-24T08:00',
-            //     endDate: '2021-04-24T09:00'
-            // }
-
             console.log("DATA", data)
 
             onClose()
-            // dispatch({ type: "UPDATE", appointment: data });
-            appointmentDispatch({ type: "UPDATE_APPOINTMENTS", appointment: data })
+            dispatch({ type: "UPDATE_APPOINTMENTS", appointment: data });
+
         }
     }
 
@@ -98,7 +88,7 @@ export default function ClientModal({ onClose, isOpen, onOpen, TrainersClients, 
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Create Appointment</ModalHeader>
+                    <ModalHeader className="text-center">Create Appointment</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <>

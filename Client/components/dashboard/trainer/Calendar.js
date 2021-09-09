@@ -2,15 +2,12 @@ import React, { useState, useEffect, useReducer, useContext } from "react"
 import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import { makeStyles } from '@material-ui/core/styles';
 import { TiDeleteOutline } from 'react-icons/ti';
-import { AppointmentContext } from "../../../context/context"
 import axios from "axios"
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import {
   Scheduler,
   WeekView,
@@ -31,19 +28,10 @@ import { FaThumbtack } from 'react-icons/fa';
 import 'react-tippy/dist/tippy.css'
 import { Tooltip } from 'react-tippy';
 import AccessTime from '@material-ui/icons/AccessTime';
-
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
 import classNames from 'clsx';
 import Moment from 'react-moment';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
 import { grey } from '@material-ui/core/colors';
-
 import Switch from '@material-ui/core/Switch';
 
 const reducer = (state, action) => {
@@ -60,15 +48,6 @@ const reducer = (state, action) => {
   }
 };
 
-const useStyles = makeStyles({
-  input: {
-    height: "20px",
-    left: "19px",
-    marginLeft: "0px",
-    marginRight: "0px",
-
-  }
-});
 const PurpleSwitch = withStyles({
 
   switchBase: {
@@ -163,33 +142,13 @@ const GreenCheckbox = withStyles({
 
 
 
-const Appointment = ({ appointmentData, children, style, ...restProps }) => {
-
-
-
-  return (
-    <Appointments.Appointment
-
-      {...restProps}
-      style={{
-        ...style,
-        backgroundColor: '#ee2b45',
-        borderRadius: '8px',
-      }}
-    >
-      {children}
-
-    </Appointments.Appointment>
-  );
-}
-
 
 
 
 const TooltipContent = ({ appointmentData, formatDate, appointmentResources }) => {
   const classes = useTooltipContentStyles({ color: "red" });
   const { dispatch: appointmentDispatch, appData } = useContext(AppointmentContext);
-
+  // console.log("REST PROPS:", restProps)
   const handleChange = async (event) => {
     // setState({ ...state, [event.target.name]: event.target.checked });
 
@@ -231,60 +190,8 @@ const TooltipContent = ({ appointmentData, formatDate, appointmentResources }) =
 
   };
 
-  useEffect(async () => {
-
-    if (appointmentData) {
-      console.log("content component fired")
-      let TrainerId = appointmentData.TrainerId
-      let workouts = await fetchWorkouts(TrainerId)
-      console.log("WORKOUTS", workouts)
-
-      appointmentDispatch({ type: "SET", appointment: appointmentData, workouts: workouts })
-    }
-  }, [])
 
 
-
-
-
-  const handleWorkoutDelete = async () => {
-    console.log("DELETE")
-
-    appointmentDispatch({ type: "DELETE", id: appData.appointment.id })
-    // dispatch({ type: "DELETE_WORKOUT", id: appData.appointment.id })
-
-    await fetch('http://localhost:9000/deleteWorkoutFromAppointment', {
-      method: 'POST',
-      'credentials': 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: appData.appointment.id }),
-    })
-
-
-
-  }
-
-
-  const handleWorkoutAdd = async (e) => {
-
-    let workout = appData.workouts.find(workout => workout.WorkoutId == e.target.value)
-    console.log("FOUND WORKOUT", workout)
-    // appointmentDispatch({ type: "UPDATE", WorkoutId: e.target.value, workout: workout })
-    appointmentDispatch({ type: "UPDATE", id: appData.appointment.id, WorkoutId: e.target.value, workout: workout })
-
-
-    await fetch('http://localhost:9000/updateAppointmentWorkout', {
-      method: 'POST',
-      'credentials': 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ WorkoutId: e.target.value, id: appData.appointment.id }),
-    })
-
-  }
 
 
 
@@ -343,59 +250,6 @@ const TooltipContent = ({ appointmentData, formatDate, appointmentResources }) =
       </Grid>
 
 
-      {/* <div className="flex w-full mt-2 ">
-        <div className="flex justify-center items-center w-[15%] pl-2">
-
-          <FaThumbtack className="text-[20px] text-[#e0021b]" />
-        </div>
-
-        <div className="w-[85%] flex flex-row">
-          {appData.appointment.WorkoutId == null ?
-            <select id="moving-from" name="fromPlaceId" required="required" onChange={(e) => handleWorkoutAdd(e)}>
-              <option selected="selected" disabled value="none">Select Workout</option>
-
-              {appData.workouts?.map((element) => (
-                <>
-                  <option value={element.WorkoutId}>{element.workout_name}</option>
-
-                </>
-              ))}
-
-            </select> :
-            <>
-              <div className="flex flex-row items-center ">
-                <Tooltip
-                  position="bottom"
-                  html={(
-                    <div className="flex flex-col">
-
-                      {appData.appointment.workout?.exercises.map((exercise) => (
-
-                        <span>{exercise.Name}</span>
-                      ))}
-
-                    </div>
-                  )}
-                >
-                  <span className="underline cursor-pointer text-[16px] relative bottom-[2px]">{appData.appointment.workout.workout_name}</span>
-                </Tooltip>
-                < TiDeleteOutline className="ml-5 cursor-pointer text-lg relative bottom-[2px]" onClick={() => {
-                  handleWorkoutDelete()
-
-                }} />
-              </div>
-            </>
-          }
-
-        </div>
-
-      </div> */}
-      {/* <div className="flex w-full mt-2 px-6">
-        <FormControlLabel
-          control={<GreenCheckbox checked={appData.appointment.completed} onChange={handleChange} name="checkedG" />}
-          label={appData.appointment.completed ? "Completed" : "Not Completed"}
-        />
-      </div> */}
     </div>
   );
 };
@@ -403,15 +257,39 @@ const TooltipContent = ({ appointmentData, formatDate, appointmentResources }) =
 
 
 
-export default function Demo({ Workouts }) {
+export default function Demo({ Workouts, state, dispatch, setDrawerState, drawerState, handleClick }) {
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10))
-  const [workout, setWorkout] = useState({})
   const currentDateChange = (currentDate) => { setCurrentDate({ currentDate }); };
   const defaultCurrentDate = new Date().toISOString().slice(0, 10)
-  const { dispatch: appointmentDispatch, appData } = useContext(AppointmentContext);
+  // const { dispatch: appointmentDispatch, appData } = useContext(AppointmentContext);
+  console.log("state yo", state)
 
+  const handleDispatch = (e) => {
+    dispatch({ type: "SET_DRAWER_STATE", drawerState: e.data })
+  }
 
   console.log("REFIRED!@$!#$")
+  const Appointment = ({ appointmentData, children, style, ...restProps }) => {
+
+
+
+    return (
+      <Appointments.Appointment
+
+        {...restProps}
+        style={{
+          ...style,
+          backgroundColor: '#ee2b45',
+          borderRadius: '8px',
+        }}
+        onClick={(e) => handleClick(e.data)}
+      >
+        {children}
+
+      </Appointments.Appointment>
+    );
+  }
+
 
 
 
@@ -436,7 +314,7 @@ export default function Demo({ Workouts }) {
   return (
     <>
       <Scheduler
-        data={appData.appointments}
+        data={state.Appointments}
         height="auto"
       >
 
@@ -461,7 +339,7 @@ export default function Demo({ Workouts }) {
 
         <TodayButton />
 
-        <Appointments appointmentComponent={Appointment} />
+        <Appointments appointmentComponent={Appointment} state={state} dispatch={dispatch} />
         <EditingState
           onCommitChanges={commitChanges}
 

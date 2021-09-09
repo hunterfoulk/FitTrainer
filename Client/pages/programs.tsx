@@ -1,7 +1,5 @@
 import React, { useState, useReducer, useEffect } from 'react'
 import styles from "../styles/dashboard/ProgramsTab.module.scss"
-import ArrowBack from '@material-ui/icons/ArrowBack';
-import Add from '@material-ui/icons/Add';
 import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { SearchIcon } from "@chakra-ui/icons"
 import { useDisclosure } from "@chakra-ui/react"
@@ -20,15 +18,6 @@ import {
     NumberInputField,
     NumberInputStepper,
 } from "@chakra-ui/react"
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import TrainersWorkoutList from "../components/dashboard/trainer/trainersWorkoutList"
-import Icon from '@material-ui/core/Icon';
 import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -368,7 +357,7 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
                     <tr>
                         <td className="w-1/3 text-left py-3 px-4">{exercise.Name}</td>
                         <td className="w-1/3 text-left py-3 px-4" style={{ textAlign: "center" }}>{exercise.muscle_group_name}</td>
-                        <td className="py-3 px-4 flex items-end justify-end" style={{ textAlign: "right" }}><IoAddCircle onClick={() => addExerciseToWorkoutList(exercise)} style={{ textAlign: "right" }} className="relative cursor-pointer right-0 hover:text-blue-500 text-2xl" /></td>
+                        <td className="py-3 px-4 text-black flex items-end justify-end" style={{ textAlign: "right" }}><IoAddCircle onClick={() => addExerciseToWorkoutList(exercise)} style={{ textAlign: "right" }} className="relative cursor-pointer right-0 hover:text-blue-500 text-2xl" /></td>
                     </tr>
                 )
             })
@@ -409,13 +398,13 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
         if (tab === "Create") {
             return (
                 <>
-                    <div className="flex w-full max-w-[1400px] mt-4 p-2">
-                        <div className="flex w-2/3">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: [0, 1] }} transition={{ duration: 0.2 }} exit={{ opacity: [1, 0] }} className="flex w-full flex-col flex-col-reverse max-w-[1400px] mt-4 p-2 started:flex-row">
+                        <div className="flex w-full started:w-2/3">
 
 
                             <div className="shadow-lg overflow-hidden rounded border-b border-gray-200 w-full">
-                                <table className="min-w-full bg-white">
-                                    <thead className="bg-gray-800 text-white">
+                                <table className="min-w-full bg-white px-2">
+                                    <thead className="bg-black text-white">
                                         <tr>
                                             <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Exercise</th>
                                             <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm" style={{ textAlign: "center" }}>Muscle Group</th>
@@ -423,21 +412,21 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
 
                                         </tr>
                                     </thead>
-                                    <tbody className="text-gray-700">
+                                    <tbody className=" text-gray-700 w-full">
                                         {ExerciseTable()}
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div className="flex w-1/3 flex flex-col items-center px-2">
+                        <div className="flex w-full mb-4 flex flex-col items-center px-2 started:w-1/3">
                             <div className="w-full flex flex-col items-center shadow-md rounded bg-white">
-                                <div className="w-full flex justify-center text-lg font-semibold bg-[#1F2937] text-white p-1 rounded-t">
+                                <div className="w-full flex justify-center text-lg font-semibold bg-black text-white p-1 rounded-t">
                                     <h1>Workout</h1>
                                 </div>
 
 
                                 {
-                                    creatingWorkoutState.workoutExerciseList.length ? <motion.div dragElastic={0.1} className="w-full flex flex-col px-2 py-2 ">
+                                    creatingWorkoutState.workoutExerciseList.length ? <motion.div dragElastic={0.1} className="w-full flex flex-col  py-2 ">
                                         <div className="flex items-center border-b border-b-2 border-teal-500 py-2 mb-3">
                                             <input onChange={(e) => creatingWorkoutDispatch({ type: "SET_WORKOUT_NAME", payload: e.target.value })} className="bg-transparent border-none mr-3 px-2 leading-tight focus:outline-none" type="text" placeholder="Workout Name..." />
 
@@ -516,14 +505,14 @@ const Programs = ({ AccountInfo, exerciseList, role, workouts, equipment, muscle
                         </div>
 
 
-                    </div>
+                    </motion.div>
                 </>
             )
         } else if (tab === "Home") {
             return (
 
 
-                <WorkoutsTab workouts={state.workouts} dispatch={dispatch} />
+                <WorkoutsTab workouts={state.workouts} dispatch={dispatch} workoutTerm={workoutTerm} />
 
 
             )

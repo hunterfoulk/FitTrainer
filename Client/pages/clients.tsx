@@ -103,7 +103,7 @@ const Clients: React.FC<Props> = ({ AccountInfo, role, clients }) => {
             <Modal setModalToggled={setModalToggled} isModalToggled={isModalToggled} clientDetails={clientDetails} state={state} dispatch={dispatch} />
             <CreateModal setCreateModalToggled={setCreateModalToggled} isCreateModalToggled={isCreateModalToggled} AccountInfo={AccountInfo} dispatch={dispatch} />
             <Layout AccountInfo={AccountInfo} role={role}>
-                <div className="main flex flex-col w-full items-center py-3 px-4 overflow-x-hidden">
+                <div className="main flex flex-col w-full items-center py-3 px-4 overflow-x-hidden bg-[#FCFCFC]">
                     <div className="header flex justify-between w-full h-[50px] justify-center max-w-[1400px] mt-3 border-b-1 border-[#e9e9e9] px-1" style={{ fontFamily: "Roboto, sans-serif", letterSpacing: "1px" }}>
                         <div className="flex flex-1 items-center py-2">
                             <h1 className="text-[22px] text-[#414141] font-bold">Clients</h1>
