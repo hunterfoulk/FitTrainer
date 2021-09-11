@@ -259,7 +259,7 @@ export const gymLogin = (req: Request, res: Response): void => {
 
 
 export const Register = (req: Request, res: Response): void => {
-	const { email, password, firstName, lastName, phone } = req.body
+	const { email, password, firstName, lastname, phone } = req.body
 	console.log({ body: req.body })
 	Query(Statements.Get.Register(email))
 		.then(async (getResults) => {
@@ -271,7 +271,7 @@ export const Register = (req: Request, res: Response): void => {
 			const hashedPass = await bcryptHash(password)
 			const joinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
-			Query(Statements.Post.Register(email, hashedPass, joinDate, phone, lastName, firstName))
+			Query(Statements.Post.Register(email, hashedPass, joinDate, phone, lastname, firstName))
 				.then((postResults) => {
 					resolver(res, 200, 'Account Created', { trainerId: postResults.insertId })
 				})

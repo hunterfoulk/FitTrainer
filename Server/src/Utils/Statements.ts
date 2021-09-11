@@ -70,6 +70,7 @@ export const statements = {
                 JSON_OBJECT(
                     'ExecerciseId', e.ExerciseId,
                      'WorkoutId', b.w_Id,
+					 'muscle_group_img', mg.img,
                      'muscle_group_name', mg.muscle_group_name,
                     'Name', e.Name,
                     'sets', b.sets,
@@ -183,6 +184,7 @@ export const statements = {
                 JSON_OBJECT(
                     'ExecerciseId', e.ExerciseId,
                      'WorkoutId', b.w_Id,
+					  'muscle_group_img', mg.img,
                      'muscle_group_name',mg.muscle_group_name,
                     'Name', e.Name,
                     'sets', b.sets,

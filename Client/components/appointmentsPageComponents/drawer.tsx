@@ -45,7 +45,7 @@ const WorkoutContent = ({ drawerState, setDrawerState }) => {
 
                 <div className="w-[80%] flex mb-6 shadow-md border border-gray-200 rounded-sm">
                     <div className="flex flex-none items-center">
-                        <img src="/images/arms-icon.png" className="h-24 w-24" />
+                        <img src={y.muscle_group_img} className="h-24 w-24" />
                     </div>
                     <div className="flex flex-grow text-center flex-col items-center">
                         <div className="w-full text-black p-1 bg-gray-200">
@@ -87,17 +87,19 @@ export default function SideDrawer({ drawerState, onOpen, isOpen, onClose, size,
     const [workoutId, setWorkoutId] = useState(null);
     const [workoutObject, setWorkoutObject] = useState({});
 
-    useEffect(
-        () => {
-            if (drawerState) {
-                let startDate = new Date(drawerState.startDate);
-                let endDate = new Date(drawerState.endDate);
-                setStartDate(startDate);
-                setEndDate(endDate)
-                setOptions(Workouts)
+    useEffect(() => {
+        if (drawerState) {
+            let startDate = new Date(drawerState.startDate);
+            let endDate = new Date(drawerState.endDate);
+            setStartDate(startDate);
+            setEndDate(endDate)
+            setOptions(Workouts)
 
-            }
-        },
+        }
+
+    },
+
+
         [drawerState],
     );
 
@@ -403,6 +405,8 @@ export default function SideDrawer({ drawerState, onOpen, isOpen, onClose, size,
             },
             body: JSON.stringify({ payload: payload }),
         })
+
+
         setEditingDate(false)
     }
 
@@ -470,6 +474,7 @@ export default function SideDrawer({ drawerState, onOpen, isOpen, onClose, size,
             },
             body: JSON.stringify({ WorkoutId: e.target.value, id: drawerState.id }),
         })
+        dispatch({ type: "UPDATE_APPOINTMENT_WORKOUT", workout: workout, WorkoutId: parseInt(e.target.value), AppointmentId: drawerState.id });
         setChoosingWorkout(false)
     }
 
