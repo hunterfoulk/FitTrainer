@@ -39,7 +39,7 @@ export default function programsFeature() {
             </div>
             <div className="flex-1 w-full relative min-h-[700px] max-h-[700px] ">
 
-                <Image alt="Vercel logo" src="/images/newiphone3.png" layout='fill' objectFit="contain" loading="eager" />
+                <Image alt="Vercel logo" src="/images/appointmentsphone.png" layout='fill' objectFit="contain" loading="eager" />
 
             </div>
         </motion.div>

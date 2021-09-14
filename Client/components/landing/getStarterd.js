@@ -38,9 +38,9 @@ export default function GetStarted() {
             <div className="flex-1 flex justify-center mb-[30px] started:justify-end flex-1 px-2">
                 <div >
                     <Image
-                        src="/images/girlpic.jpg"
+                        src="/images/guyjumping.jpg"
                         alt="Picture of the author"
-                        width={450}
+                        width={485}
                         height={650}
                         loading="eager"
                     />
