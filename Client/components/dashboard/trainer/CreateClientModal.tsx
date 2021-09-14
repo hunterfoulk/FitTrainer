@@ -131,7 +131,7 @@ const CreateClientModal = ({ isCreateModalToggled, setCreateModalToggled, Accoun
                     FirstName: '',
                     LastName: '',
                     Birthday: '',
-                    Mobile: '',
+                    Mobile: ''
 
                 })
                 setValue(0)

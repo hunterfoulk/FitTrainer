@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SearchIcon } from "@chakra-ui/icons"
 import { Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, InputGroup, Input, InputLeftElement } from "@chakra-ui/react"
 import AddIcon from '@material-ui/icons/Add';
@@ -41,13 +41,16 @@ const ClientsList = ({ state, term, setModalToggled, setClientDetails, setHover,
 
     console.log("STATE", state)
 
+    useEffect(() => {
 
+    }, [state.clients])
 
     return (
         <>
             {state.clients.filter(user => user.FirstName.toLowerCase().includes(term.toLowerCase())).map((client, i) => {
                 let FirstName = client.FirstName.charAt(0).toUpperCase() + client.FirstName.slice(1)
                 let LastName = client.LastName.charAt(0).toUpperCase() + client.LastName.slice(1)
+
                 let JoinDate = client.JoinDate.split('T')[0]
                 let maxGoals = 5
                 let clientCurr = client.thisWeeksWorkouts
@@ -57,7 +60,7 @@ const ClientsList = ({ state, term, setModalToggled, setClientDetails, setHover,
                 console.log("YO PERECENTAGE", clientCurr)
 
                 let goalPercentage = currTotal * 100
-                console.log("GOAL PERECENTAGE", goalPercentage)
+                console.log("GOAL PERECENTAGE", FirstName, goalPercentage)
 
                 return (
 
@@ -68,7 +71,7 @@ const ClientsList = ({ state, term, setModalToggled, setClientDetails, setHover,
 
 
                     >
-                        <StyledTableCell className="flex flex-row "> <div className="flex flex-row items-center"><img className="rounded-full w-[30px] h-[30px] mr-3 " src={client.Avatar} /> {FirstName} {LastName}</div></StyledTableCell>
+                        <StyledTableCell className="flex flex-row "> <div className="flex flex-row items-center text-semibold"><img className="rounded-full w-[35px] h-[35px] mr-3 " src={client.Avatar} /> {FirstName} {LastName}</div></StyledTableCell>
                         <StyledTableCell className="flex justify-center items-center w-[200px]" >
 
 
@@ -79,8 +82,8 @@ const ClientsList = ({ state, term, setModalToggled, setClientDetails, setHover,
 
                         </StyledTableCell>
                         <StyledTableCell className="" align="center">{client.Email}</StyledTableCell>
-                        <StyledTableCell className="" align="center">{client.Mobile}</StyledTableCell>
-                        <StyledTableCell className="" align="center">{JoinDate}</StyledTableCell>
+                        {/* <StyledTableCell className="" align="center">{client.Mobile}</StyledTableCell>
+                        <StyledTableCell className="" align="center">{JoinDate}</StyledTableCell> */}
 
                     </StyledTableRow>
                 )

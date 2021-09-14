@@ -26,7 +26,7 @@ export default function Header() {
                 variants={{
                     visible: { opacity: 1, scale: 1 },
                     hidden: { opacity: 0, scale: 1 }
-                }} className="w-full flex justify-center items-center max-w-[1500px] py-14 mb-10 mt-12">
+                }} className="w-full h-screen flex items-start justify-start max-w-[1500px] mt-10">
                 <div className="w-full flex-col flex mt-5 lg:flex-row">
                     <div className="flex py-6 items-center mb-4 justify-center lg:mb-0">
                         <div className=" flex flex-col items-center w-[100%] max-w-full lg:items-start justify-center">
@@ -47,7 +47,7 @@ export default function Header() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex w-full relative pl-2 items-end justify-end min-h-[460px] w-full lg:min-h-[520px]">
+                    <div className="flex w-full relative pl-2 items-end justify-end min-h-[460px] w-full lg:min-h-[700px]">
                         {/* <img alt="Vercel logo" src="/images/headersvg.png" className="" /> */}
                         <Image alt="Vercel logo" src="/images/newheader.png" layout='fill' objectFit="contain" loading="eager" />
                     </div>

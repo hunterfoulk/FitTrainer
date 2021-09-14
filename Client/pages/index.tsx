@@ -5,6 +5,7 @@ import DashboardNav from "../components/landing/navbar/dashboardnav"
 import Header from "../components/landing/header"
 import About from "../components/landing/about"
 import Features from "../components/landing/features"
+import WorkoutSection from "../components/landing/workoutsection"
 import Cards from "../components/landing/cards"
 import GetStarted from "../components/landing/getStarterd"
 import Footer from "../components/landing/footer"
@@ -30,7 +31,7 @@ export default function Home() {
       <ProgramsFeature />
 
       <Cards />
-
+      <WorkoutSection />
       <GetStarted />
 
       <Footer />

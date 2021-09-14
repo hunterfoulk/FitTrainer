@@ -399,13 +399,13 @@ export const TrainerCreateClient = async (req: MulterRequest, res: Response): Pr
 	let accountName = "fittrainerstorage"
 	let TrainerId = trainerId
 	let avatar = req.files.avatar
-	console.log("TRAINER ID", trainerId, email, avatar)
+	console.log("TRAINER ID", firstName, trainerId, email, avatar)
 
 	const JoinDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
 	if (!avatar) {
 		console.log("no avatar dawg")
-		let defaultAvatar = "https://fittrainerstorage.blob.core.windows.net/fit-container/defaultavatar.png"
+		let defaultAvatar = "https://apextrainingstorage.blob.core.windows.net/apexcontainer/defaultavatar.png"
 		let result = await Query(Statements.Post.CreateClient(email, firstName, lastName, JoinDate, mobile, goal, TrainerId, defaultAvatar));
 		let ClientId = result.insertId
 		let newClient = await Query(Statements.Get.NewClient(ClientId))
@@ -418,17 +418,17 @@ export const TrainerCreateClient = async (req: MulterRequest, res: Response): Pr
 		console.log("REQUEST HAS AVATAR")
 
 		const sharedKeyCredential = new StorageSharedKeyCredential(
-			'fittrainerstorage',
-			'R3DC3z3ioYPvK5AcEzIchvxOGBUkGnpg9p67gUa120eiDzOBU6lkkixxiQ8k82z68PF/BFjeFFbeMGCfsD6Zbw==');
+			'apextrainingstorage',
+			'r9DpEkl8pkFeoyX2Aoq//WIVR0/JEPGmYh4/jGfxt9VOQBuUi/xSa/ee2m+OzHGvaVB3MDPctIOG8eU+FUfFXA==');
 		const pipeline = newPipeline(sharedKeyCredential);
 
 		const blobServiceClient = new BlobServiceClient(
-			`https://fittrainerstorage.blob.core.windows.net`,
+			`https://apextrainingstorage.blob.core.windows.net`,
 			pipeline
 		);
 
 
-		const container = 'fit-container';
+		const container = 'apexcontainer';
 		const ONE_MEGABYTE = 1024 * 1024;
 		const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 

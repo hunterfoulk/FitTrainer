@@ -37,9 +37,9 @@ export default function programsFeature() {
                     <p className="max-w-[80%] text-center lg:text-left">We make it easy for trainers to create appointments, create workouts, and attach workouts to client appointments.</p>
                 </div>
             </div>
-            <div className="flex-1 w-full relative min-h-[600px] max-h-[600px] ">
+            <div className="flex-1 w-full relative min-h-[700px] max-h-[700px] ">
 
-                <Image alt="Vercel logo" src="/images/iphoneexercises.png" layout='fill' objectFit="contain" loading="eager" />
+                <Image alt="Vercel logo" src="/images/newiphone3.png" layout='fill' objectFit="contain" loading="eager" />
 
             </div>
         </motion.div>
