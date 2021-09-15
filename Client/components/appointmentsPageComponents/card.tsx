@@ -60,7 +60,7 @@ const Card = ({ item, index, isToggled, setToggled, dispatch, handleChange, Work
         dispatch({ type: "UPDATE_APPOINTMENT_COMPLETED", AppointmentId: item.id, completed: event.target.checked });
         item.completed = event.target.checked
 
-        await fetch('http://localhost:9000/updateAppointmentCompletedStatus', {
+        await fetch('https://apextraining.herokuapp.com/updateAppointmentCompletedStatus', {
             method: 'POST',
             'credentials': 'include',
             headers: {

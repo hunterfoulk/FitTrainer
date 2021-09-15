@@ -93,7 +93,7 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
         };
 
         const res = await axios.post(
-            "http://localhost:9000/createNewClient",
+            "https://apextraining.herokuapp.com/createNewClient",
             formData,
             {
                 headers: headers,
@@ -251,7 +251,7 @@ const RegisterClientTab: React.FC<Props> = ({ AccountInfo }) => {
                                     startIcon={<SaveIcon />}
                                 >
                                     Save
-                                     </Button>
+                                </Button>
 
 
 

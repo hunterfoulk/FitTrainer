@@ -25,7 +25,7 @@ const WorkoutContent = ({ drawerState, setDrawerState }) => {
             workout: null,
             WorkoutId: null
         }));
-        await fetch('http://localhost:9000/deleteWorkoutFromAppointment', {
+        await fetch('https://apextraining.herokuapp.com/deleteWorkoutFromAppointment', {
             method: 'POST',
             'credentials': 'include',
             headers: {
@@ -370,7 +370,7 @@ export default function SideDrawer({ drawerState, onOpen, isOpen, onClose, size,
             if (result.isConfirmed) {
                 dispatch({ type: "FILTER_APPOINTMENTS", id: drawerState.id });
                 onClose()
-                await fetch('http://localhost:9000/deleteAppointment', {
+                await fetch('https://apextraining.herokuapp.com/deleteAppointment', {
                     method: 'POST',
                     'credentials': 'include',
                     headers: {
@@ -397,7 +397,7 @@ export default function SideDrawer({ drawerState, onOpen, isOpen, onClose, size,
             endDate: endDate,
             id: drawerState.id
         }
-        await fetch('http://localhost:9000/updateAppointment', {
+        await fetch('https://apextraining.herokuapp.com/updateAppointment', {
             method: 'POST',
             'credentials': 'include',
             headers: {
@@ -466,7 +466,7 @@ export default function SideDrawer({ drawerState, onOpen, isOpen, onClose, size,
             WorkoutId: parseInt(e.target.value)
         }));
 
-        await fetch('http://localhost:9000/updateAppointmentWorkout', {
+        await fetch('https://apextraining.herokuapp.com/updateAppointmentWorkout', {
             method: 'POST',
             'credentials': 'include',
             headers: {

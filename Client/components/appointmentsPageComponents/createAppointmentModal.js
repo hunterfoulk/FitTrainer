@@ -52,7 +52,7 @@ const CreateAppointmentModal = ({ onClose, isOpen, onOpen, TrainersClients, Acco
                 endDate: selectedDateEnd,
             }
 
-            const res = await fetch('http://localhost:9000/createAppointment', {
+            const res = await fetch('https://apextraining.herokuapp.com/createAppointment', {
                 method: 'POST',
                 'credentials': 'include',
                 headers: {

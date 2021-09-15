@@ -73,7 +73,7 @@ const Profile = ({ AccountInfo }) => {
         };
 
         const res = await axios.post(
-            "http://localhost:9000/editProfile",
+            "https://apextraining.herokuapp.com/editProfile",
             formData,
             {
                 headers: headers,
@@ -196,7 +196,7 @@ export const getServerSideProps = requireAuthentication(async context => {
 
     console.log("HEADERS", context.req?.headers)
 
-    const response = await fetch('http://localhost:9000/accountInfo', {
+    const response = await fetch('https://apextraining.herokuapp.com/accountInfo', {
         headers: {
             cookie: cookie!
         },

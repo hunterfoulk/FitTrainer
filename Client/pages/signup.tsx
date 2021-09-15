@@ -26,7 +26,7 @@ const Signup = ({ }) => {
 
     async function Register(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault()
-        const res = await fetch('http://localhost:9000/register',
+        const res = await fetch('https://apextraining.herokuapp.com/register',
             {
                 method: 'POST',
                 headers: {

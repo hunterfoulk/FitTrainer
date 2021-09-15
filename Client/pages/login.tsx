@@ -18,7 +18,7 @@ const Login: React.FC<Props> = ({ }) => {
     const [tab, setTab] = useState("Gym")
 
     useEffect(() => {
-        fetch('http://localhost:9000/logout', {
+        fetch('https://apextraining.herokuapp.com/logout', {
             method: 'get',
             credentials: 'include'
         });
@@ -27,7 +27,7 @@ const Login: React.FC<Props> = ({ }) => {
     async function Log(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault()
 
-        const res = await fetch('http://localhost:9000/trainerLogin', {
+        const res = await fetch('https://apextraining.herokuapp.com/trainerLogin', {
             method: 'POST',
             'credentials': 'include',
             headers: {

@@ -96,7 +96,7 @@ export const getServerSideProps = requireAuthentication(async context => {
 
 
     let cookie = context.req?.headers.cookie
-    const response = await fetch('http://localhost:9000/schedule', {
+    const response = await fetch('https://apextraining.herokuapp.com/schedule', {
         headers: {
             cookie: cookie!
         }

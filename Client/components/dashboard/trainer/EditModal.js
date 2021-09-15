@@ -57,7 +57,7 @@ export default function EditModal({ workoutState, open, setOpen, workoutDispatch
         } else {
 
 
-            const res = await fetch('http://localhost:9000/updateWorkout', {
+            const res = await fetch('https://apextraining.herokuapp.com/updateWorkout', {
                 method: 'POST',
                 'credentials': 'include',
                 headers: {

@@ -74,7 +74,7 @@ export default function WorkoutsTab({ workouts, dispatch, workoutTerm }) {
             if (result.isConfirmed) {
                 dispatch({ type: "FILTER", id: modalState.WorkoutId });
                 onClose()
-                await fetch('http://localhost:9000/deleteWorkout', {
+                await fetch('https://apextraining.herokuapp.com/deleteWorkout', {
                     method: 'POST',
                     'credentials': 'include',
                     headers: {

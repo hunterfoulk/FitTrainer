@@ -109,7 +109,7 @@ const CreateClientModal = ({ isCreateModalToggled, setCreateModalToggled, Accoun
         };
 
         const res = await axios.post(
-            "http://localhost:9000/createNewClient",
+            "https://apextraining.herokuapp.com/createNewClient",
             formData,
             {
                 headers: headers,

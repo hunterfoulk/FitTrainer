@@ -83,7 +83,7 @@ export default function ProgramsModal({ onClose, onOpen, isOpen, exerciseState, 
 
 
 
-        const res = await fetch('http://localhost:9000/createWorkout', {
+        const res = await fetch('https://apextraining.herokuapp.com/reateWorkout', {
             method: 'POST',
             'credentials': 'include',
             headers: {

@@ -36,7 +36,7 @@ export default function MenuListComposition({ open, setOpen, anchorRef }) {
       return;
     }
 
-    await fetch('http://localhost:9000/logout', {
+    await fetch('https://apextraining.herokuapp.com/logout', {
       method: 'get',
       credentials: 'include'
     });

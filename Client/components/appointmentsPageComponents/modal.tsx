@@ -73,7 +73,7 @@ const Modal = ({ isToggled, setToggled, dispatch, state, Workouts }) => {
 
     const handleDelete = async () => {
         dispatch({ type: "DELETE_WORKOUT", AppointmentId: state.id })
-        await fetch('http://localhost:9000/deleteWorkoutFromAppointment', {
+        await fetch('https://apextraining.herokuapp.com/deleteWorkoutFromAppointment', {
             method: 'POST',
             'credentials': 'include',
             headers: {
@@ -97,7 +97,7 @@ const Modal = ({ isToggled, setToggled, dispatch, state, Workouts }) => {
         if (workoutId) {
             dispatch({ type: "UPDATE_APPOINTMENT_WORKOUT", WorkoutId: workoutId, workout: workoutObject })
             setEditingWorkout(false)
-            await fetch('http://localhost:9000/updateAppointmentWorkout', {
+            await fetch('https://apextraining.herokuapp.com/updateAppointmentWorkout', {
                 method: 'POST',
                 'credentials': 'include',
                 headers: {

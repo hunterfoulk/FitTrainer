@@ -34,7 +34,7 @@ const Sidebar: React.FC<Props> = ({ setTabG, tabG }) => {
 
     const logout = async () => {
 
-        await fetch('http://localhost:9000/logout', {
+        await fetch('https://apextraining.herokuapp.com/logout', {
             method: 'get',
             credentials: 'include'
         });
