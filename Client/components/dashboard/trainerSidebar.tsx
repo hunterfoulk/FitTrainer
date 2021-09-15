@@ -28,7 +28,7 @@ const MyButton = React.forwardRef(({ onClick, href }: any, ref: any) => {
 })
 const logout = async () => {
 
-    await fetch('http://localhost:9000/logout', {
+    await fetch('https://apextraining.herokuapp.com/logout', {
         method: 'get',
         credentials: 'include'
     });
@@ -54,7 +54,7 @@ const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
                 <div className={styles.sidebar_tabs_container} style={{ fontWeight: "bold" }}>
 
                     <Link href="/schedule" >
-                        <div onClick={() => setTabT("Schedule")} className={window.location.href === "http://localhost:3000/schedule" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div onClick={() => setTabT("Schedule")} className={window.location.href === "https://apex-client.vercel.app/schedule" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
                             <div className={styles.sidebar_tab_content}>
                                 <div>
 
@@ -70,7 +70,7 @@ const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
                         </div>
                     </Link>
                     <Link href="/clients">
-                        <div onClick={() => setTabT("Clients")} className={window.location.href === "http://localhost:3000/clients" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div onClick={() => setTabT("Clients")} className={window.location.href === "https://apex-client.vercel.app/clients" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
                             <div className={styles.sidebar_tab_content}>
                                 <div>
 
@@ -85,7 +85,7 @@ const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
                         </div>
                     </Link>
                     <Link href="/programs" >
-                        <div onClick={() => setTabT("Programs")} className={window.location.href === "http://localhost:3000/programs" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div onClick={() => setTabT("Programs")} className={window.location.href === "https://apex-client.vercel.app/programs" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
                             <div className={styles.sidebar_tab_content}>
                                 <div >
                                     <FiPaperclip />
@@ -98,7 +98,7 @@ const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
                         </div>
                     </Link>
                     <Link href="/appointments" >
-                        <div onClick={() => setTabT("Appointments")} className={window.location.href === "http://localhost:3000/appointments" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div onClick={() => setTabT("Appointments")} className={window.location.href === "https://apex-client.vercel.app/appointments" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
                             <div className={styles.sidebar_tab_content}>
                                 <div>
 
@@ -113,7 +113,7 @@ const trainerSidebar: React.FC<Props> = ({ setTabT, tabT }) => {
                         </div>
                     </Link>
                     <Link href="/profile" >
-                        <div onClick={() => setTabT("Profile")} className={window.location.href === "http://localhost:3000/profile" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
+                        <div onClick={() => setTabT("Profile")} className={window.location.href === "https://apex-client.vercel.app/profile" ? styles.sidebar_tab_active : styles.sidebar_tab_unactive}>
                             <div className={styles.sidebar_tab_content}>
                                 <div>
 
